@@ -1,8 +1,7 @@
 import feedparser
 import boto3
 import json
-from time import sleep
-from datetime import datetime
+from datetime import datetime, date, timedelta
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 import os
@@ -27,8 +26,9 @@ def scrapeSources():
 
   dict = {}
   now = datetime.now()
-  time1 = f'{now.hour}:{now.minute}'
+  time1 = now.strftime('%H:%M')
   char_counter = 0
+  date = now.strftime('%d-%m-%y')
 
   try:
     with open('../data/sourceLinks.json') as parsed:
@@ -56,11 +56,15 @@ def scrapeSources():
           except:
             continue
 
-        with open("../data/11-01-23.json", "w") as outfile:
+        with open(f"../data/{date}.json", "w") as outfile:
           json.dump(dict, outfile, ensure_ascii=False)
+
+      newNow = datetime.now()
+
       print(f'Time 1 : {time1}')
-      print(f'Time 2 : {datetime.now().hour}:{datetime.now().minute}')
+      print(newNow.strftime('Time 2 : %H:%M'))
       print(f'Characters {char_counter}')
+
       scraped = True
   except:
     print(Exception)
@@ -111,6 +115,18 @@ def sentimentHL():
 def createIndex():
   print('idx')
 
+def cleaner():
+  yesterday = date.today() - timedelta(days=1)
+  yesterday_parsed = yesterday.strftime('%d-%m-%y')
+
+  try:
+    if os.path.exists(f"../data/{yesterday_parsed}.json"):
+      print('exists')
+      # To implement after making sure the DB has a file from that date
+      # os.remove("demofile.txt")
+  except:
+    pass
+
 def streamLine():
 
   global scraped
@@ -124,7 +140,7 @@ def streamLine():
   if translated:
     createIndex()
 
-sentimentHL()
+cleaner()
 
 # CHECKER FOR INDIVIDUAL LINKS FOR MANUAL GATHERING
 
