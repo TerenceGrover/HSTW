@@ -1,0 +1,17 @@
+AD 
+AR 
+BO 
+CL 
+CR 
+CU 
+DO 
+EC 
+SV 
+GT 
+HN 
+PA 
+PE 
+PR 
+ES 
+UY 
+VE

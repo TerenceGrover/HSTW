@@ -1,0 +1,8 @@
+div#index-container{
+  display: flex;
+  flex-direction: row;
+  border: 1px black solid;
+  padding: 10px;
+  width: min(100% - 15px, 250px);
+  align-self: center;
+}

@@ -1,0 +1,61 @@
+('BN', 'CV', 'CK', 'TL', 'VU')
+
+CN : https://supchina.com/feed/
+     https://chinadigitaltimes.net/feed/
+     http://feeds.bbci.co.uk/news/world/asia/china/rss.xml
+
+CO : https://www.lanacion.com.co/feed/
+     https://thebogotapost.com/feed/
+     https://occidente.co/feed/
+
+DJ : https://www.theguardian.com/world/djibouti/rss
+     https://allafrica.com/tools/headlines/rdf/djibouti/headlines.rdf
+
+DM : https://feeds.feedburner.com/DominicaNewsOnline/
+     https://www.dominicantoday.com/rss/frontpage/
+     https://dominican.news/feed/
+
+EG : https://egyptianstreets.com/feed/
+     https://egyptindependent.com/feed/
+
+GQ : https://allafrica.com/tools/headlines/rdf/guinea/headlines.rdf
+     https://guineematin.com/feed/
+     https://guineelive.com/feed/
+
+EE : https://news.postimees.ee/rss
+     https://online.le.ee/feed/
+     https://estonianworld.com/feed/
+
+FO : https://local.fo/feed/
+     
+GP : https://www.guadeloupe.franceantilles.fr/actualite/rss.xml
+     https://guadeloupe.coconews.com/flux-actualite.rss
+     
+IM : https://www.manxradio.com/news/isle-of-man-news/feed.xml
+     https://gef.im/feed/
+
+MU : http://www.mauritiustimes.com/mt/feed/
+
+MX : https://mexiconewsdaily.com/feed/
+     https://www.reforma.com/rss/portada.xml
+     https://www.proceso.com.mx/rss/feed.html?r=1
+
+NI : https://todaynicaragua.com/feed/
+     https://canal2tv.com/feed
+     https://www.confidencial.com.ni/feed/
+
+OM : https://timesofoman.com/feed/
+     https://www.muscatdaily.com/feed/
+
+PG : https://www.looppng.com/section/all/domain/all
+     https://news.pngfacts.com/feeds/posts/default
+
+
+TH : https://thethaiger.com/feed
+     https://www.thaipbsworld.com/feed/
+     https://www.thailandnews.co/feed/
+
+TO : https://www.kanivatonga.co.nz/feed/
+
+YE : http://en.althawranews.net//feed
+     
