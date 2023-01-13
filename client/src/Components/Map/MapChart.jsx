@@ -16,7 +16,6 @@ export default function MapChart({ clickSet, clicked }) {
   const flatcol = 240;
   const hovercol = flatcol - 30;
   const clickcol = flatcol - 100;
-
   const defaultFill = `rgb(${flatcol},${flatcol},${flatcol})`;
   const hoverFill = `rgb(${hovercol},${hovercol},${hovercol})`;
   const clickFill = `rgb(${clickcol},${clickcol},${clickcol})`;
@@ -26,18 +25,24 @@ export default function MapChart({ clickSet, clicked }) {
     const col = idx[code]
     let colorReturn
 
-    const flatcol = 240;
-    const hovercol = flatcol - 30;
-    const clickcol = flatcol - 100;
-
     if (col) {
+
       const colObj = {
         r : (col.N > col.P ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
         g : (col.P > col.N ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
         b : ((col.M*255) - (col.Nu * 255)) / 5
       }
-      colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
+      if (currentState === 'hover') {
+        colorReturn = `rgb(${colObj.r - 30},${colObj.g - 30},${colObj.b - 30})`
+      }
+      else if (currentState === 'click') {
+        colorReturn = `rgb(${colObj.r - 100},${colObj.g - 100},${colObj.b - 100})`
+      }
+      else {
+        colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
+      }
     }
+
     else {
       colorReturn = 'rgb(150,150,150)'
     }

@@ -15,10 +15,11 @@ export default function Individual({ geoProps, scrollFunc }) {
   }, [geoProps]);
 
   async function fetchCountry(setter) {
-    getCountryDetails(geoProps['Alpha-2']).then((response) => {
-      setter(response);
-      console.log(response);
-    });
+    // getCountryDetails(geoProps['Alpha-2']).then((response) => {
+    //   setter(response);
+    //   console.log(response);
+    // });
+    console.log('called')
   }
 
   return (
