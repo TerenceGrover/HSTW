@@ -44,6 +44,13 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
 def scrapeSources():
 
+    if os.path.exists(f"../data/TODAY/{today}.json"):
+        try:
+            raise Exception('Today Data Has Already Been Scraped')
+        except NameError as e:
+            sendEmailUponException(e)
+            raise
+
     # Read the JSON file into a dataframe
     df = pd.read_json('../data/sourceLinks.json', typ='series')
 
@@ -161,7 +168,6 @@ def processor(headlines, country):
         country_obj = 'VOID'
 
     writable[country] = country_obj
-    print(writable[country])
 
     with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
         json.dump(writable, file, ensure_ascii=False)
@@ -250,6 +256,8 @@ def sentimentHL(translatedHL, country):
         'M': response['SentimentScore']['Mixed']
     }
 
+    idx['global'] = (idx['P']*10) - (idx['N']*10) + (idx['Nu']*2) + ((idx['P']+idx['N']*5) * idx['M'] * 10)
+
     return idx
 
 
@@ -278,6 +286,7 @@ def createWorldObject(file):
 
     for values in file.values():
         try: 
+            print(values['idx'])
             P += values['idx']['P']
             N += values['idx']['N']
             Nu += values['idx']['Nu']
@@ -298,16 +307,21 @@ def createWorldObject(file):
     sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)
 
     world_obj = {
-    'idx': {'P' : P/counter, 'N' : N/counter, 'Nu' : Nu/counter, 'M' : M/counter},
-    'topics': sorted_word_count[:10],
+    'idx': {'P' : P/counter, 
+    'N' : N/counter, 
+    'Nu' : Nu/counter, 
+    'M' : M/counter,
+    'global' : (P/counter*10) - (N/counter*10) + (Nu/counter*2) + ((P/counter+N/counter*5) * M/counter * 10)},
+    'topics': sorted_word_count[:10]
     }
 
-    readable['world'] = world_obj
 
-    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
-        json.dump(readable, file, ensure_ascii=False)
+    file['world'] = world_obj
 
-    sendToDB(readable)
+    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
+        json.dump(file, writable, ensure_ascii=False)
+
+    sendToDB(file)
 
 def sendToDB(file):
     collection.insert_one({'date': today, 'data': file})
@@ -362,6 +376,5 @@ def sendEmailUponException(e):
 #### EXECUTE THE CHAIN ####
 # scrapeSources()
 #### EXECUTE THE CHAIN ####
-with open(f"../data/TODAY/12-01-23.json", 'r') as file:
-    readable = json.load(file)
-    collection.insert_one({'date': '12-01-23', 'data': readable})
+
+print(collection.find_one({'date': '12-01-23'})['data'])

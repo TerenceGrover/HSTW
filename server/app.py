@@ -31,7 +31,7 @@ def test_cli():
 
 @app.route("/")
 def home():
-    return "Welcome Home :) !"
+    return "Welcome Home updated :) !"
 
 
 @app.route("/request", methods=['GET'])
@@ -46,16 +46,15 @@ def returnDate():
     else:
         data = collection.find_one({'date': date})['data']
 
-    data = collection.find_one({'date': date})['data']
-    return {date: data}
+    return {date : data}
 
 
 @app.route("/today", methods=['GET'])
 def returnToday():
     now = datetime.now()
     today = now.strftime('%d-%m-%y')
-
     args = request.args
+
     if args:
         code = args.get('code')
         data = collection.find_one({'date': today})['data'][code]
@@ -63,11 +62,27 @@ def returnToday():
     else:
         data = collection.find_one({'date': today})['data']
 
-    print(type(data))
-    d = pd.DataFrame(list(data))
+    return {today : data}
 
-    return {today: data}
+@app.route("/idx", methods=['GET'])
+def returnIdx():
+    args = request.args
+    date = args.get('date')
 
+    if args.get('code'):
+        code = args.get('code')
+        data = collection.find_one({'date': date})['data'][code]['idx']
+        return {date : data}
+    
+    else:
+        data = collection.find_one({'date': date})['data']
+        indices = {}
+        for country, countryData in data.items():
+            try:
+                indices[country] = countryData['idx']
+            except:
+                indices[country] = 0
+        return {date : indices}
 
 if __name__ == "__main__":
     app.run(port=5001)

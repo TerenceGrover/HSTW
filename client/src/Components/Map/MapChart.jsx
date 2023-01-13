@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import './Map.css';
+import { getDateSpecificGlobalIdx } from '../../Util/requests';
 import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { Space } from 'react-zoomable-ui';
 
@@ -10,6 +11,7 @@ export default function MapChart({ clickSet, clicked }) {
   const [positionx, setPositionx] = useState(-100);
   const [positiony, setPositiony] = useState(-100);
   const [mobile, setMobile] = useState(false);
+  const [idx, setIdx] = useState(false);
 
   const flatcol = 240;
   const hovercol = flatcol - 30;
@@ -18,6 +20,31 @@ export default function MapChart({ clickSet, clicked }) {
   const defaultFill = `rgb(${flatcol},${flatcol},${flatcol})`;
   const hoverFill = `rgb(${hovercol},${hovercol},${hovercol})`;
   const clickFill = `rgb(${clickcol},${clickcol},${clickcol})`;
+
+  function generateColor(code, currentState = undefined) {
+
+    const col = idx[code]
+    let colorReturn
+
+    const flatcol = 240;
+    const hovercol = flatcol - 30;
+    const clickcol = flatcol - 100;
+
+    if (col) {
+      const colObj = {
+        r : (col.N > col.P ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
+        g : (col.P > col.N ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
+        b : ((col.M*255) - (col.Nu * 255)) / 5
+      }
+      colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
+    }
+    else {
+      colorReturn = 'rgb(150,150,150)'
+    }
+
+    return colorReturn
+
+  }
 
   // This function will check the position of the cursor on hover
   function handleHover(e) {
@@ -32,6 +59,10 @@ export default function MapChart({ clickSet, clicked }) {
   useEffect(() => {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
+
+    const date = '12-01-23'
+    getDateSpecificGlobalIdx(date , setIdx)
+
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
     };
@@ -130,8 +161,6 @@ export default function MapChart({ clickSet, clicked }) {
                       e.target.style.strokeWidth = '2';
                       setHover(
                         geo.properties['Alpha-2']
-                          ? geo.properties['Alpha-2']
-                          : geo.id
                       );
                     }}
                     onMouseMove={handleHover}
@@ -153,13 +182,13 @@ export default function MapChart({ clickSet, clicked }) {
                     geography={geo}
                     style={{
                       default: {
-                        fill: defaultFill,
+                        fill: idx ? generateColor(geo.properties['Alpha-2']) : defaultFill,
                       },
                       hover: {
-                        fill: hoverFill,
+                        fill: idx ? generateColor(geo.properties['Alpha-2'], 'hover') : hoverFill,
                       },
                       pressed: {
-                        fill: clickFill,
+                        fill: idx ? generateColor(geo.properties['Alpha-2'], 'click') : clickFill,
                       },
                     }}
                     stroke="#000000"
