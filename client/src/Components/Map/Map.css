@@ -17,6 +17,11 @@ div#modal {
   z-index: 100;
 }
 
+#global-map{
+  	-webkit-animation: slide-in-blurred-bottom 0.5s ease-in-out both;
+	        animation: slide-in-blurred-bottom 0.5s ease-in-out both;
+}
+
 path:focus {
   outline: none;
 }
@@ -31,5 +36,28 @@ path:hover {
 }
 
 .selected-geo {
-  stroke: rgb(255, 0, 0);
+  opacity: 0.6;
+  stroke:black;
+  stroke-width: 2;
+}
+
+@keyframes slide-in-blurred-bottom {
+  0% {
+    -webkit-transform: translateY(70px);
+            transform: translateY(70px);
+    -webkit-transform-origin: 50% 100%;
+            transform-origin: 50% 100%;
+    -webkit-opacity: 0;
+            opacity: 0;
+  }
+  50% {
+            opacity: 0.2;
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    -webkit-transform-origin: 50% 50%;
+            transform-origin: 50% 50%;
+    opacity: 1;
+  }
 }

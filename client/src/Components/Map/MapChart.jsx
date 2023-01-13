@@ -28,9 +28,9 @@ export default function MapChart({ clickSet, clicked }) {
     if (col) {
 
       const colObj = {
-        r : (col.P > col.N ? 6/(col.P  - col.N) : 200) - (col.Nu*255) / 3,
-        g : (col.N > col.P ? 6/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
-        b : ((col.M*255) - (col.Nu * 255)) / 5
+        r : (col.global < 0 ? Math.abs(col.global) * 30 + 30 + col.N : 1/Math.abs(col.global)),
+        g : (col.global > 0 ? Math.abs(col.global) * 30 + 30 + col.P : 1/Math.abs(col.global)),
+        b : (Math.abs((col.M*255) - (col.Nu * 255))) / 10
       }
       if (currentState === 'hover') {
         colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`
@@ -44,11 +44,10 @@ export default function MapChart({ clickSet, clicked }) {
     }
 
     else {
-      colorReturn = 'rgb(150,150,150)'
+      return 'rgb(120,120,120)'
     }
 
     return colorReturn
-
   }
 
   // This function will check the position of the cursor on hover

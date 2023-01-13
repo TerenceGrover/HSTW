@@ -70,11 +70,18 @@
   gap: 10px;
 }
 
+#index-display{
+  color: white;
+  text-align: center;
+}
+
 #indiv-right-top {
-  background-color: #06d4174c;
   width: 100%;
   height: 20%;
   fill: rgb(14, 12, 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #indiv-right-bottom {
@@ -84,7 +91,12 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+}
+
+.header-bottom{
+  font-weight: 500;
+  font-size: 18px;
 }
 
 .indiv-list {
