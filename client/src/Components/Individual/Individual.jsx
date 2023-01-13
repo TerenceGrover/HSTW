@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 
-export default function Individual({ geoProps, scrollFunc }) {
+export default function Individual({ geoProps, scrollFunc = () => {}}) {
   const [country, setCountry] = useState();
   const [countryData, setCountryData] = useState();
 
@@ -16,9 +16,21 @@ export default function Individual({ geoProps, scrollFunc }) {
   }, [geoProps]);
 
   async function fetchCountry() {
-    getCountryDetails(geoProps['Alpha-2']).then((response) => {
-      setCountry(response)
-    });
+    if (geoProps['Alpha-2'] != 'world') {
+      getCountryDetails(geoProps['Alpha-2']).then((response) => {
+        setCountry(response)
+    })
+    } else {
+      setCountry({
+        flag : '🇺🇳',
+        name : {official : 'The World'},
+        currencies : [{name : 'Various'}],
+        languages : ['Various'],
+        region : 'Milky Way',
+        demonyms : {'eng' : {'m' : 'Living Beings'}},
+        capital : 'Unknown'
+      })
+    }
   }
 
   return (

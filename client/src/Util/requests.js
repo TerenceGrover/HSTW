@@ -51,10 +51,17 @@ export async function getWorldToday(setter) {
     .catch((err) => err);
 }
 
-export async function getCountryDetails(alphaCode, setter) {
+export async function getCountryDetails(alphaCode) {
   return fetch(
     `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
   )
     .then((response) => response.json())
+    .catch((err) => err);
+}
+
+export async function getWorldPop(setter) {
+  return fetch('http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json')
+    .then((response) => response.json())
+    .then((data) => JSON.parse(data))
     .catch((err) => err);
 }

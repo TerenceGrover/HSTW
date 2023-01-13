@@ -18,7 +18,9 @@ export default function App() {
       <MapChart clickSet={setClicked} clicked={clicked} />
       <HappyIndex />
       <div ref={scrollToRef}>
-        {clicked ? <Individual geoProps={clicked} scrollFunc={scroll} /> : ''}
+        {clicked ? <Individual geoProps={clicked} scrollFunc={scroll} /> 
+        :
+        <Individual geoProps={{'Alpha-2' : 'world'}}/> }
       </div>
     </div>
   );
