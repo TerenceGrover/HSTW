@@ -1,35 +1,35 @@
-div#modal{
+div#modal {
   position: absolute;
   max-height: 23px;
   max-width: calc(fit-content - 2px);
   padding-right: 5px;
   padding-left: -2px;
-  background-color: rgba(100,100,100,0.6);
-  transform: translate(-50%,-50%);
+  background-color: rgba(100, 100, 100, 0.6);
+  transform: translate(-50%, -50%);
   border-radius: 0px 5px 5px 0px;
   color: white;
   font-weight: 500;
-  display : flex;
-  flex-direction : row;
-  justify-content : flex-start;
-  align-items : center;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   gap: 3px;
   z-index: 100;
 }
 
-path:focus{
+path:focus {
   outline: none;
 }
 
-path:hover{
+path:hover {
   cursor: pointer;
 }
 
-#space-container{
+#space-container {
   min-height: 280px;
   position: relative;
 }
 
-.selected-geo{
+.selected-geo {
   stroke: rgb(255, 0, 0);
 }

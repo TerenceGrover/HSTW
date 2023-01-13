@@ -8,10 +8,11 @@ body {
   overflow: auto;
 }
 
-body, html {
+body,
+html {
   font-family: 'Chillax', sans-serif;
 }
-body::-webkit-scrollbar{
+body::-webkit-scrollbar {
   display: none;
 }
 body {
@@ -26,16 +27,16 @@ span#io {
   color: rgb(1, 205, 205);
 }
 
-div#global-map{
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
+div#global-map {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: min(100% - 15px, 800px);
   margin-inline: auto;
 }
 
-div#global-container{
+div#global-container {
   display: flex;
   flex-direction: column;
   justify-content: center;

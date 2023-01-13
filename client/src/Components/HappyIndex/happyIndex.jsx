@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react'
-import {getIdx} from '../../Util/requests'
-import './happyIndex.css'
+import { useEffect, useState } from 'react';
+import { getIdx } from '../../Util/requests';
+import './happyIndex.css';
 
 export default function MapChart() {
-  const [idx, setIdx] = useState(0)
+  const [idx, setIdx] = useState(0);
 
-// Calling the API for Happiness index at initialization
+  // Calling the API for Happiness index at initialization
   useEffect(() => {
     // getIdx(setIdx)
-  }, [])
+  }, []);
 
   return (
     <div id="index-container">
@@ -16,5 +16,5 @@ export default function MapChart() {
       <span id="yesterday-comparison">Yesterday % </span>
       <span id="month-comparison">Last Month % </span>
     </div>
-  )
+  );
 }

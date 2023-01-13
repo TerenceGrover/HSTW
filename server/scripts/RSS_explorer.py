@@ -91,7 +91,7 @@ def scrapeSources():
     with open(f"../data/TODAY/{today}.json", 'r') as file:
         readable = json.loads(file.read())
         createWorldObject(readable)
-        # sendToDB(readable)
+        sendToDB(readable)
 
     print(f'Time 1 : {time1}')
     print(newNow.strftime('Time 2 : %H:%M'))
@@ -268,9 +268,45 @@ def most_common_words(headlines):
     return [[word, freq] for word, freq in most_common_words if word == word.capitalize()]
 
 
-def createWorldObject():
-    print('world')
+def createWorldObject(file):
 
+    counter = 0
+    P = 0
+    N = 0
+    Nu = 0
+    M = 0
+    word_count = {}
+    
+    for values in file.values():
+        try: 
+            P += values['idx']['P']
+            N += values['idx']['N']
+            Nu += values['idx']['Nu']
+            M += values['idx']['M']
+            counter+=1
+        except:
+            continue
+
+        try:
+            for word, freq in values['topics']:
+                if word in word_count:
+                    word_count[word] += 1
+                else:
+                    word_count[word] = 1
+        except:
+            continue
+
+    sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)
+
+    world_obj = {
+    'idx': {'P' : P/counter, 'N' : N/counter, 'Nu' : Nu/counter, 'M' : M/counter},
+    'topics': sorted_word_count[:10],
+    }
+
+    readable['world'] = world_obj
+
+    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
+        json.dump(readable, file, ensure_ascii=False)
 
 def sendToDB(file):
     collection.insert_one({'date': today, 'data': file})
@@ -299,7 +335,7 @@ def cleaner():
             # To implement after making sure the DB has a file from that date
             # os.remove("demofile.txt")
     except Exception as e:
-          sendEmailUponException(e)
+        sendEmailUponException(e)
 
 
 def sendEmailUponException(e):
@@ -331,3 +367,6 @@ def sendEmailUponException(e):
 #### EXECUTE THE CHAIN ####
 # scrapeSources()
 #### EXECUTE THE CHAIN ####
+with open(f"../data/TODAY/12-01-23.json", 'r') as file:
+    readable = json.load(file)
+    collection.insert_one({'date': '12-01-23', 'data': readable})
