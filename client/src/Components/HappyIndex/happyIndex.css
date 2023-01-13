@@ -3,6 +3,7 @@ div#index-container {
   flex-direction: row;
   border: 1px black solid;
   padding: 10px;
-  width: min(100% - 15px, 250px);
+  width: 350px;
   align-self: center;
+  justify-content: space-between;
 }

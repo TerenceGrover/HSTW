@@ -41,14 +41,10 @@ sources_ES = {'es': ['AD', 'AR', 'BO', 'CL', 'CR', 'CU', 'DO',
                      'EC', 'SV', 'GT', 'HN', 'PA', 'PE', 'PR', 'ES', 'UY', 'VE']}
 sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
-def emergencyRecall(startCountry):
-    scrapeSources(startCountry)
 
-def scrapeSources( startCountry = None ):
+def scrapeSources():
 
-    flag = False if startCountry else True
-
-    if os.path.exists(f"./data/TODAY/{today}.json") and flag or collection.find_one({'date': today}) and flag:
+    if os.path.exists(f"../data/TODAY/{today}.json") or collection.find_one({'date': today}):
         try:
             raise Exception('Today Data Has Already Been Scraped')
         except NameError as e:
@@ -56,55 +52,50 @@ def scrapeSources( startCountry = None ):
             raise
 
     # Read the JSON file into a dataframe
-    df = pd.read_json('./data/sourceLinks.json', typ='series')
+    df = pd.read_json('../data/sourceLinks.json', typ='series')
 
     # Initialize an empty dictionary to store the results
     char_counter = 0
 
     # Iterate over the rows of the dataframe
     for country, links in df.items():
-        # Handle the cases where an emergency recall was needed
-        if startCountry and startCountry == country:
-            flag = True
-        
-        # Handle the cases where an emergency recall was needed
-        if flag:
-            headlines = []
+        print(country)
+        headlines = []
 
-            # Iterate over the links for each country
-            for link in links.values():
-                try:
-                    feed = feedparser.parse(link)
-                except:
-                    continue
+        # Iterate over the links for each country
+        for link in links.values():
+            try:
+                feed = feedparser.parse(link)
+            except:
+                continue
 
-                title_counter = 0
-                hl_counter = 0
-                titles = []
+            title_counter = 0
+            hl_counter = 0
+            titles = []
 
-                # Use list comprehension to select the entries that meet the conditions
-                try:
-                    for entry in feed.entries:
-                        if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
-                            titles.append(entry.title)
-                            char_counter += len(entry.title)
-                            title_counter += len(titles)
-                except:
-                    continue
+            # Use list comprehension to select the entries that meet the conditions
+            try:
+                for entry in feed.entries:
+                    if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
+                        titles.append(entry.title)
+                        char_counter += len(entry.title)
+                        title_counter += len(titles)
+            except:
+                continue
 
-                # Use list extend to add the titles to the headlines list
-                headlines.extend(titles)
-                hl_counter += len(titles)
+            # Use list extend to add the titles to the headlines list
+            headlines.extend(titles)
+            hl_counter += len(titles)
 
-            # Call the processor with headlines and country as args
-            processor(headlines, country)
+        # Call the processor with headlines and country as args
+        processor(headlines, country)
 
     # Print the time and character count
     newNow = datetime.now()
     print(f'Characters {char_counter}')
     print(f'HeadLines {hl_counter}')
 
-    with open(f"./data/TODAY/{today}.json", 'r') as file:
+    with open(f"../data/TODAY/{today}.json", 'r') as file:
         readable = json.loads(file.read())
         createWorldObject(readable)
 
@@ -153,7 +144,7 @@ def processor(headlines, country):
 
     try:
         # Open the JSON file
-        with open(f"./data/TODAY/{today}.json", 'r') as file:
+        with open(f"../data/TODAY/{today}.json", 'r') as file:
             writable = json.loads(file.read())
         file.close()
 
@@ -179,7 +170,7 @@ def processor(headlines, country):
 
     writable[country] = country_obj
 
-    with open(f"./data/TODAY/{today}.json", 'w', encoding='utf8') as file:
+    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
         json.dump(writable, file, ensure_ascii=False)
 
 
@@ -199,8 +190,8 @@ def translater(inp):
         )
         res = response['TranslatedText']
 
-    except:
-        return ''
+    except Exception as e:
+        sendEmailUponException(e)
 
     return res
 
@@ -217,10 +208,7 @@ def translateHL(headlines, country):
             else:
                 translated_texts.append(sentence)
 
-        if '' in translated_texts:
-            return []
-        else:
-            return translated_texts
+        return translated_texts
 
 
 def sentimentHL(translatedHL, country):
@@ -344,7 +332,7 @@ def createWorldObject(file):
 
     file['world'] = world_obj
 
-    with open(f"./data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
+    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
         json.dump(file, writable, ensure_ascii=False)
 
     sendToDB(file)
@@ -364,9 +352,9 @@ def cleaner():
         if collection.find_one({'date': today}) != None and collection.find_one({'date': yesterday_parsed}) != None:
             print('today and yesterday are in the DB')
             try:
-                if os.path.exists(f"./data/{yesterday_parsed}.json") and os.path.exists(f"./data/TODAY/{today}.json"):
+                if os.path.exists(f"../data/{yesterday_parsed}.json") and os.path.exists(f"../data/TODAY/{today}.json"):
                     print('Yesterday & Today exist')
-                    os.remove(f"./data/{yesterday_parsed}.json")
+                    os.remove(f"../data/{yesterday_parsed}.json")
             except Exception as e:
                 sendEmailUponException(e)
     except Exception as e:
@@ -397,3 +385,8 @@ def sendEmailUponException(e):
     CON.sendmail(from_email, to_list,
                  'Subject: {}\n\n{}'.format('/! IMPORTANT HSTW /!', f"\n\n\nHOW'S THE WORLD : Exception\n\n\nTYPE : {exception_type}\nEXCEPTION : {e}\nLINE NUMBER : {line_number}"))
     CON.quit()
+
+
+#### EXECUTE THE CHAIN ####
+scrapeSources()
+#### EXECUTE THE CHAIN ####

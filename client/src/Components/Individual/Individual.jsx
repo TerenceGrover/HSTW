@@ -1,9 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import './Individual.css';
-import { getCountryDetails } from '../../Util/requests';
+import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 
 export default function Individual({ geoProps, scrollFunc }) {
   const [country, setCountry] = useState();
+  const [countryData, setCountryData] = useState();
 
   useEffect(() => {
     scrollFunc();
@@ -11,10 +12,10 @@ export default function Individual({ geoProps, scrollFunc }) {
 
   useEffect(() => {
     fetchCountry();
+    getTodayIndividualData(geoProps['Alpha-2'], setCountryData)
   }, [geoProps]);
 
   async function fetchCountry() {
-    console.log(geoProps['Alpha-2']);
     getCountryDetails(geoProps['Alpha-2']).then((response) => {
       setCountry(response)
     });
@@ -56,15 +57,27 @@ export default function Individual({ geoProps, scrollFunc }) {
               <div id="indiv-main-topics-container">
                 <span>Main Topics:</span>
                 <ul id="indiv-main-topics" className="indiv-list">
-                  <li>Lorem Ipsum Dolor e tutti quanti</li>
-                  <li>Lorem Ipsum Dolor e tutti quanti</li>
+                  {countryData && countryData.topics
+                  ?
+                    countryData.topics.map(topic =>
+                      <li key = {topic[0]}>{topic[0]}</li>
+                      )
+                  :
+                  ''
+                  }
                 </ul>
               </div>
               <div id="indiv-headlines-container" className="indiv-list">
                 <span>Headlines:</span>
                 <ul id="indiv-headlines">
-                  <li>Lorem Ipsum Dolor e tutti quanti</li>
-                  <li>Lorem Ipsum Dolor e tutti quanti</li>
+                  {countryData && countryData.HL
+                  ?
+                    countryData.HL.slice(0,4).map(Headline =>
+                      <li key = {Headline}>{Headline}</li>
+                      )
+                  :
+                  ''
+                  }
                 </ul>
               </div>
             </div>

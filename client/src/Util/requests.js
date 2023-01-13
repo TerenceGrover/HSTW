@@ -12,14 +12,14 @@ const url = 'https://hstwdrop.co';
 export async function getTodayIndividualData(alphaCode, setter) {
   return fetch(`${url}/today?code=${alphaCode}`)
     .then((response) => response.json())
-    .then((data) => setter(data))
+    .then((data) => setter(Object.values(data)[0]))
     .catch((err) => err);
 }
 
 export async function getDateSpecificGlobalData(date, setter) {
   return fetch(`${url}/request?date=${date}`)
     .then((response) => response.json())
-    .then((data) => setter(data))
+    .then((data) => setter(Object.values(data)))
     .catch((err) => err);
 }
 

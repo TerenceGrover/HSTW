@@ -28,15 +28,15 @@ export default function MapChart({ clickSet, clicked }) {
     if (col) {
 
       const colObj = {
-        r : (col.N > col.P ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
-        g : (col.P > col.N ? 255/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
+        r : (col.P > col.N ? 6/(col.P  - col.N) : 200) - (col.Nu*255) / 3,
+        g : (col.N > col.P ? 6/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
         b : ((col.M*255) - (col.Nu * 255)) / 5
       }
       if (currentState === 'hover') {
-        colorReturn = `rgb(${colObj.r - 30},${colObj.g - 30},${colObj.b - 30})`
+        colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`
       }
       else if (currentState === 'click') {
-        colorReturn = `rgb(${colObj.r - 100},${colObj.g - 100},${colObj.b - 100})`
+        colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${colObj.b + 100})`
       }
       else {
         colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
@@ -65,7 +65,7 @@ export default function MapChart({ clickSet, clicked }) {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
 
-    const date = '12-01-23'
+    const date = '13-01-23'
     getDateSpecificGlobalIdx(date , setIdx)
 
     return () => {
@@ -129,13 +129,13 @@ export default function MapChart({ clickSet, clicked }) {
                         geography={geo}
                         style={{
                           default: {
-                            fill: defaultFill,
+                            fill: idx ? generateColor(geo.properties['Alpha-2']) : defaultFill,
                           },
                           hover: {
-                            fill: hoverFill,
+                            fill: idx ? generateColor(geo.properties['Alpha-2'], 'hover') : hoverFill,
                           },
                           pressed: {
-                            fill: clickFill,
+                            fill: idx ? generateColor(geo.properties['Alpha-2'], 'click') : clickFill,
                           },
                         }}
                         stroke="#000000"

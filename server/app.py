@@ -3,6 +3,7 @@ from pymongo.server_api import ServerApi
 import pandas as pd
 
 from scripts.RSS_explorer import scrapeSources
+from scripts.RSS_explorer import emergencyRecall
 from dotenv import load_dotenv
 from datetime import datetime
 import os
@@ -10,6 +11,7 @@ import os
 from flask import Flask
 from flask import request
 from flask_cors import CORS
+import click
 
 
 load_dotenv()
@@ -24,9 +26,10 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.cli.command('email')
-def test_cli():
-    print('hola')
+@app.cli.command('emergency')
+@click.argument('country')
+def emergency(country):
+    emergencyRecall(country)
 
 @app.cli.command('scrape')
 def scrape():
