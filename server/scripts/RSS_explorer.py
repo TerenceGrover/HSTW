@@ -91,7 +91,6 @@ def scrapeSources():
     with open(f"../data/TODAY/{today}.json", 'r') as file:
         readable = json.loads(file.read())
         createWorldObject(readable)
-        sendToDB(readable)
 
     print(f'Time 1 : {time1}')
     print(newNow.strftime('Time 2 : %H:%M'))
@@ -276,7 +275,7 @@ def createWorldObject(file):
     Nu = 0
     M = 0
     word_count = {}
-    
+
     for values in file.values():
         try: 
             P += values['idx']['P']
@@ -308,8 +307,11 @@ def createWorldObject(file):
     with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
         json.dump(readable, file, ensure_ascii=False)
 
+    sendToDB(readable)
+
 def sendToDB(file):
     collection.insert_one({'date': today, 'data': file})
+    cleaner()
 
 
 def cleaner():
@@ -324,16 +326,9 @@ def cleaner():
         sendEmailUponException(e)
 
     try:
-        if os.path.exists(f"../data/{yesterday_parsed}.json"):
-            print('Yesterday exists')
-    except Exception as e:
-        sendEmailUponException(e)
-
-    try:
-        if os.path.exists(f"../data/TODAY/{today}.json"):
-            print('Today exists')
-            # To implement after making sure the DB has a file from that date
-            # os.remove("demofile.txt")
+        if os.path.exists(f"../data/{yesterday_parsed}.json") and os.path.exists(f"../data/TODAY/{today}.json"):
+            print('Yesterday & Today exist')
+            os.remove(f"../data/{yesterday_parsed}.json")
     except Exception as e:
         sendEmailUponException(e)
 
