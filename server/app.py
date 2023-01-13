@@ -28,6 +28,10 @@ CORS(app)
 def test_cli():
     print('hola')
 
+@app.cli.command('scrape')
+def scrape():
+    scrapeSources()
+
 
 @app.route("/")
 def home():

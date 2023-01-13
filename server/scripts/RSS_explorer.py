@@ -44,7 +44,7 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
 def scrapeSources():
 
-    if os.path.exists(f"../data/TODAY/{today}.json"):
+    if os.path.exists(f"../data/TODAY/{today}.json") or collection.find_one({'date': today}):
         try:
             raise Exception('Today Data Has Already Been Scraped')
         except NameError as e:
@@ -136,7 +136,7 @@ def removeStopWords(sentence):
 
 def processor(headlines, country):
 
-    if country not in sources:
+    if country not in sources and len(headlines) > 0:
         trans = translateHL(headlines, country)
     else:
         print(f'NOT CALLED FOR TRANSLATION : {country}')
@@ -157,20 +157,43 @@ def processor(headlines, country):
         writable = {}
 
     if len(trans) > 0:
-
         country_obj = {
             'idx': sentimentHL(trans, country),
-            'topics': most_common_words(trans),
+            'topics': most_common_words(trans, country),
             'HL': trans
         }
 
     else:
         country_obj = 'VOID'
 
+    print(country_obj)
+
     writable[country] = country_obj
 
     with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
         json.dump(writable, file, ensure_ascii=False)
+
+
+def translater(inp):
+
+    client = boto3.client(
+        'translate',
+        region_name='eu-west-1',
+        aws_access_key_id=ACCESS_KEY,
+        aws_secret_access_key=SECRET_KEY)
+
+    try:
+        response = client.translate_text(
+            Text=inp,
+            SourceLanguageCode='auto',
+            TargetLanguageCode='en'
+        )
+        res = response['TranslatedText']
+
+    except Exception as e:
+        sendEmailUponException(e)
+
+    return res
 
 
 def translateHL(headlines, country):
@@ -179,27 +202,8 @@ def translateHL(headlines, country):
         translated_texts = []
         for sentence in headlines:
             if not is_english(sentence):
-                print(f'Pre {sentence} 🦧')
 
-                client = boto3.client(
-                    'translate',
-                    region_name='eu-west-1',
-                    aws_access_key_id=ACCESS_KEY,
-                    aws_secret_access_key=SECRET_KEY)
-
-                try:
-                    response = client.translate_text(
-                        Text=sentence,
-                        SourceLanguageCode='auto',
-                        TargetLanguageCode='en'
-                    )
-                    res = response['TranslatedText']
-                    print(f'Post {res} 🦧')
-
-                    translated_texts.append(res)
-
-                except Exception as e:
-                    sendEmailUponException(e)
+                translated_texts.append(translater(sentence))
 
             else:
                 translated_texts.append(sentence)
@@ -256,23 +260,34 @@ def sentimentHL(translatedHL, country):
         'M': response['SentimentScore']['Mixed']
     }
 
-    idx['global'] = (idx['P']*10) - (idx['N']*10) + (idx['Nu']*2) + ((idx['P']+idx['N']*5) * idx['M'] * 10)
+    idx['global'] = (idx['P']*10) - (idx['N']*10) + (idx['Nu']
+                                                     * 2) + ((idx['P']+idx['N']*5) * idx['M'] * 10)
 
     return idx
 
 
-def most_common_words(headlines):
+def most_common_words(headlines, country):
+
     no_punct_hl = [headline.translate(str.maketrans(
         '', '', string.punctuation)) for headline in headlines]
     joined = " ".join(no_punct_hl)
     noStopword = removeStopWords(joined)
     tokens = word_tokenize(noStopword)
     fdist = nltk.FreqDist(tokens)
+
     most_common_words = [word.lower()
                          for word, freq in fdist.items() if freq >= 2]
     most_common_words = fdist.most_common(5)
 
-    return [[word, freq] for word, freq in most_common_words if word == word.capitalize()]
+    if country in sources:
+        parsed = [[translater(word), freq] for word,
+                  freq in most_common_words if word == word.capitalize()]
+
+    else:
+        parsed = [[word, freq]
+                  for word, freq in most_common_words if word == word.capitalize()]
+
+    return parsed
 
 
 def createWorldObject(file):
@@ -285,13 +300,12 @@ def createWorldObject(file):
     word_count = {}
 
     for values in file.values():
-        try: 
-            print(values['idx'])
+        try:
             P += values['idx']['P']
             N += values['idx']['N']
             Nu += values['idx']['Nu']
             M += values['idx']['M']
-            counter+=1
+            counter += 1
         except:
             continue
 
@@ -304,17 +318,17 @@ def createWorldObject(file):
         except:
             continue
 
-    sorted_word_count = sorted(word_count.items(), key=lambda x: x[1], reverse=True)
+    sorted_word_count = sorted(
+        word_count.items(), key=lambda x: x[1], reverse=True)
 
     world_obj = {
-    'idx': {'P' : P/counter, 
-    'N' : N/counter, 
-    'Nu' : Nu/counter, 
-    'M' : M/counter,
-    'global' : (P/counter*10) - (N/counter*10) + (Nu/counter*2) + ((P/counter+N/counter*5) * M/counter * 10)},
-    'topics': sorted_word_count[:10]
+        'idx': {'P': P/counter,
+                'N': N/counter,
+                'Nu': Nu/counter,
+                'M': M/counter,
+                'global': (P/counter*10) - (N/counter*10) + (Nu/counter*2) + ((P/counter+N/counter*5) * M/counter * 10)},
+        'topics': sorted_word_count[:10]
     }
-
 
     file['world'] = world_obj
 
@@ -322,6 +336,7 @@ def createWorldObject(file):
         json.dump(file, writable, ensure_ascii=False)
 
     sendToDB(file)
+
 
 def sendToDB(file):
     collection.insert_one({'date': today, 'data': file})
@@ -336,13 +351,12 @@ def cleaner():
     try:
         if collection.find_one({'date': today}) != None and collection.find_one({'date': yesterday_parsed}) != None:
             print('today and yesterday are in the DB')
-    except Exception as e:
-        sendEmailUponException(e)
-
-    try:
-        if os.path.exists(f"../data/{yesterday_parsed}.json") and os.path.exists(f"../data/TODAY/{today}.json"):
-            print('Yesterday & Today exist')
-            os.remove(f"../data/{yesterday_parsed}.json")
+            try:
+                if os.path.exists(f"../data/{yesterday_parsed}.json") and os.path.exists(f"../data/TODAY/{today}.json"):
+                    print('Yesterday & Today exist')
+                    os.remove(f"../data/{yesterday_parsed}.json")
+            except Exception as e:
+                sendEmailUponException(e)
     except Exception as e:
         sendEmailUponException(e)
 
@@ -374,7 +388,5 @@ def sendEmailUponException(e):
 
 
 #### EXECUTE THE CHAIN ####
-# scrapeSources()
+scrapeSources()
 #### EXECUTE THE CHAIN ####
-
-print(collection.find_one({'date': '12-01-23'})['data'])

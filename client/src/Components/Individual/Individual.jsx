@@ -7,19 +7,17 @@ export default function Individual({ geoProps, scrollFunc }) {
 
   useEffect(() => {
     scrollFunc();
-    console.log(country);
   }, [country]);
 
   useEffect(() => {
-    fetchCountry(setCountry);
+    fetchCountry();
   }, [geoProps]);
 
-  async function fetchCountry(setter) {
-    // getCountryDetails(geoProps['Alpha-2']).then((response) => {
-    //   setter(response);
-    //   console.log(response);
-    // });
-    console.log('called')
+  async function fetchCountry() {
+    console.log(geoProps['Alpha-2']);
+    getCountryDetails(geoProps['Alpha-2']).then((response) => {
+      setCountry(response)
+    });
   }
 
   return (

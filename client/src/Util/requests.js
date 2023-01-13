@@ -55,7 +55,6 @@ export async function getCountryDetails(alphaCode, setter) {
   return fetch(
     `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
   )
-    .then((response) => response.text())
-    .then((data) => setter(data))
+    .then((response) => response.json())
     .catch((err) => err);
 }
