@@ -19,8 +19,11 @@ body {
   -ms-overflow-style: none;
 }
 
-h1#master {
-  text-align: center;
+h1.master {
+  text-align: left;
+  font-size: calc(8vw);
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 span#io {

@@ -1,6 +1,7 @@
 import sys
 import os
 from dotenv import load_dotenv
+import re
 
 import feedparser
 import boto3
@@ -13,6 +14,7 @@ import json
 import string
 
 from datetime import datetime, date, timedelta
+import time
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
@@ -44,7 +46,7 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 def emergencyRecall(startCountry):
     scrapeSources(startCountry)
 
-def scrapeSources( startCountry = None ):
+def scrapeSources( startCountry = None, timeout = 20 ):
 
     flag = False if startCountry else True
 
@@ -73,6 +75,7 @@ def scrapeSources( startCountry = None ):
 
             # Iterate over the links for each country
             for link in links.values():
+                start_time = time.time()
                 try:
                     feed = feedparser.parse(link)
                 except:
@@ -90,6 +93,11 @@ def scrapeSources( startCountry = None ):
                             char_counter += len(entry.title)
                             title_counter += len(titles)
                 except:
+                    continue
+
+                end_time = time.time()
+                elapsed_time = end_time - start_time
+                if elapsed_time > timeout:
                     continue
 
                 # Use list extend to add the titles to the headlines list
@@ -289,11 +297,11 @@ def most_common_words(headlines, country):
 
     most_common_words = [word.lower()
                          for word, freq in fdist.items() if freq >= 2]
-    most_common_words = fdist.most_common(5)
+    most_common_words = fdist.most_common(6)
 
     if country in sources:
         parsed = [[translater(word), freq] for word,
-                  freq in most_common_words if word == word.capitalize()]
+                  freq in most_common_words if (word == word.capitalize() and re.search(r'^[\w\s]+$', word) is not None)]
 
     else:
         parsed = [[word, freq]

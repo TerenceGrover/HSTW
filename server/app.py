@@ -12,6 +12,7 @@ from flask import Flask
 from flask import request
 from flask_cors import CORS
 import click
+from datetime import timedelta
 
 
 load_dotenv()
@@ -38,8 +39,15 @@ def scrape():
 
 @app.route("/")
 def home():
-    return "Welcome Home updated :) !"
+    return """
+    <a href="/today">
+        Check Today News!!
+    </a>
+    <div style="top: 50%; left: 50%; transform : translate(-50%,-50%); background-color: rgba(120,120,120,0.3) position:absolute;">
+        <h1>Welcome my child</h1>
 
+    </div>
+"""
 
 @app.route("/request", methods=['GET'])
 def returnDate():
@@ -60,14 +68,24 @@ def returnDate():
 def returnToday():
     now = datetime.now()
     today = now.strftime('%d-%m-%y')
+    yesterday = now.today() - timedelta(days=1)
+    yesterday_parsed = yesterday.strftime('%d-%m-%y')
     args = request.args
 
     if args:
         code = args.get('code')
-        data = collection.find_one({'date': today})['data'][code]
+        try:
+            data = collection.find_one({'date': today})['data'][code]
+        except:
+            data = collection.find_one({'date': yesterday_parsed})['data'][code]
+            return {yesterday_parsed : data}
 
     else:
-        data = collection.find_one({'date': today})['data']
+        try:
+            data = collection.find_one({'date': today})['data']
+        except:
+            data = collection.find_one({'date': yesterday_parsed})['data']
+            return {yesterday_parsed : data}
 
     return {today : data}
 

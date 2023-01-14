@@ -18,6 +18,7 @@ div#modal {
 }
 
 #global-map{
+  /* background-color: rgb(97, 123, 160);s */
   	-webkit-animation: slide-in-blurred-bottom 0.5s ease-in-out both;
 	        animation: slide-in-blurred-bottom 0.5s ease-in-out both;
 }

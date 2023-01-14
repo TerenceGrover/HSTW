@@ -23,12 +23,6 @@ export default function Individual({ geoProps, scrollFunc = () => {}}) {
         g : (col.global > 0 ? Math.abs(col.global * 25.5) : Math.abs(col.global * 2.5)),
         b : ((col.M*255) - (col.Nu * 255)) / 5
       }
-
-      const colObj_prev = {
-        r : (col.P > col.N ? 6/(col.P  - col.N) : 200) - (col.Nu*255) / 3,
-        g : (col.N > col.P ? 6/(col.N  - col.P) : 200) - (col.Nu*255) / 3,
-        b : ((col.M*255) - (col.Nu * 255)) / 5
-      }
         colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
       }
 
@@ -41,12 +35,14 @@ export default function Individual({ geoProps, scrollFunc = () => {}}) {
   }
 
   useEffect(() => {
-    fetchCountry();
-    getTodayIndividualData(geoProps['Alpha-2'], setCountryData)
+    if (geoProps['Alpha-2']){
+      fetchCountry();
+      getTodayIndividualData(geoProps['Alpha-2'], setCountryData)
+    }
   }, [geoProps]);
 
   async function fetchCountry() {
-    if (geoProps['Alpha-2'] != 'world') {
+    if (geoProps['Alpha-2'] !== 'world') {
       getCountryDetails(geoProps['Alpha-2']).then((response) => {
         setCountry(response)
     })
@@ -65,7 +61,7 @@ export default function Individual({ geoProps, scrollFunc = () => {}}) {
 
   return (
     <>
-      {country && countryData ? (
+      {country && country.name && countryData ? (
         <div id="indiv-container">
           <div id="indiv-left-container" className="floaty-container">
             <div id="flag-name-container">
