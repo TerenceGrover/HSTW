@@ -17,13 +17,13 @@ export default function Title({ index }) {
     }
     if (idx > 2) {
       return {
-        word : 'Great',
+        word : 'Amazing',
         color : 'rgb(50, 200, 50)'
     };
     }
     if (idx <= -1) {
       return {
-        word : 'Great',
+        word : 'Bad',
         color : 'rgb(250, 20, 20)'
     };
     }
@@ -45,9 +45,11 @@ export default function Title({ index }) {
     <>
       {index && wordObj ? (
         <h2 className="master">
-          The World is doing <span style={{
+          The World is doing <br/><span style={{
             'backgroundColor' : wordObj.color,
-            'padding' : '5px 30px 5px 30px'
+            'padding' : '5px 30px 5px 30px',
+            'borderRadius' : '10px',
+            'color' : 'white'
             }}>{wordObj.word}</span> today.
         </h2>
       ) : (

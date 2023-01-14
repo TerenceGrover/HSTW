@@ -1,7 +1,7 @@
 import MapChart from './Components/Map/MapChart';
 import HappyIndex from './Components/HappyIndex/happyIndex';
 import Individual from './Components/Individual/Individual';
-import Navbar from './Components/Navbar';
+import Navbar from './Components/Navbar/Navbar';
 import Title from './Components/Title';
 import { getUserCountry, getDateSpecificIndividualIdx } from './Util/requests';
 import { useState, useRef, useEffect } from 'react';

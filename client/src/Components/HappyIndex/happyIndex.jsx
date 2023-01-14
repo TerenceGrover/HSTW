@@ -23,12 +23,20 @@ export default function HappyIndex() {
     
     getDateSpecificIndividualIdx('world', parseDate(today) , setIdx)
     getDateSpecificIndividualIdx('world', parseDate(yesterday) , setYIdx)
+
   }, []);
 
   return (
     <div id="index-container">
+      {idx 
+      ? 
+      <>
       <span id="index">Index : {`${parseInt(idx.global * 10)} / 100`}</span>
       <span id="yesterday-comparison">Yesterday {`${parseInt(idx.global * 10)} / 100`} </span>
+      </>
+      :
+      <span id="index">Index : {`${parseInt(yIdx.global * 10)} / 100`}</span>
+      }
       <span id="month-comparison">Last Month % </span>
     </div>
   );

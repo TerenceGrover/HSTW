@@ -1,6 +1,8 @@
 html {
   overflow: hidden;
   height: 100%;
+  background-color: #000011;
+  color: white;
 }
 
 body {
@@ -21,9 +23,11 @@ body {
 
 h2.master {
   text-align: left;
-  font-size: calc(8vw);
+  font-size: calc(6vw);
   margin-left: 20px;
   margin-right: 20px;
+  word-spacing: 7px;
+  letter-spacing: 1px;
 }
 
 span#io {
