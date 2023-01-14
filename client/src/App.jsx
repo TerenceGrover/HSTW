@@ -17,13 +17,6 @@ export default function App() {
     getDateSpecificIndividualIdx('world', '13-01-23', setIdx);
   }, []);
 
-  useEffect(() => {
-    setClicked({
-      name: userCountry.country_name,
-      'Alpha-2': userCountry.country_code,
-    });
-  }, [userCountry]);
-
   function scroll() {
     scrollToRef.current.scrollIntoView({ behavior: 'smooth' });
   }
@@ -31,8 +24,9 @@ export default function App() {
   return (
     <div id="global-container">
       {clicked ? console.log(clicked) : ''}
+      <span>{userCountry ? 'You currently are in ' + userCountry.country_name : ':)'}</span>
       <Navbar />
-ƒ
+      <Title index={idx} />
       <MapChart clickSet={setClicked} clicked={clicked} />
       <HappyIndex />
       <div ref={scrollToRef}>

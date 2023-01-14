@@ -19,7 +19,7 @@ body {
   -ms-overflow-style: none;
 }
 
-h1.master {
+h2.master {
   text-align: left;
   font-size: calc(8vw);
   margin-left: 20px;
