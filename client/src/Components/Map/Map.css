@@ -11,6 +11,19 @@
 	        animation: slide-in-blurred-bottom 0.5s ease-in-out both;
 }
 
+#mobile-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  padding: 5px;
+  border-top: 2px white solid;
+  border-bottom: 2px white solid;
+  /* background-color: rgb(97, 123, 160);s */
+  	-webkit-animation: slide-in-blurred-bottom 0.5s ease-in-out both;
+	        animation: slide-in-blurred-bottom 0.5s ease-in-out both;
+}
+
 #map
 
 path:focus {

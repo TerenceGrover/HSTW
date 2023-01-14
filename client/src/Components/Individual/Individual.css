@@ -22,6 +22,7 @@
   align-items: center;
   width: 240px;
   min-height: 400px;
+  background-color: rgba(135, 135, 135, 0.25);
 }
 
 .floaty-container {
@@ -72,6 +73,8 @@
 
 #index-display{
   color: white;
+  font-size: 25px;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -92,6 +95,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
+}
+
+#indiv-main-topics-container{
+  padding-left: 20px;
+}
+
+#indiv-headlines-container{
+  padding-left: 20px;
 }
 
 .header-bottom{

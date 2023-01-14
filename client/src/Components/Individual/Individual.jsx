@@ -10,28 +10,44 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
     scrollFunc();
   }, [country]);
 
-  function generateColor() {
+  function generateColor(code, currentState = undefined) {
     const col = countryData.idx;
     let colorReturn;
 
     if (col) {
+
       const colObj = {
         r:
           col.global < 0
-            ? Math.abs(col.global * 25.5)
-            : Math.abs(col.global * 2.5),
+            ? Math.abs(col.global) * 50 + 25 + col.N
+            : 1 / Math.abs(col.global),
         g:
           col.global > 0
-            ? Math.abs(col.global * 25.5)
-            : Math.abs(col.global * 2.5),
-        b: (col.M * 255 - col.Nu * 255) / 5,
+            ? Math.abs(col.global) * 50 + 25 + col.P
+            : 1 / Math.abs(col.global),
+        b: Math.abs(col.M * 255 - col.Nu * 255) / 10,
       };
-      colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`;
+
+      if (currentState === 'hover') {
+        colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`;
+      } else if (currentState === 'click') {
+        colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${
+          colObj.b + 100
+        })`;
+      } else {
+        colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`;
+      }
+
     } else {
-      colorReturn = 'rgb(150,150,150)';
+      return 'rgb(120,120,120)';
     }
 
-    return colorReturn;
+    if (col.global > 1 || col.global < -1) {
+      return colorReturn;
+      }
+    else {
+      return 'rgb(200,200,0)'
+    }
   }
 
   useEffect(() => {

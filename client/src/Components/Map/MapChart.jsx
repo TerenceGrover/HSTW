@@ -78,12 +78,13 @@ export default function MapChart({ clickSet, clicked }) {
 
 
   return (
-    <div id="map-container">
-      {mobile 
+    <>
+    {mobile 
       ?
+      <div id="mobile-container">
       <Globe 
       height={500}
-      width={window.innerWidth - 40}
+      width={window.innerWidth - 24}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
@@ -94,7 +95,9 @@ export default function MapChart({ clickSet, clicked }) {
       polygonStrokeColor={() => '#111'}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       />
+      </div>
       :
+      <div id="map-container">
       <Globe 
       height={600}
       width={window.innerWidth - 40}
@@ -108,7 +111,8 @@ export default function MapChart({ clickSet, clicked }) {
       polygonStrokeColor={() => '#111'}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       />
+      </div>
      }
-    </div>
+     </>
   );
 }
