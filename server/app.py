@@ -32,6 +32,7 @@ CORS(app)
 def emergency(country):
     emergencyRecall(country)
 
+
 @app.cli.command('scrape')
 def scrape():
     scrapeSources()
@@ -49,6 +50,7 @@ def home():
     </div>
 """
 
+
 @app.route("/request", methods=['GET'])
 def returnDate():
     args = request.args
@@ -61,7 +63,7 @@ def returnDate():
     else:
         data = collection.find_one({'date': date})['data']
 
-    return {date : data}
+    return {date: data}
 
 
 @app.route("/today", methods=['GET'])
@@ -77,17 +79,19 @@ def returnToday():
         try:
             data = collection.find_one({'date': today})['data'][code]
         except:
-            data = collection.find_one({'date': yesterday_parsed})['data'][code]
-            return {yesterday_parsed : data}
+            data = collection.find_one({'date': yesterday_parsed})[
+                'data'][code]
+            return {yesterday_parsed: data}
 
     else:
         try:
             data = collection.find_one({'date': today})['data']
         except:
             data = collection.find_one({'date': yesterday_parsed})['data']
-            return {yesterday_parsed : data}
+            return {yesterday_parsed: data}
 
-    return {today : data}
+    return {today: data}
+
 
 @app.route("/idx", methods=['GET'])
 def returnIdx():
@@ -97,8 +101,8 @@ def returnIdx():
     if args.get('code'):
         code = args.get('code')
         data = collection.find_one({'date': date})['data'][code]['idx']
-        return {date : data}
-    
+        return {date: data}
+
     else:
         data = collection.find_one({'date': date})['data']
         indices = {}
@@ -107,7 +111,8 @@ def returnIdx():
                 indices[country] = countryData['idx']
             except:
                 indices[country] = 0
-        return {date : indices}
+        return {date: indices}
+
 
 if __name__ == "__main__":
     app.run(port=5001)

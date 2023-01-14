@@ -21,33 +21,35 @@ export default function MapChart({ clickSet, clicked }) {
   const clickFill = `rgb(${clickcol},${clickcol},${clickcol})`;
 
   function generateColor(code, currentState = undefined) {
-
-    const col = idx[code]
-    let colorReturn
+    const col = idx[code];
+    let colorReturn;
 
     if (col) {
-
       const colObj = {
-        r : (col.global < 0 ? Math.abs(col.global) * 30 + 30 + col.N : 1/Math.abs(col.global)),
-        g : (col.global > 0 ? Math.abs(col.global) * 30 + 30 + col.P : 1/Math.abs(col.global)),
-        b : (Math.abs((col.M*255) - (col.Nu * 255))) / 10
-      }
+        r:
+          col.global < 0
+            ? Math.abs(col.global) * 30 + 30 + col.N
+            : 1 / Math.abs(col.global),
+        g:
+          col.global > 0
+            ? Math.abs(col.global) * 30 + 30 + col.P
+            : 1 / Math.abs(col.global),
+        b: Math.abs(col.M * 255 - col.Nu * 255) / 10,
+      };
       if (currentState === 'hover') {
-        colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`
+        colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`;
+      } else if (currentState === 'click') {
+        colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${
+          colObj.b + 100
+        })`;
+      } else {
+        colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`;
       }
-      else if (currentState === 'click') {
-        colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${colObj.b + 100})`
-      }
-      else {
-        colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`
-      }
+    } else {
+      return 'rgb(120,120,120)';
     }
 
-    else {
-      return 'rgb(120,120,120)'
-    }
-
-    return colorReturn
+    return colorReturn;
   }
 
   // This function will check the position of the cursor on hover
@@ -64,8 +66,8 @@ export default function MapChart({ clickSet, clicked }) {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
 
-    const date = '13-01-23'
-    getDateSpecificGlobalIdx(date , setIdx)
+    const date = '13-01-23';
+    getDateSpecificGlobalIdx(date, setIdx);
 
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
@@ -128,13 +130,25 @@ export default function MapChart({ clickSet, clicked }) {
                         geography={geo}
                         style={{
                           default: {
-                            fill: idx ? generateColor(geo.properties['Alpha-2']) : defaultFill,
+                            fill: idx
+                              ? generateColor(geo.properties['Alpha-2'])
+                              : defaultFill,
                           },
                           hover: {
-                            fill: idx ? generateColor(geo.properties['Alpha-2'], 'hover') : hoverFill,
+                            fill: idx
+                              ? generateColor(
+                                  geo.properties['Alpha-2'],
+                                  'hover'
+                                )
+                              : hoverFill,
                           },
                           pressed: {
-                            fill: idx ? generateColor(geo.properties['Alpha-2'], 'click') : clickFill,
+                            fill: idx
+                              ? generateColor(
+                                  geo.properties['Alpha-2'],
+                                  'click'
+                                )
+                              : clickFill,
                           },
                         }}
                         stroke="#000000"
@@ -163,9 +177,7 @@ export default function MapChart({ clickSet, clicked }) {
                   <Geography
                     onMouseEnter={(e) => {
                       e.target.style.strokeWidth = '2';
-                      setHover(
-                        geo.properties['Alpha-2']
-                      );
+                      setHover(geo.properties['Alpha-2']);
                     }}
                     onMouseMove={handleHover}
                     onClick={() => {
@@ -186,13 +198,19 @@ export default function MapChart({ clickSet, clicked }) {
                     geography={geo}
                     style={{
                       default: {
-                        fill: idx ? generateColor(geo.properties['Alpha-2']) : defaultFill,
+                        fill: idx
+                          ? generateColor(geo.properties['Alpha-2'])
+                          : defaultFill,
                       },
                       hover: {
-                        fill: idx ? generateColor(geo.properties['Alpha-2'], 'hover') : hoverFill,
+                        fill: idx
+                          ? generateColor(geo.properties['Alpha-2'], 'hover')
+                          : hoverFill,
                       },
                       pressed: {
-                        fill: idx ? generateColor(geo.properties['Alpha-2'], 'click') : clickFill,
+                        fill: idx
+                          ? generateColor(geo.properties['Alpha-2'], 'click')
+                          : clickFill,
                       },
                     }}
                     stroke="#000000"

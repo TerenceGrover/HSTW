@@ -60,7 +60,9 @@ export async function getCountryDetails(alphaCode) {
 }
 
 export async function getWorldPop() {
-  return fetch('http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json')
+  return fetch(
+    'http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json'
+  )
     .then((response) => response.json())
     .then((data) => JSON.parse(data))
     .catch((err) => err);
@@ -68,6 +70,6 @@ export async function getWorldPop() {
 
 export async function getUserCountry(setter) {
   return fetch('https://ipapi.co/json/')
-  .then((response) =>  response.json())
-  .then((data) => setter(data))
+    .then((response) => response.json())
+    .then((data) => setter(data));
 }

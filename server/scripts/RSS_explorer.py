@@ -43,10 +43,12 @@ sources_ES = {'es': ['AD', 'AR', 'BO', 'CL', 'CR', 'CU', 'DO',
                      'EC', 'SV', 'GT', 'HN', 'PA', 'PE', 'PR', 'ES', 'UY', 'VE']}
 sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
+
 def emergencyRecall(startCountry):
     scrapeSources(startCountry)
 
-def scrapeSources( startCountry = None, timeout = 20 ):
+
+def scrapeSources(startCountry=None, timeout=20):
 
     flag = False if startCountry else True
 
@@ -68,7 +70,7 @@ def scrapeSources( startCountry = None, timeout = 20 ):
         # Handle the cases where an emergency recall was needed
         if startCountry and startCountry == country:
             flag = True
-        
+
         # Handle the cases where an emergency recall was needed
         if flag:
             headlines = []
