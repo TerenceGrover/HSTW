@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
+import { generateColor } from '../../Util/Utility';
 
 export default function Individual({ geoProps, scrollFunc = () => {} }) {
   const [country, setCountry] = useState();
@@ -9,46 +10,6 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
   useEffect(() => {
     scrollFunc();
   }, [country]);
-
-  function generateColor(code, currentState = undefined) {
-    const col = countryData.idx;
-    let colorReturn;
-
-    if (col) {
-
-      const colObj = {
-        r:
-          col.global < 0
-            ? Math.abs(col.global) * 50 + 25 + col.N
-            : 1 / Math.abs(col.global),
-        g:
-          col.global > 0
-            ? Math.abs(col.global) * 50 + 25 + col.P
-            : 1 / Math.abs(col.global),
-        b: Math.abs(col.M * 255 - col.Nu * 255) / 10,
-      };
-
-      if (currentState === 'hover') {
-        colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`;
-      } else if (currentState === 'click') {
-        colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${
-          colObj.b + 100
-        })`;
-      } else {
-        colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`;
-      }
-
-    } else {
-      return 'rgb(120,120,120)';
-    }
-
-    if (col.global > 1 || col.global < -1) {
-      return colorReturn;
-      }
-    else {
-      return 'rgb(200,200,0)'
-    }
-  }
 
   useEffect(() => {
     if (geoProps['Alpha-2']) {
@@ -109,8 +70,9 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
             <div
               id="indiv-right-top"
               className="floaty-container"
-              style={{ backgroundColor: generateColor() }}
+              style={{ backgroundColor: generateColor(countryData.idx, geoProps['Alpha-2']) }}
             >
+              {console.log(generateColor(countryData.idx, geoProps['Alpha-2']))}
               <div id="index-display">
                 Today, {country.name.official} has a happiness score of :{' '}
                 {countryData.idx
