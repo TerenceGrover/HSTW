@@ -127,7 +127,7 @@ export default function MapChart({ clickSet, clicked }) {
       onPolygonHover={setHoverD}
       onPolygonClick={d => clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})}
       polygonStrokeColor={() => '#111'}
-      polygonAltitude={0.75}
+      polygonAltitude={0.07}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       />
       </div>
