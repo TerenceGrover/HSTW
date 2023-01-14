@@ -105,12 +105,11 @@ export default function MapChart({ clickSet, clicked }) {
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
       polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
-      polygonCapColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_])}
-      onPolygonHover={setHoverD}
+      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_])}
       onPolygonClick={d => clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})}
       polygonStrokeColor={() => '#111'}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
-      polygonAltitude={0}
+      polygonAltitude={0.04}
       polygonsTransitionDuration={1000}
       />
       </div>
@@ -128,6 +127,7 @@ export default function MapChart({ clickSet, clicked }) {
       onPolygonHover={setHoverD}
       onPolygonClick={d => clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})}
       polygonStrokeColor={() => '#111'}
+      polygonAltitude={0.75}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       />
       </div>

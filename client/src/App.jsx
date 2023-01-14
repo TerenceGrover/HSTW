@@ -8,7 +8,7 @@ import { useState, useRef, useEffect } from 'react';
 
 export default function App() {
   const scrollToRef = useRef();
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState({name : 'world', 'Alpha-2' : 'world'});
   const [userCountry, setUserCountry] = useState(false);
   const [idx, setIdx] = useState();
 

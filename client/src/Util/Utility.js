@@ -9,7 +9,6 @@ export function parseDate(date) {
 export function generateColor(indexCode, currentState = undefined) {
   
   const col = indexCode;
-  console.log(col)
   let colorReturn;
 
   if (col) {
