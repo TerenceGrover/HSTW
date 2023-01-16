@@ -2,8 +2,7 @@ from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 import pandas as pd
 
-from scripts.RSS_explorer import scrapeSources
-from scripts.RSS_explorer import emergencyRecall
+import scripts.RSS_explorer as rss
 from dotenv import load_dotenv
 from datetime import datetime
 import os
@@ -30,12 +29,15 @@ CORS(app)
 @app.cli.command('emergency')
 @click.argument('country')
 def emergency(country):
-    emergencyRecall(country)
+    rss.emergencyRecall(country)
 
+@app.cli.command('update_idx')
+def update_idx():
+    rss.recalculateGlobal()
 
 @app.cli.command('scrape')
 def scrape():
-    scrapeSources()
+    rss.scrapeSources()
 
 
 @app.route("/")

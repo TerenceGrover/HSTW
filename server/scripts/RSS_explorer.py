@@ -47,6 +47,17 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 def emergencyRecall(startCountry):
     scrapeSources(startCountry)
 
+def recalculateGlobal():
+    with open(f"./data/TODAY/{today}.json", 'r') as file:
+        readable = json.loads(file.read())
+    for value in readable.values():
+        try:
+            value['idx']['global'] = calculateGlobal(value['idx'])
+        except:
+            continue
+    
+    with open(f"./data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
+        json.dump(readable, writable, ensure_ascii=False)
 
 def scrapeSources(startCountry=None, timeout=20):
 
@@ -245,6 +256,8 @@ def translateHL(headlines, country):
         else:
             return translated_texts
 
+def calculateGlobal(idx):
+    return (idx['P']*10) - (idx['N']*10) + (idx['Nu']* 2) + (((idx['P']+idx['N'])*5) * idx['M'] * 10)
 
 def sentimentHL(translatedHL, country):
 
@@ -295,8 +308,7 @@ def sentimentHL(translatedHL, country):
         'M': response['SentimentScore']['Mixed']
     }
 
-    idx['global'] = (idx['P']*10) - (idx['N']*10) + (idx['Nu']
-                                                     * 2) + ((idx['P']+idx['N']*5) * idx['M'] * 10)
+    idx['global'] = calculateGlobal(idx)
 
     return idx
 
@@ -327,11 +339,7 @@ def most_common_words(headlines, country):
 
 def createWorldObject(file):
 
-    counter = 0
-    P = 0
-    N = 0
-    Nu = 0
-    M = 0
+    counter = P = N = Nu = M = 0
     word_count = {}
 
     for values in file.values():
@@ -360,10 +368,10 @@ def createWorldObject(file):
         'idx': {'P': P/counter,
                 'N': N/counter,
                 'Nu': Nu/counter,
-                'M': M/counter,
-                'global': (P/counter*10) - (N/counter*10) + (Nu/counter*2) + ((P/counter+N/counter*5) * M/counter * 10)},
+                'M': M/counter},
         'topics': sorted_word_count[:10]
     }
+    world_obj['idx']['global'] = calculateGlobal(world_obj['idx'])
 
     file['world'] = world_obj
 
