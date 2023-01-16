@@ -21,7 +21,7 @@ export default function App() {
   const [loader, setLoader] = useState(true);
 
   // eslint-disable-next-line no-restricted-globals
-  screen.orientation.lock('portrait')
+  // screen.orientation.lock('portrait')
 
   useEffect(() => {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
