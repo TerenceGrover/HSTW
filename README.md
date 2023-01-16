@@ -22,7 +22,7 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 
 ## Usage
 - Access the frontend at [hstw.io](https://hstw.io)
-- Access the raw data at [hstwdrop.com](https://hstwdrop.com)
+- Access the raw data at [hstwdrop.co](https://hstwdrop.co)
 
 ## Future updates
 - Reinforcement of the backend
