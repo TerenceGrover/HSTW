@@ -79,6 +79,7 @@ def scrapeSources(startCountry=None, timeout=20):
     char_counter = 0
 
     # Iterate over the rows of the dataframe
+    hl_counter = 0
     for country, links in df.items():
         print(country)
         # Handle the cases where an emergency recall was needed
@@ -101,7 +102,6 @@ def scrapeSources(startCountry=None, timeout=20):
                     continue
 
                 title_counter = 0
-                hl_counter = 0
                 titles = []
 
                 # Use list comprehension to select the entries that meet the conditions
