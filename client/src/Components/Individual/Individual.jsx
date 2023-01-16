@@ -91,14 +91,14 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                 {mobile 
                 ?
                 <span id='index-title-mobile'>
-                {country.name.official}'s happiness :
+                {country.name.official}'s happiness : 
                 {countryData.idx
                   ? parseInt(countryData.idx.global * 10)
                   : 'Unknown'}
                 </span>
                 :
                 <span id='index-title'>
-                Today, {country.name.official} has a happiness score of :{' '}
+                Today, {country.name.official} has a happiness score of : 
                 {countryData.idx
                   ? parseInt(countryData.idx.global * 10)
                   : 'Unknown'}
@@ -110,9 +110,16 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
               {countryData ? (
                 <>
                   <div id="indiv-main-topics-container">
+                  {mobile
+                    ?
+                    <span className="header-bottom">
+                      Most used word there :{' '}
+                    </span>
+                    :
                     <span className="header-bottom">
                       Most used word in this country :{' '}
                     </span>
+                    }
                     <div id="indiv-main-topics" className="indiv-list">
                       {topics.length ? (
                         <span>{topics.join(' - ')}</span>
@@ -122,9 +129,16 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                     </div>
                   </div>
                   <div id="indiv-headlines-container" className="indiv-list">
+                    {mobile
+                    ?
+                    <span className="header-bottom">
+                      What the news look like :
+                    </span>
+                    :
                     <span className="header-bottom">
                       What the news look like over there :
                     </span>
+                    }
                     <ul id="indiv-headlines">
                       {headlines ? (
                         headlines.slice(0, 5).map((Headline) => (
