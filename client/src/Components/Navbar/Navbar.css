@@ -5,3 +5,18 @@
   border-bottom: 1px solid white;
   text-align: center;
 }
+
+#navbar-container-mobile{
+  display : flex;
+  flex-direction : row;
+  align-items : center;
+  justify-content: space-between;
+  position: relative;
+}
+
+#ham-menu{
+  font-size: 30px;
+}
+
+#header-title{
+}

@@ -6,24 +6,16 @@ import { generateColor, parseDate } from '../../Util/Utility';
 
 const geoUrl = process.env.PUBLIC_URL + '/assets/Topology.json';
 
-export default function MapChart({ clickSet, clicked }) {
+export default function MapChart({ clickSet, clicked, mobile, innerWidth }) {
 
   const globeEl = useRef();
-
-  const [mobile, setMobile] = useState(false);
   const [idx, setIdx] = useState(false);
   const [countries, setCountries] = useState({ features: []});
   const [hoverD, setHoverD] = useState()
   // This function will check the position of the cursor on hover
 
-  function handleWindowSizeChange() {
-    window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
-  }
-
   useEffect(() => {
     const today = new Date()
-    window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
-    window.addEventListener('resize', handleWindowSizeChange);
 
     getDateSpecificGlobalIdx(parseDate(today), setIdx);
 
@@ -34,12 +26,7 @@ export default function MapChart({ clickSet, clicked }) {
       });
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.3;
-
     globeEl.current.pointOfView({ altitude: 2 }, 3000);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowSizeChange);
-    };
   }, []);
 
 
@@ -51,7 +38,7 @@ export default function MapChart({ clickSet, clicked }) {
       <Globe 
       ref = {globeEl}
       height={500}
-      width={window.innerWidth - 24}
+      width={innerWidth - 24}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}

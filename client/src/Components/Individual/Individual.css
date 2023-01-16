@@ -74,11 +74,19 @@
 
 #index-display{
   color: white;
-  font-size: 25px;
-  font-weight: 600;
   text-align: center;
   margin-left: 25px;
   margin-right: 25px;
+}
+
+#index-title{
+  font-size: 25px;
+  font-weight: 600;
+}
+
+#index-title-mobile{
+  font-size: 16px;
+  font-weight: 500;
 }
 
 #indiv-right-top {

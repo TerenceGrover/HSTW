@@ -47,7 +47,7 @@ export default function Title({ index }) {
         <h2 className="master">
           The World is doing <br/><span style={{
             'backgroundColor' : wordObj.color,
-            'padding' : '5px 30px 5px 30px',
+            'padding' : '5px 2.5vw 5px 2.5vw',
             'borderRadius' : '10px',
             'color' : 'white'
             }}>{wordObj.word}</span> today.

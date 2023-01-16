@@ -3,13 +3,15 @@ import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
 
-export default function Individual({ clicked, scrollFunc = () => {} }) {
+export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [country, setCountry] = useState();
   const [topics, setTopics] = useState([]);
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
-    scrollFunc();
+    if (clicked['Alpha-2'] !== 'world'){
+      scrollFunc();
+    }
     const arrOfTopics = []
     if (countryData && countryData.topics) {
       countryData.topics.forEach(topic => {
@@ -82,10 +84,22 @@ export default function Individual({ clicked, scrollFunc = () => {} }) {
               style={{ backgroundColor: generateColor(countryData.idx, clicked['Alpha-2']) }}
             >
               <div id="index-display">
+                {mobile 
+                ?
+                <span id='index-title-mobile'>
+                {country.name.official}'s happiness :
+                {countryData.idx
+                  ? parseInt(countryData.idx.global * 10)
+                  : 'Unknown'}
+                </span>
+                :
+                <span id='index-title'>
                 Today, {country.name.official} has a happiness score of :{' '}
                 {countryData.idx
                   ? parseInt(countryData.idx.global * 10)
                   : 'Unknown'}
+                </span>
+                }
               </div>
             </div>
             <div id="indiv-right-bottom" className='floaty-container'>
