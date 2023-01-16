@@ -78,23 +78,21 @@ def returnToday():
 
 
     code = args.get('code')
-    if len(code) < 6:
-        try:
-            data = collection.find_one({'date': today})['data'][code] if code else collection.find_one({'date': today})['data']
-        except:
-            days_to_backtrack = 10
-            while days_to_backtrack > 0:
-                yesterday_parsed = yesterday.strftime('%d-%m-%y')
-                data = collection.find_one({'date': yesterday_parsed})['data'][code] if code else collection.find_one({'date': yesterday_parsed})['data']
-                if data:
-                    return {yesterday_parsed: data}
-                else:
-                    yesterday = now.yesterday() - timedelta(days=1)
-                    days_to_backtrack = - 1
-            pass
+    try:
+        data = collection.find_one({'date': today})['data'][code] if code and len(code) < 6 else collection.find_one({'date': today})['data']
+        return {today: data}
+    except:
+        days_to_backtrack = 10
+        while days_to_backtrack > 0:
+            yesterday_parsed = yesterday.strftime('%d-%m-%y')
+            data = collection.find_one({'date': yesterday_parsed})['data'][code] if code else collection.find_one({'date': yesterday_parsed})['data']
+            if data:
+                return {yesterday_parsed: data}
+            else:
+                yesterday = now.yesterday() - timedelta(days=1)
+                days_to_backtrack = - 1
+        pass
     return 'Bad Request', 400
-
-    return {today: data}
 
 
 @app.route("/idx", methods=['GET'])
