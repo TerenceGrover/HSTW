@@ -23,6 +23,34 @@
   animation: slide-in-left 0.3s ease-out;
 }
 
+#menu-content-container{
+  height: 100%;
+  width: 85%;
+  margin : 40px 20px 20px 20px;
+  display : flex;
+  flex-direction : column;
+  justify-content : flex-start;
+  gap: 20px;
+}
+
+.indicator-menu-container{
+  display : flex;
+  flex-direction : row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.indicator-menu{
+  font-weight: 600;
+}
+
+.menu-index{
+  border-radius: 5px;
+  min-width: 25px;
+  padding: 5px;
+  text-align: center;
+}
+
 @keyframes slide-in-left {
   0% {
     -webkit-transform: translateX(-300px);

@@ -6,7 +6,8 @@ import Menu from './Components/Menu/Menu';
 import Title from './Components/Title';
 import Footer from './Components/Footer/Footer';
 import { Dna } from 'react-loader-spinner';
-import { getUserCountry, getDateSpecificIndividualIdx } from './Util/requests';
+import { getUserCountry, getDateSpecificGlobalIdx } from './Util/requests';
+import { parseDate } from './Util/Utility';
 import { useState, useRef, useEffect } from 'react';
 
 export default function App() {
@@ -22,13 +23,14 @@ export default function App() {
   useEffect(() => {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
-
+    
+    const date = parseDate(new Date())
     getUserCountry(setUserCountry);
     setTimeout(() => {
       setLoader(false);
     }, 1250);
 
-    getDateSpecificIndividualIdx('world', '13-01-23', setIdx);
+    getDateSpecificGlobalIdx(date, setIdx);
 
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
@@ -49,7 +51,11 @@ export default function App() {
       <Navbar setMenu={setMenu} mobile={mobile} />
       {menu
       ?
-      <Menu setMenu={setMenu} />
+      <Menu 
+      idx = {idx}
+      setMenu={setMenu}
+      userCountry = {userCountry}
+       />
       :
       ''
       }

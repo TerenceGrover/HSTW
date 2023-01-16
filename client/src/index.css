@@ -58,13 +58,15 @@ div#global-container {
 }
 
 #keyword-title{
-  padding : 5px 2.5vw 5px 2.5vw;
+  padding : 5px 2vw 5px 2vw;
   border-radius : 10px;
   color : white;
 }
 
 #mobile-title{
   font-size: 40px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .mobile-padding{

@@ -6,9 +6,8 @@ export function parseDate(date) {
   return `${d}-${m}-${y}`
 }
 
-export function generateColor(indexCode, tansparency = 1 , currentState = undefined) {
+export function generateColor(col, tansparency = 1 , currentState = undefined) {
   
-  const col = indexCode;
   let colorReturn;
 
   if (col) {
@@ -51,7 +50,7 @@ export function generateColor(indexCode, tansparency = 1 , currentState = undefi
         colorReturn = `rgba(120,120,120, ${tansparency})`;
       }
   }
-
+  console.log(col, colorReturn)
   return colorReturn
 }
 

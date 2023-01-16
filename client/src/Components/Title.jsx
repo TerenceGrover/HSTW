@@ -5,7 +5,8 @@ export default function Title({ index, mobile }) {
   const[wordObj, setWordObj] = useState()
 
   useEffect(()=>{
-    if (index) setWordObj(assignWord(index.global))
+    console.log(index)
+    if (index.world) setWordObj(assignWord(index.world.global))
   }, [index])
 
   function assignWord(idx) {
