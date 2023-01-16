@@ -1,4 +1,4 @@
-# HowIsTheWorld
+# How'sThe World
 
 A sentiment analysis tool that aggregates news sources from around the world to generate a happiness index. This project aims at facilitating news consumption and to have a concentrate of all important news within a single glance. The project is built using a combination of Python Flask for the backend and React for the frontend. 
 
@@ -21,8 +21,8 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Run the frontend using `npm start`
 
 ## Usage
-- Access the frontend at [hstw.io](hstw.io)
-- Access the raw data at [hstwdrop.com](hstwdrop.com)
+- Access the frontend at [hstw.io](https://hstw.io)
+- Access the raw data at [hstwdrop.com](https://hstwdrop.com)
 
 ## Future updates
 - Reinforcement of the backend
