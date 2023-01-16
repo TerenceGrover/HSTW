@@ -20,6 +20,9 @@ export default function App() {
   const [menu, setMenu] = useState(false);
   const [loader, setLoader] = useState(true);
 
+  // eslint-disable-next-line no-restricted-globals
+  screen.orientation.lock()
+
   useEffect(() => {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
@@ -71,7 +74,7 @@ export default function App() {
           />
         </div>
       ) : (
-        <div className={mobile ? 'mobile-padding' : ''}>
+        <div id='sub-container' className={mobile ? 'mobile-padding' : ''}>
           <Title index={idx} mobile={mobile} />
           <MapChart
             clickSet={setClicked}
@@ -79,7 +82,7 @@ export default function App() {
             mobile={mobile}
             innerWidth={innerWidth}
           />
-          <HappyIndex />
+          {/* <HappyIndex /> */}
           <div ref={scrollToRef}>
             <Individual clicked={clicked} scrollFunc={scroll} mobile={mobile} />
           </div>

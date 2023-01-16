@@ -5,6 +5,8 @@
   align-items : center;
   padding-bottom: 20px;
   background-color: rgb(20, 20, 30);
+  padding-top: 15px;
+  width: 100vw;
 }
 
 #paragraph-footer{

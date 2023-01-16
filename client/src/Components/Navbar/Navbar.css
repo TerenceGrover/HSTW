@@ -14,8 +14,9 @@
   position: relative;
   border-bottom: 1px solid white;
   position: fixed;
+  left: 0;
   top: 0;
-  width: 100%;
+  width: 100vw;
   overflow: hidden;
   background-color: #00001a;
   z-index: 5;

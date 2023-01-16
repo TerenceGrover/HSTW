@@ -48,6 +48,7 @@ div#global-container {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
 #loader-container{
@@ -61,6 +62,13 @@ div#global-container {
   padding : 5px 2vw 5px 2vw;
   border-radius : 10px;
   color : white;
+}
+
+#sub-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
 }
 
 #mobile-title{

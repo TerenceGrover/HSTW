@@ -6,6 +6,7 @@ import { generateColor } from '../../Util/Utility';
 export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [country, setCountry] = useState();
   const [topics, setTopics] = useState([]);
+  const [headlines, setHeadlines] = useState([]);
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
@@ -13,14 +14,17 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
       scrollFunc();
     }
     const arrOfTopics = []
-    if (countryData && countryData.topics) {
+    let arrOfHL = []
+    if (countryData) {
       countryData.topics.forEach(topic => {
-        console.log(topic[0])
-      if (/[a-zA-Z0-9]/.test(topic[0])){
-        arrOfTopics.push(`${topic[0]} [${topic[1]}]`)
-      }
-  })}
+        if (/[a-zA-Z0-9]/.test(topic[0])){
+          arrOfTopics.push(`${topic[0]} [${topic[1]}]`)
+        }
+        arrOfHL = countryData.HL
+      })
+    }
   setTopics(arrOfTopics)
+  setHeadlines(arrOfHL)
   }, [countryData]);
 
   useEffect(() => {
@@ -81,7 +85,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
             <div
               id="indiv-right-top"
               className="floaty-container"
-              style={{ backgroundColor: generateColor(countryData.idx, clicked['Alpha-2']) }}
+              style={{ backgroundColor: generateColor(countryData.idx) }}
             >
               <div id="index-display">
                 {mobile 
@@ -119,11 +123,11 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                   </div>
                   <div id="indiv-headlines-container" className="indiv-list">
                     <span className="header-bottom">
-                      What the news look like over ther :{' '}
+                      What the news look like over there :
                     </span>
                     <ul id="indiv-headlines">
-                      {countryData.HL ? (
-                        countryData.HL.slice(0, 5).map((Headline) => (
+                      {headlines ? (
+                        headlines.slice(0, 5).map((Headline) => (
                           <li key={Headline}>{Headline}</li>
                         ))
                       ) : (

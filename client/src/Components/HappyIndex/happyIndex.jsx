@@ -31,13 +31,18 @@ export default function HappyIndex() {
       {idx 
       ? 
       <>
-      <span id="index">Index : {`${parseInt(idx.global * 10)} / 100`}</span>
-      <span id="yesterday-comparison">Yesterday {`${parseInt(yIdx.global * 10)} / 100`} </span>
+      <div id='today-index-container' className='index-containers'>
+      <span id="index">World Happiness</span>
+      <span>{parseInt(idx.global * 10)}</span>
+      </div>
+      <div id='yestarday-index-container' className='index-containers'>
+      <span id="yesterday-comparison">Yesterday </span>
+      <span>{parseInt(yIdx.global * 10)}</span>
+      </div>
       </>
       :
       <span id="index">Index : {`${parseInt(yIdx.global * 10)} / 100`}</span>
       }
-      <span id="month-comparison">Last Month % </span>
     </div>
   );
 }

@@ -2,7 +2,7 @@
   margin: 50px 0px 50px 0px;
   display: flex;
   flex-direction: row;
-  gap: 0px;
+  gap: 50px;
   justify-content: space-around;
   max-width: 1600px;
 }
@@ -129,11 +129,14 @@
   .floaty-container {
     box-shadow: none;
   }
-
+  #indiv-container {
+    gap: 0px;
+    min-height: 65vh;
+  }
   #indiv-left-container {
     padding: 30px 5px 30px 5px;
     width: 200px;
-    min-height: 400px;
+    min-height: 60vh;
   }
   #indiv-right-bottom {
     width: 95%;
@@ -142,12 +145,9 @@
 }
 
 @media screen and (max-width: 850px) {
-  #indiv-right-container {
+  #indiv-container{
     gap: 0px;
   }
-}
-
-@media screen and (max-width: 600px) {
   #indiv-right-container {
     gap: 0px;
   }

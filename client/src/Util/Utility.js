@@ -50,7 +50,7 @@ export function generateColor(col, tansparency = 1 , currentState = undefined) {
         colorReturn = `rgba(120,120,120, ${tansparency})`;
       }
   }
-  console.log(col, colorReturn)
+  
   return colorReturn
 }
 
