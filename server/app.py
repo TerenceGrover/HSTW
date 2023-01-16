@@ -58,7 +58,10 @@ def returnDate():
 
     if args.get('code'):
         code = args.get('code')
-        data = collection.find_one({'date': date})['data'][code]
+        if len(code) < 6 and date.count('-') == 2 and len(date) == 8:
+            data = collection.find_one({'date': date})['data'][code]
+        else: 
+            return 'Bad Request', 400
 
     else:
         data = collection.find_one({'date': date})['data']
@@ -76,12 +79,15 @@ def returnToday():
 
     if args:
         code = args.get('code')
-        try:
-            data = collection.find_one({'date': today})['data'][code]
-        except:
-            data = collection.find_one({'date': yesterday_parsed})[
-                'data'][code]
-            return {yesterday_parsed: data}
+        if len(code) < 6:
+            try:
+                data = collection.find_one({'date': today})['data'][code]
+            except:
+                data = collection.find_one({'date': yesterday_parsed})[
+                    'data'][code]
+                return {yesterday_parsed: data}
+        else: 
+            return 'Bad Request', 400
 
     else:
         try:
@@ -100,8 +106,11 @@ def returnIdx():
 
     if args.get('code'):
         code = args.get('code')
-        data = collection.find_one({'date': date})['data'][code]['idx']
-        return {date: data}
+        if len(code) < 6 and date.count('-') == 2 and len(date) == 8:
+            data = collection.find_one({'date': date})['data'][code]['idx']
+            return {date: data}
+        else: 
+            return 'Bad Request', 400
 
     else:
         data = collection.find_one({'date': date})['data']
@@ -115,4 +124,4 @@ def returnIdx():
 
 
 if __name__ == "__main__":
-    app.run(port=5001)
+    app.run()

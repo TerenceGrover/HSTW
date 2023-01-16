@@ -51,8 +51,10 @@ def emergencyRecall(startCountry):
 def scrapeSources(startCountry=None, timeout=20):
 
     flag = False if startCountry else True
+    if os.path.exists(f"./data/TODAY/{today}.json"):
+        print('WARNING : OVERWRITTING JSON FILE')
 
-    if os.path.exists(f"./data/TODAY/{today}.json") and flag or collection.find_one({'date': today}) and flag:
+    if collection.find_one({'date': today}) and flag:
         try:
             raise Exception('Today Data Has Already Been Scraped')
         except NameError as e:
@@ -100,7 +102,7 @@ def scrapeSources(startCountry=None, timeout=20):
                 end_time = time.time()
                 elapsed_time = end_time - start_time
                 if elapsed_time > timeout:
-                    continue
+                    break
 
                 # Use list extend to add the titles to the headlines list
                 headlines.extend(titles)
@@ -118,8 +120,7 @@ def scrapeSources(startCountry=None, timeout=20):
         readable = json.loads(file.read())
         createWorldObject(readable)
 
-    print(f'Time 1 : {time1}')
-    print(newNow.strftime('Time 2 : %H:%M'))
+    sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!', f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
 
@@ -382,11 +383,7 @@ def cleaner():
     except Exception as e:
         sendEmailUponException(e)
 
-
-def sendEmailUponException(e):
-
-    exception_type, exception_object, exception_traceback = sys.exc_info()
-    line_number = exception_traceback.tb_lineno
+def sendEmail(content):
 
     GMAIL_USER = os.getenv('GMAIL_USER')
     GOOGLE_APP_PASS = os.getenv('GOOGLE_APP_PASS')
@@ -404,6 +401,12 @@ def sendEmailUponException(e):
     CON.ehlo()
     CON.starttls()
     CON.login(username, password)
-    CON.sendmail(from_email, to_list,
-                 'Subject: {}\n\n{}'.format('/! IMPORTANT HSTW /!', f"\n\n\nHOW'S THE WORLD : Exception\n\n\nTYPE : {exception_type}\nEXCEPTION : {e}\nLINE NUMBER : {line_number}"))
+    CON.sendmail(from_email, to_list, content)
     CON.quit()
+
+def sendEmailUponException(e):
+
+    exception_type, exception_traceback = sys.exc_info()
+    line_number = exception_traceback.tb_lineno
+
+    sendEmail('Subject: {}\n\n{}'.format('/! IMPORTANT HSTW /!', f"\n\n\nHOW'S THE WORLD : Exception\n\n\nTYPE : {exception_type}\nEXCEPTION : {e}\nLINE NUMBER : {line_number}"))

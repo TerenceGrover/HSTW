@@ -32,7 +32,7 @@ export default function HappyIndex() {
       ? 
       <>
       <span id="index">Index : {`${parseInt(idx.global * 10)} / 100`}</span>
-      <span id="yesterday-comparison">Yesterday {`${parseInt(idx.global * 10)} / 100`} </span>
+      <span id="yesterday-comparison">Yesterday {`${parseInt(yIdx.global * 10)} / 100`} </span>
       </>
       :
       <span id="index">Index : {`${parseInt(yIdx.global * 10)} / 100`}</span>
