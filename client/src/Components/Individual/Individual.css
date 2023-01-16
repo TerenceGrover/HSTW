@@ -138,3 +138,9 @@
     gap: 0px;
   }
 }
+
+@media screen and (max-width: 600px) {
+  #indiv-right-container {
+    gap: 0px;
+  }
+}

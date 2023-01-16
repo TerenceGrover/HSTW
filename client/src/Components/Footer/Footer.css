@@ -1,3 +1,12 @@
+#footer-container{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  padding-bottom: 20px;
+  background-color: rgb(20, 20, 30);
+}
+
 #paragraph-footer{
   display : flex;
   flex-direction : column;
@@ -16,15 +25,6 @@
 .footer-link{
   font-size: 24px;
   font-weight: 600;
-}
-
-#footer-container{
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
-  padding-bottom: 20px;
-  background-color: rgb(20, 20, 30);
 }
 
 .footer-highlight{
@@ -46,4 +46,18 @@
   text-decoration: none;
   color: white;
   font-size: 50px;
+}
+
+@media screen and (max-width : 500px) {
+  .footer-link{
+    font-size: 20px;
+    font-weight: 500;
+  }
+  #paragraph-footer > span{
+    font-size: 16px;
+  }
+  #paragraph-footer{
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }

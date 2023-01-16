@@ -69,6 +69,7 @@ def scrapeSources(startCountry=None, timeout=20):
 
     # Iterate over the rows of the dataframe
     for country, links in df.items():
+        print(country)
         # Handle the cases where an emergency recall was needed
         if startCountry and startCountry == country:
             flag = True
@@ -79,10 +80,13 @@ def scrapeSources(startCountry=None, timeout=20):
 
             # Iterate over the links for each country
             for link in links.values():
+                print(link)
                 start_time = time.time()
                 try:
+                    print('in Feed Parser Try')
                     feed = feedparser.parse(link)
                 except:
+                    print('in Feed Parser except')
                     continue
 
                 title_counter = 0
@@ -91,17 +95,22 @@ def scrapeSources(startCountry=None, timeout=20):
 
                 # Use list comprehension to select the entries that meet the conditions
                 try:
+                    print('in Entry Loop try')
                     for entry in feed.entries:
+                        print('in Entry Loop')
                         if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
+                            print('in Entry Loop if')
                             titles.append(entry.title)
                             char_counter += len(entry.title)
                             title_counter += len(titles)
                 except:
+                    print('in Entry Loop except')
                     continue
 
                 end_time = time.time()
                 elapsed_time = end_time - start_time
                 if elapsed_time > timeout:
+                    print('in Time except')
                     break
 
                 # Use list extend to add the titles to the headlines list
@@ -109,7 +118,9 @@ def scrapeSources(startCountry=None, timeout=20):
                 hl_counter += len(titles)
 
             # Call the processor with headlines and country as args
+            print('in Processor')
             processor(headlines, country)
+            print('out of Processor')
 
     # Print the time and character count
     newNow = datetime.now()

@@ -3,31 +3,33 @@ import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
 
-export default function Individual({ geoProps, scrollFunc = () => {} }) {
+export default function Individual({ clicked, scrollFunc = () => {} }) {
   const [country, setCountry] = useState();
   const [topics, setTopics] = useState([]);
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
     scrollFunc();
-    setTopics([])
+    const arrOfTopics = []
     if (countryData && countryData.topics) {
       countryData.topics.forEach(topic => {
+        console.log(topic[0])
       if (/[a-zA-Z0-9]/.test(topic[0])){
-        setTopics([...topics, `${topic[0]} [${topic[1]}]`])
+        arrOfTopics.push(`${topic[0]} [${topic[1]}]`)
       }
   })}
+  setTopics(arrOfTopics)
   }, [countryData]);
 
   useEffect(() => {
-    if (geoProps['Alpha-2']) {
+    if (clicked['Alpha-2']) {
       fetchCountry();
-      getTodayIndividualData(geoProps['Alpha-2'], setCountryData)
-  }}, [geoProps]);
+      getTodayIndividualData(clicked['Alpha-2'], setCountryData)
+  }}, [clicked]);
 
   async function fetchCountry() {
-    if (geoProps['Alpha-2'] !== 'world') {
-      getCountryDetails(geoProps['Alpha-2']).then((response) => {
+    if (clicked['Alpha-2'] !== 'world') {
+      getCountryDetails(clicked['Alpha-2']).then((response) => {
         setCountry(response);
       });
     } else {
@@ -77,9 +79,8 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
             <div
               id="indiv-right-top"
               className="floaty-container"
-              style={{ backgroundColor: generateColor(countryData.idx, geoProps['Alpha-2']) }}
+              style={{ backgroundColor: generateColor(countryData.idx, clicked['Alpha-2']) }}
             >
-              {console.log(generateColor(countryData.idx, geoProps['Alpha-2']))}
               <div id="index-display">
                 Today, {country.name.official} has a happiness score of :{' '}
                 {countryData.idx

@@ -12,7 +12,7 @@ export default function Footer() {
     <a className='footer-link' href="/transparency">Transparency</a>
     <div id='logo-container'>
     <a className='logo-footer' href="https://github.com/TerenceGrover/HSTW"><i className="fa fa-github"></i></a>
-    <a className='logo-footer' href="https://www.linkedin.com/in/terence-grover-monaco/"><i class="fa fa-linkedin-square"></i></a>
+    <a className='logo-footer' href="https://www.linkedin.com/in/terence-grover-monaco/"><i className="fa fa-linkedin-square"></i></a>
     </div>
     </div>
   )

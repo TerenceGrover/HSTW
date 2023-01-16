@@ -24,14 +24,13 @@ export default function App() {
 
   return (
     <div id="global-container">
-      {clicked ? console.log(clicked) : ''}
       <Navbar />
       <span>{userCountry ? 'You currently are in ' + userCountry.country_name : ':)'}</span>
       <Title index={idx} />
       <MapChart clickSet={setClicked} clicked={clicked} />
       <HappyIndex />
       <div ref={scrollToRef}>
-        <Individual geoProps={clicked} scrollFunc={scroll} />
+        <Individual clicked={clicked} scrollFunc={scroll} />
       </div>
       <Footer />
     </div>
