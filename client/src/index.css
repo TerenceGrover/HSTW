@@ -21,14 +21,15 @@ body {
   -ms-overflow-style: none;
 }
 
-h2.master {
+.master {
   text-align: left;
-  font-size: calc(5.5vw);
+  font-size: calc(4.5vw);
   text-align: center;
   margin-left: 20px;
   margin-right: 20px;
   word-spacing: 7px;
   letter-spacing: 1px;
+  border: none;
 }
 
 span#io {
@@ -51,11 +52,22 @@ div#global-container {
   align-items: center;
 }
 
+#loader-placeholder{
+  position: relative;
+  height: 75vh;
+
+}
+
 #loader-container{
-  position: absolute;
-  top: 50%;
+  position: fixed;
+  top: 65%;
   left: 50%;
+  height: 75vh;
   transform: translate(-50%, -50%);
+}
+
+.dna-wrapper{
+  height: 200px;
 }
 
 #keyword-title{
@@ -83,4 +95,27 @@ div#global-container {
 
 #desktop-title{
   margin-top: 22px;
+}
+
+#home-wrapper{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+.paragraph{
+  text-align: justify;
+  line-height: 1.5;
+  font-size: 18px;
+}
+
+.paragraph-container{
+  min-height: 80vh;
+  width: 80vw;
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  gap: 20px;
 }

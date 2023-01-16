@@ -1,9 +1,22 @@
-#navbar-header{
-  margin-top: 0;
+#nav-top-container{
+  margin-bottom: 20px;
+}
+
+#mobile-header{
   padding-top: 20px;
+  border-bottom: none;
+}
+
+.navbar-header{
+  margin-top: 0;
+  padding-top: 30px;
   padding-bottom: 20px;
   text-align: center;
   border-bottom: 1px solid white;
+  text-decoration: none;
+  color: white;
+  font-weight: 700;
+  font-size: 24px;
 }
 
 #navbar-container-mobile{
