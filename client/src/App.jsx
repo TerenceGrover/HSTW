@@ -3,6 +3,7 @@ import HappyIndex from './Components/HappyIndex/happyIndex';
 import Individual from './Components/Individual/Individual';
 import Navbar from './Components/Navbar/Navbar';
 import Title from './Components/Title';
+import Footer from './Components/Footer/Footer';
 import { getUserCountry, getDateSpecificIndividualIdx } from './Util/requests';
 import { useState, useRef, useEffect } from 'react';
 
@@ -24,14 +25,15 @@ export default function App() {
   return (
     <div id="global-container">
       {clicked ? console.log(clicked) : ''}
-      <span>{userCountry ? 'You currently are in ' + userCountry.country_name : ':)'}</span>
       <Navbar />
+      <span>{userCountry ? 'You currently are in ' + userCountry.country_name : ':)'}</span>
       <Title index={idx} />
       <MapChart clickSet={setClicked} clicked={clicked} />
       <HappyIndex />
       <div ref={scrollToRef}>
         <Individual geoProps={clicked} scrollFunc={scroll} />
       </div>
+      <Footer />
     </div>
   );
 }

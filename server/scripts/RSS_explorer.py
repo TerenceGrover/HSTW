@@ -305,7 +305,7 @@ def most_common_words(headlines, country):
 
     if country in sources:
         parsed = [[translater(word), freq] for word,
-                  freq in most_common_words if (word == word.capitalize() and re.search(r'^[\w\s]+$', word) is not None)]
+                  freq in most_common_words if (word == word.capitalize() and re.search(r'^[,.?:;~!@#$%^&*()]+$', word) is None)]
 
     else:
         parsed = [[word, freq]

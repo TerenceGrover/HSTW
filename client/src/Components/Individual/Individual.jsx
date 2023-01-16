@@ -5,18 +5,25 @@ import { generateColor } from '../../Util/Utility';
 
 export default function Individual({ geoProps, scrollFunc = () => {} }) {
   const [country, setCountry] = useState();
+  const [topics, setTopics] = useState([]);
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
     scrollFunc();
-  }, [country]);
+    setTopics([])
+    if (countryData && countryData.topics) {
+      countryData.topics.forEach(topic => {
+      if (/[a-zA-Z0-9]/.test(topic[0])){
+        setTopics([...topics, `${topic[0]} [${topic[1]}]`])
+      }
+  })}
+  }, [countryData]);
 
   useEffect(() => {
     if (geoProps['Alpha-2']) {
       fetchCountry();
-      getTodayIndividualData(geoProps['Alpha-2'], setCountryData);
-    }
-  }, [geoProps]);
+      getTodayIndividualData(geoProps['Alpha-2'], setCountryData)
+  }}, [geoProps]);
 
   async function fetchCountry() {
     if (geoProps['Alpha-2'] !== 'world') {
@@ -80,22 +87,20 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
                   : 'Unknown'}
               </div>
             </div>
-            <div id="indiv-right-bottom">
+            <div id="indiv-right-bottom" className='floaty-container'>
               {countryData ? (
                 <>
                   <div id="indiv-main-topics-container">
                     <span className="header-bottom">
                       Most used word in this country :{' '}
                     </span>
-                    <ul id="indiv-main-topics" className="indiv-list">
-                      {countryData.topics ? (
-                        countryData.topics.map((topic) => (
-                          <li key={topic[0]}>{topic[0]}</li>
-                        ))
+                    <div id="indiv-main-topics" className="indiv-list">
+                      {topics.length ? (
+                        <span>{topics.join(' - ')}</span>
                       ) : (
                         <span>No Data</span>
                       )}
-                    </ul>
+                    </div>
                   </div>
                   <div id="indiv-headlines-container" className="indiv-list">
                     <span className="header-bottom">
@@ -103,7 +108,7 @@ export default function Individual({ geoProps, scrollFunc = () => {} }) {
                     </span>
                     <ul id="indiv-headlines">
                       {countryData.HL ? (
-                        countryData.HL.slice(0, 3).map((Headline) => (
+                        countryData.HL.slice(0, 5).map((Headline) => (
                           <li key={Headline}>{Headline}</li>
                         ))
                       ) : (

@@ -1,3 +1,7 @@
 #navbar-header{
   margin-top: 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid white;
+  text-align: center;
 }

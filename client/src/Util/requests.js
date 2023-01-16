@@ -31,10 +31,15 @@ export async function getDateSpecificIndividualData(alphaCode, date, setter) {
 }
 
 export async function getDateSpecificIndividualIdx(alphaCode, date, setter) {
-  return fetch(`${url}/idx?code=${alphaCode}&date=${date}`)
+  try {
+    fetch(`${url}/idx?code=${alphaCode}&date=${date}`)
     .then((response) => response.json())
     .then((data) => setter(Object.values(data)[0]))
-    .catch((err) => err);
+    .catch((err) => err)
+  }
+  catch {
+    return 'No Data for Today'
+  }
 }
 
 export async function getDateSpecificGlobalIdx(date, setter) {
