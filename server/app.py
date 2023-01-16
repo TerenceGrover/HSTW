@@ -74,7 +74,6 @@ def returnToday():
     now = datetime.now()
     today = now.strftime('%d-%m-%y')
     yesterday = now.today() - timedelta(days=1)
-    yesterday_parsed = yesterday.strftime('%d-%m-%y')
     args = request.args
 
     if args:
@@ -83,11 +82,17 @@ def returnToday():
             try:
                 data = collection.find_one({'date': today})['data'][code]
             except:
-                data = collection.find_one({'date': yesterday_parsed})[
-                    'data'][code]
-                return {yesterday_parsed: data}
-        else: 
-            return 'Bad Request', 400
+                days_to_backtrack = 10
+                while days_to_backtrack > 0:
+                    yesterday_parsed = yesterday.strftime('%d-%m-%y')
+                    data = collection.find_one({'date': yesterday_parsed})['data'][code]
+                    if data:
+                        return {yesterday_parsed: data}
+                    else:
+                        yesterday = now.yesterday() - timedelta(days=1)
+                        days_to_backtrack =- 1
+                pass
+        return 'Bad Request', 400
 
     else:
         try:
@@ -113,14 +118,18 @@ def returnIdx():
             return 'Bad Request', 400
 
     else:
-        data = collection.find_one({'date': date})['data']
-        indices = {}
-        for country, countryData in data.items():
-            try:
-                indices[country] = countryData['idx']
-            except:
-                indices[country] = 0
-        return {date: indices}
+        if date.count('-') == 2 and len(date) == 8:
+            data = collection.find_one({'date': date})['data']
+            indices = {}
+            for country, countryData in data.items():
+                try:
+                    indices[country] = countryData['idx']
+                except:
+                    indices[country] = 0
+            return {date: indices}
+        else:
+            return 'Bad Request', 400
+
 
 
 if __name__ == "__main__":
