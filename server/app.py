@@ -60,7 +60,7 @@ def returnDate():
         code = args.get('code')
         if len(code) < 6 and date.count('-') == 2 and len(date) == 8:
             data = collection.find_one({'date': date})['data'][code]
-        else: 
+        else:
             return 'Bad Request', 400
 
     else:
@@ -76,30 +76,23 @@ def returnToday():
     yesterday = now.today() - timedelta(days=1)
     args = request.args
 
-    if args:
-        code = args.get('code')
-        if len(code) < 6:
-            try:
-                data = collection.find_one({'date': today})['data'][code]
-            except:
-                days_to_backtrack = 10
-                while days_to_backtrack > 0:
-                    yesterday_parsed = yesterday.strftime('%d-%m-%y')
-                    data = collection.find_one({'date': yesterday_parsed})['data'][code]
-                    if data:
-                        return {yesterday_parsed: data}
-                    else:
-                        yesterday = now.yesterday() - timedelta(days=1)
-                        days_to_backtrack =- 1
-                pass
-        return 'Bad Request', 400
 
-    else:
+    code = args.get('code')
+    if len(code) < 6:
         try:
-            data = collection.find_one({'date': today})['data']
+            data = collection.find_one({'date': today})['data'][code] if code else collection.find_one({'date': today})['data']
         except:
-            data = collection.find_one({'date': yesterday_parsed})['data']
-            return {yesterday_parsed: data}
+            days_to_backtrack = 10
+            while days_to_backtrack > 0:
+                yesterday_parsed = yesterday.strftime('%d-%m-%y')
+                data = collection.find_one({'date': yesterday_parsed})['data'][code] if code else collection.find_one({'date': yesterday_parsed})['data']
+                if data:
+                    return {yesterday_parsed: data}
+                else:
+                    yesterday = now.yesterday() - timedelta(days=1)
+                    days_to_backtrack = - 1
+            pass
+    return 'Bad Request', 400
 
     return {today: data}
 
@@ -114,7 +107,7 @@ def returnIdx():
         if len(code) < 6 and date.count('-') == 2 and len(date) == 8:
             data = collection.find_one({'date': date})['data'][code]['idx']
             return {date: data}
-        else: 
+        else:
             return 'Bad Request', 400
 
     else:
@@ -129,7 +122,6 @@ def returnIdx():
             return {date: indices}
         else:
             return 'Bad Request', 400
-
 
 
 if __name__ == "__main__":

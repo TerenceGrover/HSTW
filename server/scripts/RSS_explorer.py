@@ -120,7 +120,8 @@ def scrapeSources(startCountry=None, timeout=20):
         readable = json.loads(file.read())
         createWorldObject(readable)
 
-    sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!', f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+    sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!',
+              f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
 
@@ -383,6 +384,7 @@ def cleaner():
     except Exception as e:
         sendEmailUponException(e)
 
+
 def sendEmail(content):
 
     GMAIL_USER = os.getenv('GMAIL_USER')
@@ -404,9 +406,11 @@ def sendEmail(content):
     CON.sendmail(from_email, to_list, content)
     CON.quit()
 
+
 def sendEmailUponException(e):
 
     exception_type, exception_traceback = sys.exc_info()
     line_number = exception_traceback.tb_lineno
 
-    sendEmail('Subject: {}\n\n{}'.format('/! IMPORTANT HSTW /!', f"\n\n\nHOW'S THE WORLD : Exception\n\n\nTYPE : {exception_type}\nEXCEPTION : {e}\nLINE NUMBER : {line_number}"))
+    sendEmail('Subject: {}\n\n{}'.format('/! IMPORTANT HSTW /!',
+              f"\n\n\nHOW'S THE WORLD : Exception\n\n\nTYPE : {exception_type}\nEXCEPTION : {e}\nLINE NUMBER : {line_number}"))
