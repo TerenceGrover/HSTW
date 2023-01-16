@@ -66,3 +66,11 @@ div#global-container {
 #mobile-title{
   font-size: 40px;
 }
+
+.mobile-padding{
+  margin-top: 60px;
+}
+
+#desktop-title{
+  margin-top: 22px;
+}

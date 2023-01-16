@@ -6,7 +6,7 @@ export function parseDate(date) {
   return `${d}-${m}-${y}`
 }
 
-export function generateColor(indexCode, currentState = undefined) {
+export function generateColor(indexCode, tansparency = 1 , currentState = undefined) {
   
   const col = indexCode;
   let colorReturn;
@@ -25,26 +25,34 @@ export function generateColor(indexCode, currentState = undefined) {
       b: Math.abs(col.M * 255 - col.Nu * 255) / 10,
     };
 
-    if (currentState === 'hover') {
-      colorReturn = `rgb(${colObj.r + 50},${colObj.g + 50},${colObj.b + 50})`;
-    } else if (currentState === 'click') {
-      colorReturn = `rgb(${colObj.r + 100},${colObj.g + 100},${
-        colObj.b + 100
-      })`;
-    } else {
-      colorReturn = `rgb(${colObj.r},${colObj.g},${colObj.b})`;
+    if (col.global < 1 && col.global > -1) {
+      colObj.r = 200
+      colObj.g = 200
+      colObj.b = 0
+      colorReturn = `rgba(200,200,0, ${tansparency})`
     }
+    
+    if (currentState === 'hover') {
+      Object.keys(colObj).forEach(rgb => colObj[rgb] += 50)
+      colorReturn = `rgba(${colObj.r},${colObj.g + 50},${colObj.b + 50}, ${tansparency})`;
+    
+    } else if (currentState === 'click') {
+      Object.keys(colObj).forEach(rgb => colObj[rgb] += 100)
+    }
+    
+    colorReturn = `rgba(${colObj.r},${colObj.g},${colObj.b}, ${tansparency})`;
 
   } else {
-    return 'rgb(120,120,120)';
+      if (currentState === 'hover') {
+        colorReturn = `rgba(170,170,170, ${tansparency})`;
+      } else if (currentState === 'click') {
+        colorReturn = `rgba(220,220,220, ${tansparency})`;
+      } else {
+        colorReturn = `rgba(120,120,120, ${tansparency})`;
+      }
   }
 
-  if (col.global > 1 || col.global < -1) {
-    return colorReturn;
-    }
-  else {
-    return 'rgb(200,200,0)'
-  }
+  return colorReturn
 }
 
 //TOBEUSED

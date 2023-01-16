@@ -12,6 +12,7 @@ export default function MapChart({ clickSet, clicked, mobile, innerWidth }) {
   const [idx, setIdx] = useState(false);
   const [countries, setCountries] = useState({ features: []});
   const [hoverD, setHoverD] = useState()
+  const [clickD, setClickD] = useState()
   // This function will check the position of the cursor on hover
 
   useEffect(() => {
@@ -42,9 +43,12 @@ export default function MapChart({ clickSet, clicked, mobile, innerWidth }) {
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-      polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
-      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_])}
-      onPolygonClick={d => clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})}
+      polygonSideColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 0.15)}
+      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 1, d === clickD ? 'click' : undefined)}
+      onPolygonClick={d => {
+        clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})
+        setClickD(d)
+      }}
       polygonStrokeColor={() => '#111'}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       polygonAltitude={0.04}
@@ -60,11 +64,13 @@ export default function MapChart({ clickSet, clicked, mobile, innerWidth }) {
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-      polygonSideColor={() => 'rgba(0, 100, 0, 0.15)'}
-      polygonCapColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_])}
+      polygonSideColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 0.15)}
+      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 1, d === hoverD ? 'hover' : d === clickD ? 'click' : undefined)}
       onPolygonHover={setHoverD}
-      onPolygonClick={d => clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})}
-      polygonStrokeColor={() => '#111'}
+      onPolygonClick={d => {
+        clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})
+        setClickD(d)
+      }}      polygonStrokeColor={() => '#111'}
       polygonAltitude={0.07}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       />

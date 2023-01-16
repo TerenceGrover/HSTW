@@ -18,13 +18,13 @@
   width: 100%;
   overflow: hidden;
   background-color: #00001a;
-  z-index: 99999;
+  z-index: 5;
 }
 
 #ham-menu{
-  padding-left: 15px;
+  margin-left: 10px;
   font-size: 30px;
-}
-
-#header-title{
+  background: none;
+  color: white;
+  border: none;
 }

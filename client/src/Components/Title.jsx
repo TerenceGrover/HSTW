@@ -52,7 +52,7 @@ export default function Title({ index, mobile }) {
             }}>{wordObj.word}</span> today.
         </h2>
         :
-        <h2 className="master">
+        <h2 className="master" id='desktop-title'>
         The World is doing <br/><span id="keyword-title" style={{
           'backgroundColor' : wordObj.color
           }}>{wordObj.word}</span> today.
