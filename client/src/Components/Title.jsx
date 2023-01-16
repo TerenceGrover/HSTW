@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function Title({ index }) {
+export default function Title({ index, mobile }) {
 
   const[wordObj, setWordObj] = useState()
 
@@ -42,21 +42,26 @@ export default function Title({ index }) {
   }
 
   return (
-    <>
+    <div>
       {index && wordObj ? (
-        <h2 className="master">
-          The World is doing <br/><span style={{
-            'backgroundColor' : wordObj.color,
-            'padding' : '5px 2.5vw 5px 2.5vw',
-            'borderRadius' : '10px',
-            'color' : 'white'
+        mobile
+        ?
+        <h2 className="master" id="mobile-title">
+          The World is doing <br/><span id="keyword-title" style={{
+            'backgroundColor' : wordObj.color
             }}>{wordObj.word}</span> today.
         </h2>
-      ) : (
+        :
         <h2 className="master">
-        The World is doing Meh today.
-      </h2>
-      )}
-    </>
+        The World is doing <br/><span id="keyword-title" style={{
+          'backgroundColor' : wordObj.color
+          }}>{wordObj.word}</span> today.
+        </h2>
+        
+      ) 
+      :
+      ""
+      }
+    </div>
   );
 }

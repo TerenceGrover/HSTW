@@ -46,7 +46,8 @@ export default function App() {
 
   return (
     <div id="global-container">
-      <Navbar mobile={mobile}/>
+      <Navbar 
+      mobile={mobile}/>
       {loader 
       ?
       <div id='loader-container'>
@@ -60,15 +61,24 @@ export default function App() {
       />
       </div>
       :
-      <>
-      <Title index={idx} />
-      <MapChart clickSet={setClicked} clicked={clicked} mobile={mobile} innerWidth={innerWidth} />
+      <div style={{'paddingTop' : '50px'}}>
+      <Title 
+      index={idx} 
+      mobile = {mobile} />
+      <MapChart 
+      clickSet={setClicked} 
+      clicked={clicked} 
+      mobile={mobile} 
+      innerWidth={innerWidth} />
       <HappyIndex />
       <div ref={scrollToRef}>
-        <Individual clicked={clicked} scrollFunc={scroll} mobile={mobile} />
+        <Individual 
+        clicked={clicked} 
+        scrollFunc={scroll} 
+        mobile={mobile} />
       </div>
       <Footer />
-      </>
+      </div>
       }
       {/* <span>{userCountry ? 'You currently are in ' + userCountry.country_name : ':)'}</span> */}
     </div>

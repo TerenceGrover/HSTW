@@ -2,8 +2,8 @@
   margin-top: 0;
   padding-top: 20px;
   padding-bottom: 20px;
-  border-bottom: 1px solid white;
   text-align: center;
+  border-bottom: 1px solid white;
 }
 
 #navbar-container-mobile{
@@ -12,9 +12,17 @@
   align-items : center;
   justify-content: space-between;
   position: relative;
+  border-bottom: 1px solid white;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  background-color: #00001a;
+  z-index: 99999;
 }
 
 #ham-menu{
+  padding-left: 15px;
   font-size: 30px;
 }
 

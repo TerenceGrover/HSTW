@@ -58,6 +58,8 @@ def recalculateGlobal():
     
     with open(f"./data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
         json.dump(readable, writable, ensure_ascii=False)
+    
+    sendToDB(readable)
 
 def scrapeSources(startCountry=None, timeout=20):
 
@@ -395,7 +397,7 @@ def cleaner():
         if collection.find_one({'date': today}) != None and collection.find_one({'date': yesterday_parsed}) != None:
             print('today and yesterday are in the DB')
             try:
-                if os.path.exists(f"./data/{yesterday_parsed}.json") and os.path.exists(f"./data/TODAY/{today}.json"):
+                if os.path.exists(f"./data/TODAY/{yesterday_parsed}.json") and os.path.exists(f"./data/TODAY/{today}.json"):
                     print('Yesterday & Today exist')
                     os.remove(f"./data/{yesterday_parsed}.json")
             except Exception as e:
