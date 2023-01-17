@@ -124,5 +124,21 @@ def returnIdx():
             return 'Bad Request', 400
 
 
+@app.route("/past")
+def returnPast():
+    code = request.args.get('code')
+    days = request.args.get('days')
+    now = datetime.now()
+    target_day = now.today() - timedelta(days=1)
+    data = []
+
+    try:
+        for x in range(int(days)):
+            data.append({'date' : target_day.strftime('%d-%m-%y'), 'data' : collection.find_one({'date': target_day.strftime('%d-%m-%y')})['data'][code]['idx']})
+            target_day -= timedelta(days=1)
+        return data
+    except:
+        return 'Bad Request', 400
+
 if __name__ == "__main__":
     app.run()

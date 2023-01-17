@@ -78,3 +78,23 @@ export async function getUserCountry(setter) {
     .then((response) => response.json())
     .then((data) => setter({country_name : data.country_name, country_code : data.country_code}));
 }
+
+export async function getCountrySpecificPastData(country, days, setter) {
+  return fetch(`${url}/past?code=${country}&days=${days}`)
+    .then((response) => response.json())
+    .then(data => {
+
+      const chartData = {
+        labels: data.map((item) => item.date),
+        datasets: [
+          {
+            label: "Happiness Index",
+            data: data.map((item) => item.data.global * 10),
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+          },
+        ],
+      };
+      setter(chartData);
+    })
+}

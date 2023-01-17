@@ -10,28 +10,29 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
-    const arrOfTopics = []
-    let arrOfHL = []
+    const arrOfTopics = [];
+    let arrOfHL = [];
     if (countryData) {
-      countryData.topics.forEach(topic => {
-        if (/[a-zA-Z0-9]/.test(topic[0])){
-          arrOfTopics.push(`${topic[0]} [${topic[1]}]`)
+      countryData.topics.forEach((topic) => {
+        if (/[a-zA-Z0-9]/.test(topic[0])) {
+          arrOfTopics.push(`${topic[0]} [${topic[1]}]`);
         }
-        arrOfHL = countryData.HL
-      })
+        arrOfHL = countryData.HL;
+      });
     }
-  setTopics(arrOfTopics)
-  setHeadlines(arrOfHL)
+    setTopics(arrOfTopics);
+    setHeadlines(arrOfHL);
   }, [countryData]);
 
   useEffect(() => {
     if (clicked['Alpha-2']) {
       fetchCountry();
-      getTodayIndividualData(clicked['Alpha-2'], setCountryData)
-      if (clicked['Alpha-2'] !== 'world'){
+      getTodayIndividualData(clicked['Alpha-2'], setCountryData);
+      if (clicked['Alpha-2'] !== 'world') {
         scrollFunc();
       }
-  }}, [clicked]);
+    }
+  }, [clicked]);
 
   async function fetchCountry() {
     if (clicked['Alpha-2'] !== 'world') {
@@ -88,38 +89,36 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
               style={{ backgroundColor: generateColor(countryData.idx) }}
             >
               <div id="index-display">
-                {mobile 
-                ?
-                <span id='index-title-mobile'>
-                {country.name.official}'s happiness : 
-                {countryData.idx
-                  ? parseInt(countryData.idx.global * 10)
-                  : 'Unknown'}
-                </span>
-                :
-                <span id='index-title'>
-                Today, {country.name.official} has a happiness score of : 
-                {countryData.idx
-                  ? parseInt(countryData.idx.global * 10)
-                  : 'Unknown'}
-                </span>
-                }
+                {mobile ? (
+                  <span id="index-title-mobile">
+                    {country.name.official}'s happiness :
+                    {countryData.idx
+                      ? parseInt(countryData.idx.global * 10)
+                      : 'Unknown'}
+                  </span>
+                ) : (
+                  <span id="index-title">
+                    Today, {country.name.official} has a happiness score of :
+                    {countryData.idx
+                      ? parseInt(countryData.idx.global * 10)
+                      : 'Unknown'}
+                  </span>
+                )}
               </div>
             </div>
-            <div id="indiv-right-bottom" className='floaty-container'>
+            <div id="indiv-right-bottom" className="floaty-container">
               {countryData ? (
                 <>
                   <div id="indiv-main-topics-container">
-                  {mobile
-                    ?
-                    <span className="header-bottom">
-                      Most used word there :{' '}
-                    </span>
-                    :
-                    <span className="header-bottom">
-                      Most used word in this country :{' '}
-                    </span>
-                    }
+                    {mobile ? (
+                      <span className="header-bottom">
+                        Most used word there :{' '}
+                      </span>
+                    ) : (
+                      <span className="header-bottom">
+                        Most used word in this country :{' '}
+                      </span>
+                    )}
                     <div id="indiv-main-topics" className="indiv-list">
                       {topics.length ? (
                         <span>{topics.join(' - ')}</span>
@@ -129,21 +128,20 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                     </div>
                   </div>
                   <div id="indiv-headlines-container" className="indiv-list">
-                    {mobile
-                    ?
-                    <span className="header-bottom">
-                      What the news look like :
-                    </span>
-                    :
-                    <span className="header-bottom">
-                      What the news look like over there :
-                    </span>
-                    }
+                    {mobile ? (
+                      <span className="header-bottom">
+                        What the news look like :
+                      </span>
+                    ) : (
+                      <span className="header-bottom">
+                        What the news look like over there :
+                      </span>
+                    )}
                     <ul id="indiv-headlines">
                       {headlines ? (
-                        headlines.slice(0, 5).map((Headline) => (
-                          <li key={Headline}>{Headline}</li>
-                        ))
+                        headlines
+                          .slice(0, 5)
+                          .map((Headline) => <li key={Headline}>{Headline}</li>)
                       ) : (
                         <span>No Data</span>
                       )}
