@@ -50,7 +50,10 @@ export default function Home({mobile, innerWidth, idx, clicked, setClicked}) {
         />
         <div ref={scrollToRef}>
         </div>
-          <Individual clicked={clicked} scrollFunc={scroll} mobile={mobile} />
+          <Individual 
+          clicked={clicked} 
+          scrollFunc={scroll} 
+          mobile={mobile} />
           <Graph
           idx={idx}
           clicked={clicked}

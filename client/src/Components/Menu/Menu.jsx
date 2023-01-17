@@ -135,6 +135,10 @@ export default function Menu({ setMenu, userCountry, idx, setClicked }) {
               />
             </div>
           </div>
+          <div id='connect-buttons'>
+            <a className='logo-footer' href="https://github.com/TerenceGrover/HSTW"><i className="fa fa-github"></i></a>
+            <a className='logo-footer' href="https://www.linkedin.com/in/terence-grover-monaco/"><i className="fa fa-linkedin-square"></i></a>
+          </div>
         </div>
       </div>
       <button id="modal-back" onClick={() => setMenu((m) => !m)}></button>

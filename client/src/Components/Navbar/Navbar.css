@@ -1,5 +1,6 @@
 #nav-top-container{
   margin-bottom: 20px;
+  margin-top: 15px;
 }
 
 #mobile-header{
@@ -9,7 +10,6 @@
 
 .navbar-header{
   margin-top: 0;
-  padding-top: 30px;
   padding-bottom: 20px;
   text-align: center;
   border-bottom: 1px solid white;
@@ -41,4 +41,11 @@
   background: none;
   color: white;
   border: none;
+}
+
+@media screen and (max-width:600px) {
+  #nav-top-container{
+    margin-top: 0px;
+  }
+  
 }

@@ -13,7 +13,7 @@
 
 #menu-container{
   position: absolute;
-  top: 82px;
+  top: 74px;
   left: 0;
   height: 100vh;
   overflow: hidden;
@@ -29,7 +29,6 @@
   margin : 40px 20px 20px 20px;
   display : flex;
   flex-direction : column;
-  justify-content : flex-start;
   gap: 20px;
 }
 
@@ -84,6 +83,13 @@
   border-radius: 20px;
   padding: 5px 0px 5px 0px;
   width: 70%;
+}
+
+#connect-buttons{
+  display : flex;
+  justify-self: flex-start;
+  align-self: center;
+  gap: 10px;
 }
 
 @keyframes slide-in-left {

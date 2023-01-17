@@ -83,7 +83,8 @@ export async function getCountrySpecificPastData(country, days, setter) {
   return fetch(`${url}/past?code=${country}&days=${days}`)
     .then((response) => response.json())
     .then(data => {
-
+      data = data.reverse()
+      console.log(data)
       const chartData = {
         labels: data.map((item) => item.date),
         datasets: [

@@ -131,7 +131,6 @@
   }
   #indiv-container {
     width: 90vw;
-    min-height: 65vh;
     flex-direction : column;
     justify-content : center;
     align-items : center;

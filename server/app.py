@@ -129,7 +129,7 @@ def returnPast():
     code = request.args.get('code')
     days = request.args.get('days')
     now = datetime.now()
-    target_day = now.today() - timedelta(days=1)
+    target_day = now.today()
     data = []
 
     try:
