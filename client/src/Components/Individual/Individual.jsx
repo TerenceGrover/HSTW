@@ -10,9 +10,6 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [countryData, setCountryData] = useState();
 
   useEffect(() => {
-    if (clicked['Alpha-2'] !== 'world'){
-      scrollFunc();
-    }
     const arrOfTopics = []
     let arrOfHL = []
     if (countryData) {
@@ -31,6 +28,9 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
     if (clicked['Alpha-2']) {
       fetchCountry();
       getTodayIndividualData(clicked['Alpha-2'], setCountryData)
+      if (clicked['Alpha-2'] !== 'world'){
+        scrollFunc();
+      }
   }}, [clicked]);
 
   async function fetchCountry() {

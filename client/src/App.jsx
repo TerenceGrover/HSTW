@@ -12,6 +12,7 @@ import Transparency from './Pages/Transparency';
 export default function App() {
 
   const [innerWidth, setInnerWidth] = useState();
+  const [clicked, setClicked] = useState({ name: 'world', 'Alpha-2': 'world' });
   const [mobile, setMobile] = useState();
   const [menu, setMenu] = useState(false);
   const [userCountry, setUserCountry] = useState(false);
@@ -50,6 +51,7 @@ export default function App() {
       idx = {idx}
       setMenu={setMenu}
       userCountry = {userCountry}
+      setClicked={setClicked}
        />
       :
       ''
@@ -60,6 +62,8 @@ export default function App() {
               idx = {idx}
               mobile={mobile} 
               innerWidth={innerWidth}
+              setClicked={setClicked}
+              clicked={clicked}
               />} />
               <Route path="/about" element={<About  />} />
               <Route path="/transparency" element={<Transparency  />} />

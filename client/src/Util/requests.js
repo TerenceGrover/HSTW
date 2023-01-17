@@ -76,5 +76,5 @@ export async function getWorldPop() {
 export async function getUserCountry(setter) {
   return fetch('https://ipapi.co/json/')
     .then((response) => response.json())
-    .then((data) => setter(data));
+    .then((data) => setter({country_name : data.country_name, country_code : data.country_code}));
 }

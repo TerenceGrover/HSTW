@@ -6,7 +6,7 @@ import { generateColor, parseDate } from '../../Util/Utility';
 
 const geoUrl = process.env.PUBLIC_URL + '/assets/Topology.json';
 
-export default function MapChart({ clickSet, clicked, mobile, innerWidth }) {
+export default function MapChart({ clickSet, mobile, innerWidth }) {
 
   const globeEl = useRef();
   const [idx, setIdx] = useState(false);

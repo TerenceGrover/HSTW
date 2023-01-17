@@ -1,13 +1,13 @@
 import MapChart from '../Components/Map/MapChart';
 import Individual from '../Components/Individual/Individual';
 import Title from '../Components/Title';
+import Graph from '../Components/Graph/Graph';
 import { Dna } from 'react-loader-spinner';
 import { useState, useRef, useEffect } from 'react';
 
-export default function Home({mobile, innerWidth, idx}) {
+export default function Home({mobile, innerWidth, idx, clicked, setClicked}) {
 
   const scrollToRef = useRef();
-  const [clicked, setClicked] = useState({ name: 'world', 'Alpha-2': 'world' });
   const [loader, setLoader] = useState(true);
 
 
@@ -51,6 +51,7 @@ export default function Home({mobile, innerWidth, idx}) {
         <div ref={scrollToRef}>
         </div>
           <Individual clicked={clicked} scrollFunc={scroll} mobile={mobile} />
+          <Graph />
       </div>
       )}
       </>
