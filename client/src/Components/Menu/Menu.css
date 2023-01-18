@@ -92,6 +92,11 @@
   gap: 10px;
 }
 
+.flag-menu{
+  margin-bottom: -3px;
+  margin-right: 5px;
+}
+
 @keyframes slide-in-left {
   0% {
     -webkit-transform: translateX(-300px);

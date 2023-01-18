@@ -105,24 +105,23 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
+  align-items: center;
 }
 
 #indiv-main-topics-container{
-  padding-left: 20px;
+  align-self: center;
+  padding-bottom: 20px;
 }
 
+
 #indiv-headlines-container{
-  padding-left: 20px;
+  align-self: center;
 }
 
 .header-bottom{
   font-weight: 500;
-  font-size: 18px;
-}
-
-.indiv-list {
-  margin-left: 10px;
+  font-size: 20px;
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 600px) {
@@ -177,6 +176,7 @@
     justify-content : center;
     align-items : center;
     padding-left: 0;
+    padding-top: 0;
   }
   
   .header-bottom{

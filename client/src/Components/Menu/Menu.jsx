@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 
 export default function Menu({ setMenu, userCountry, idx, setClicked }) {
+  
+  const imgURL = process.env.PUBLIC_URL + '/assets/32x32/'
   const localArr = JSON.parse(window.localStorage.getItem('arr'));
   const [list, setList] = useState();
   const [deleteMode, setDeleteMode] = useState(false);
@@ -78,17 +80,22 @@ export default function Menu({ setMenu, userCountry, idx, setClicked }) {
                   className="indicator-menu-container"
                   id={deleteMode ? 'delete' : ''}
                 >
-                  <span className="indicator-menu">
-                    {display.name} index :{' '}
-                  </span>
-                  <span
-                    className="indicator-menu menu-index"
-                    style={{
-                      backgroundColor: generateColor(idx[display.code]),
-                    }}
-                  >
-                    {parse(idx[display.code].global)}
-                  </span>
+                  <div id='menu-left-container'>
+                      {
+                        <img className='flag-menu' src={imgURL + display.code.toLowerCase() + '.png'} width={15} height={15}></img>
+                      }
+                    <span className="indicator-menu">
+                      {display.name} index :
+                    </span>
+                    </div>
+                    <span
+                      className="indicator-menu menu-index"
+                      style={{
+                        backgroundColor: generateColor(idx[display.code]),
+                      }}
+                    >
+                      {parse(idx[display.code].global)}
+                    </span>
                 </button>
               );
             } catch {

@@ -12,7 +12,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   useEffect(() => {
     const arrOfTopics = [];
     let arrOfHL = [];
-    if (countryData) {
+    if (countryData && countryData.topics) {
       countryData.topics.forEach((topic) => {
         if (/[a-zA-Z0-9]/.test(topic[0])) {
           arrOfTopics.push(`${topic[0]} [${topic[1]}]`);
@@ -112,11 +112,11 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                   <div id="indiv-main-topics-container">
                     {mobile ? (
                       <span className="header-bottom">
-                        Most used word there :{' '}
+                        Most used word there :
                       </span>
                     ) : (
                       <span className="header-bottom">
-                        Most used word in this country :{' '}
+                        Most used word in this country :
                       </span>
                     )}
                     <div id="indiv-main-topics" className="indiv-list">

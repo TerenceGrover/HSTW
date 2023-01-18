@@ -3,9 +3,9 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   background-color: rgb(20, 20, 30);
-  padding-top: 15px;
+  padding-top: 10px;
   width: 100vw;
   border-top: 1px white solid;
 }
@@ -15,18 +15,17 @@
   flex-direction : column;
   justify-content : center;
   align-items : center;
-  margin-left: 50px;
-  margin-right: 50px;
-  gap: 5px;
+  margin: 5px 50px 5px 50px;
+  gap: 3px;
 }
 
 #paragraph-footer > span{
-  font-size: 18px;
+  font-size: 14px;
   text-align: center;
 }
 
 .footer-link{
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
 }
 
@@ -37,7 +36,7 @@
 }
 
 #logo-container{
-  margin-top: 10px;
+  margin-top: 5px;
   display : flex;
   flex-direction : row;
   justify-content : center;
@@ -49,6 +48,14 @@
   text-decoration: none;
   color: white;
   font-size: 50px;
+}
+
+#link-container{
+  display : flex;
+  flex-direction : row;
+  justify-content : center;
+  align-items : center;
+  gap: 25px;
 }
 
 @media screen and (max-width : 500px) {
@@ -71,5 +78,9 @@
   #footer-container > *{
     margin-top:0;
     margin-bottom:0;
+  }
+  #link-container{
+    flex-direction : column;
+    gap: 0px;
   }
 }

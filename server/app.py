@@ -43,16 +43,18 @@ def scrape():
 @app.route("/")
 def home():
     return """
-    <body>
-  <h1><a href="/today">Get the news from Today in JSON</a></h1>
-  <p>
-    <ul>Browsing instructions (Any argument is optional)</ul>
-    <li>/idx?date=<b>DATE</b>&code=<b>CODE</b>> To get the world index on certain dates or for certain country</li>
-    <li>/today?code=<b>CODE</b>> To get the info of a certain country today</li>
-    <li>/request?date=<b>DATE</b>&code=<b>CODE</b>> To get full info on a certain date for a certain country</li>
-    <li>/past?code=<b>CODE</b>&days=<b>DAYS</b>> To get all past info from a country for the past <b>DAYS</b> days</li>
-  </p>
-</body>
+    <body style:'height:100vh;width:100vw;'>
+        <div style='position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;justify-content:center;align-items:center'>
+            <h1 style='text-align:center'><a href="/today">Get the news from Today in JSON</a></h1>
+            <span style='text-align:center'>Browsing instructions (Any argument is optional)</span>
+            <ul>
+                <li>/idx?date=<b>DATE</b>&code=<b>CODE</b>> To get the world index on certain dates or for certain country</li>
+                <li>/today?code=<b>CODE</b>> To get the info of a certain country today</li>
+                <li>/request?date=<b>DATE</b>&code=<b>CODE</b>> To get full info on a certain date for a certain country</li>
+                <li>/past?code=<b>CODE</b>&days=<b>DAYS</b>> To get all past info from a country for the past <b>DAYS</b> days</li>
+            </ul>
+        </div>
+    </body>
 """
 
 

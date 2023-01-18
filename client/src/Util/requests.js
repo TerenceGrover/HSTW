@@ -95,7 +95,8 @@ export async function getCountrySpecificPastData(country, days, setter) {
             borderColor: "rgba(75,192,192,1)",
           },
         ],
-      };
+      }
       setter(chartData);
     })
+    .catch(()=> setter(undefined))
 }
