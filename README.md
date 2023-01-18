@@ -36,7 +36,7 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Please feel free to submit a pull request or open an issue
 
 ## License
-- The project is under [MIT License](LICENSE)
+- The project is not to be used for any commercial use wihout the prior agreement of the original Author
 
 ## Author
 - [Terence Grover](https://github.com/TerenceGrover)
