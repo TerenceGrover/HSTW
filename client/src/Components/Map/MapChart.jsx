@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import './Map.css';
 import Globe from 'react-globe.gl'
-import { getDateSpecificGlobalIdx } from '../../Util/requests';
+import { helperGetDateSpecificGlobalIdx } from '../../Util/requests';
 import { generateColor, parseDate } from '../../Util/Utility';
 
 const geoUrl = process.env.PUBLIC_URL + '/assets/Topology.json';
@@ -18,7 +18,8 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
   useEffect(() => {
     const today = new Date()
 
-    getDateSpecificGlobalIdx(parseDate(today), setIdx);
+    // here check will be true if everything went well, and false if something went horribly wrong.
+    const check = helperGetDateSpecificGlobalIdx(parseDate(today), setIdx);
 
       // load data
     fetch(geoUrl).then(res => res.json())
