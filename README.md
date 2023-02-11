@@ -1,3 +1,5 @@
+# <img alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/TerenceGrover/HSTW" /> <img alt="" src="https://img.shields.io/github/repo-size/TerenceGrover/HSTW" />
+
 # How'sThe World
 
 A sentiment analysis tool that aggregates news sources from around the world to generate a happiness index. This project aims at facilitating news consumption and to have a concentrate of all important news within a single glance. The project is built using a combination of Python Flask for the backend and React for the frontend. 
@@ -36,7 +38,7 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Please feel free to submit a pull request or open an issue
 
 ## License
-- The project is under [MIT License](LICENSE)
+- The project is not to be used for any commercial use wihout the prior agreement of the original Author
 
 ## Author
 - [Terence Grover](https://github.com/TerenceGrover)
