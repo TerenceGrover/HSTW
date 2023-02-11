@@ -139,8 +139,12 @@ def returnPast():
 
     try:
         for x in range(int(days)):
-            data.append({'date' : target_day.strftime('%d-%m-%y'), 'data' : collection.find_one({'date': target_day.strftime('%d-%m-%y')})['data'][code]['idx']})
-            target_day -= timedelta(days=1)
+            try:
+                data.append({'date' : target_day.strftime('%d-%m-%y'), 'data' : collection.find_one({'date': target_day.strftime('%d-%m-%y')})['data'][code]['idx']})
+                target_day -= timedelta(days=1)
+            except:
+                target_day -= timedelta(days=1)
+                pass
         return data
     except:
         return 'Bad Request', 400
