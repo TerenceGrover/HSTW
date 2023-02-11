@@ -32,11 +32,11 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Access the raw data at [hstwdrop.co](https://hstwdrop.co)
 
 ## Future updates
-- Reinforcement of the backend
-- Updating the news sources
-- Better impartiality in news source and fine-tuning of the scraping algorithm
-- Implementation of custom iPhone shortcuts for the visualization to be even faster and easier
-- Instagram story generator for particular news that need extra-sharing
+- [ ] Reinforcement of the backend
+- [ ] Updating the news sources
+- [ ] Better impartiality in news source and fine-tuning of the scraping algorithm
+- [ ] Implementation of custom iPhone shortcuts for the visualization to be even faster and easier
+- [ ] Instagram story generator for particular news that need extra-sharing
 
 ## Contributing
 - I am currently the sole contributor, but I welcome any contributions and suggestions from the community to improve and expand the capabilities of this tool
