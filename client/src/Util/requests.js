@@ -85,17 +85,6 @@ export async function getDateSpecificGlobalIdx(date) {
     .catch((err) => err);
 }
 
-// export async function ORIGINAL_getDateSpecificGlobalIdx(date, setter) {
-//   return fetch(`${url}/idx?date=${date}`)
-//     .then((response) => response.json())
-//     .then((data) => {
-//       if(data)
-//         setter(Object.values(data)[0])
-//     })
-//     .catch((err) => err);
-// }
-
-// retrieves the whole JSON object - not used
 export async function getWorldToday(setter) {
   return fetch(`${url}/today?code=world`)
     .then((response) => response.json())
@@ -131,9 +120,8 @@ export async function getCountrySpecificPastData(country, days, setter) {
     .then((response) => response.json())
     .then(data => {
       data = data.reverse()
-      console.log(data)
       const chartData = {
-        labels: data.map((item) => item.date),
+        labels: data.map((item) => item.date.slice(0, 5)),
         datasets: [
           {
             label: "Happiness Index",
