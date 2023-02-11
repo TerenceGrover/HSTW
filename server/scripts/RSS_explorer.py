@@ -34,6 +34,9 @@ collection = db.Processed
 now = datetime.now()
 time1 = now.strftime('%H:%M')
 today = now.strftime('%d-%m-%y')
+current_date = now.strftime('%d')
+current_month = now.strftime('%m')
+current_year = now.strftime('%Y')
 
 sources_EN = {'en': ['AS', 'AG', 'AU', 'BS', 'BB', 'BZ', 'BM', 'DM', 'FO', 'FJ', 'GM', 'GH', 'GI', 'GD', 'GY', 'IN', 'IE', 'IM', 'JM',
                      'JE', 'LS', 'LR', 'MW', 'MT', 'MH', 'MU', 'NZ', 'SH', 'WS', 'SC', 'SB', 'ZA', 'KN', 'LC', 'VC', 'TC', 'GB', 'AE', 'US', 'VI', 'ZM']}
@@ -97,10 +100,8 @@ def scrapeSources(startCountry=None, timeout=20):
                 print(link)
                 start_time = time.time()
                 try:
-                    print('in Feed Parser Try')
                     feed = feedparser.parse(link)
                 except:
-                    print('in Feed Parser except')
                     continue
 
                 title_counter = 0
@@ -108,22 +109,17 @@ def scrapeSources(startCountry=None, timeout=20):
 
                 # Use list comprehension to select the entries that meet the conditions
                 try:
-                    print('in Entry Loop try')
                     for entry in feed.entries:
-                        print('in Entry Loop')
                         if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
-                            print('in Entry Loop if')
                             titles.append(entry.title)
                             char_counter += len(entry.title)
                             title_counter += len(titles)
                 except:
-                    print('in Entry Loop except')
                     continue
 
                 end_time = time.time()
                 elapsed_time = end_time - start_time
                 if elapsed_time > timeout:
-                    print('in Time except')
                     break
 
                 # Use list extend to add the titles to the headlines list
@@ -131,9 +127,7 @@ def scrapeSources(startCountry=None, timeout=20):
                 hl_counter += len(titles)
 
             # Call the processor with headlines and country as args
-            print('in Processor')
             processor(headlines, country)
-            print('out of Processor')
 
     # Print the time and character count
     newNow = datetime.now()
@@ -356,10 +350,12 @@ def createWorldObject(file):
 
         try:
             for word, freq in values['topics']:
-                if word in word_count:
-                    word_count[word] += 1
-                else:
-                    word_count[word] = 1
+                # Exclude today's date, month, year
+                if word != current_date and word != current_month and word != current_year:
+                    try:
+                        word_count[word] += 1
+                    except KeyError:
+                        word_count[word] = 1
         except:
             continue
 
