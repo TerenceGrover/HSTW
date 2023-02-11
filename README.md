@@ -16,8 +16,13 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 
 ## Installation
 - Clone the repository
+
+### For Backend
+- I recommend the usage of a virtual environment
 - Install the dependencies using `pip install -r requirements.txt`
 - You might have to install nltk additional dependencies manually with 'python -m nltk.downloader all'
+
+### For the Frontend
 - Run the backend server using `flask run`
 - Install the dependencies using `npm i`
 - Run the frontend using `npm start`
