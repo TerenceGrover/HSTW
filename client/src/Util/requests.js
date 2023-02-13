@@ -67,7 +67,7 @@ export async function helperGetDateSpecificGlobalIdx(
 export async function getDateSpecificGlobalIdx(date) {
   return fetch(`${url}/idx?date=${date}`)
     .then((response) => {
-      if (response.status.toString()[0] != 2) {
+      if (response.status.toString()[0] !== 2) {
         return null;
       }
       return response.json();
