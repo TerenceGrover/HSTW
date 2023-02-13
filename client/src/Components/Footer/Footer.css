@@ -27,6 +27,11 @@
 .footer-link{
   font-size: 20px;
   font-weight: 600;
+  color: aqua;
+}
+
+.footer-link:visited{
+  color: rgb(213, 103, 121);
 }
 
 .footer-highlight{

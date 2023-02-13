@@ -106,6 +106,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 0 10vw;
 }
 
 #indiv-main-topics-container{
