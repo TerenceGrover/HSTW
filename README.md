@@ -1,6 +1,6 @@
 # <img alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/TerenceGrover/HSTW" /> <img alt="" src="https://img.shields.io/github/repo-size/TerenceGrover/HSTW" />
 
-# How'sThe World
+# 🌍 How's The World 🌍
 
 A sentiment analysis tool that aggregates news sources from around the world to generate a happiness index. This project aims at facilitating news consumption and to have a concentrate of all important news within a single glance. The project is built using a combination of Python Flask for the backend and React for the frontend. 
 
