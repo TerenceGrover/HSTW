@@ -33,13 +33,8 @@ export default function App() {
 
     // here check will be true if everything went well, and false if something went horribly wrong.
     const today = new Date();
-    const check = helperGetDateSpecificGlobalIdx(today, setIdx);
-    if (!check) {
-      console.log('Something went wrong with the API call');
-    } else {
-      console.log('API call was successful');
-    }
-
+    helperGetDateSpecificGlobalIdx(today, setIdx);
+    
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);
     };
