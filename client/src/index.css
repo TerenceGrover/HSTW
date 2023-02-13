@@ -22,7 +22,6 @@ body {
 }
 
 .master {
-  text-align: left;
   font-size: calc(4.5vw);
   text-align: center;
   margin-left: 20px;
@@ -30,6 +29,18 @@ body {
   word-spacing: 7px;
   letter-spacing: 1px;
   border: none;
+}
+
+#title-wrapper{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+}
+
+.sub-master{
+  text-align: center;
+  color: orange;
 }
 
 span#io {

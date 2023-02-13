@@ -1,15 +1,8 @@
-import { DateTime } from 'luxon';
 import { parseDate } from './Utility';
 const url = 'https://hstwdrop.co';
 
 // IMPORITNG THE SETTER FUNCTION AS AN ARGUMENT ALLOWS US
 // TO SKIP AN AWAIT ALL TOGETHER
-
-// export async function getIdx (setter) {
-//   fetch(url)
-//   .then(response => response.text())
-//   .then(data => setter(data))
-// }
 
 export async function getTodayIndividualData(alphaCode, setter) {
   return fetch(`${url}/today?code=${alphaCode}`)
@@ -89,6 +82,17 @@ export async function getWorldToday(setter) {
   return fetch(`${url}/today?code=world`)
     .then((response) => response.json())
     .then((data) => setter(data))
+    .catch((err) => err);
+}
+
+export async function checkTodayData(flag) {
+  return fetch(`${url}/today?code=world`)
+    .then((response) => response.json())
+    .then((data) => {
+      console.log('called')
+      if (data) flag = true;
+      else flag = false;
+    })
     .catch((err) => err);
 }
 
