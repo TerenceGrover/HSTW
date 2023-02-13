@@ -18,7 +18,6 @@ export default function App() {
   const [idx, setIdx] = useState();
 
   // eslint-disable-next-line no-restricted-globals
-  // screen.orientation.lock('portrait')
 
   function handleWindowSizeChange() {
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
@@ -33,7 +32,13 @@ export default function App() {
     getUserCountry(setUserCountry);
 
     // here check will be true if everything went well, and false if something went horribly wrong.
-    const check = helperGetDateSpecificGlobalIdx(date, setIdx);
+    const today = new Date();
+    const check = helperGetDateSpecificGlobalIdx(today, setIdx);
+    if (!check) {
+      console.log('Something went wrong with the API call');
+    } else {
+      console.log('API call was successful');
+    }
 
     return () => {
       window.removeEventListener('resize', handleWindowSizeChange);

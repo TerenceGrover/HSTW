@@ -1,4 +1,5 @@
-import { DateTime } from "luxon";
+import { DateTime } from 'luxon';
+import { parseDate } from './Utility';
 const url = 'https://hstwdrop.co';
 
 // IMPORITNG THE SETTER FUNCTION AS AN ARGUMENT ALLOWS US
@@ -17,7 +18,7 @@ export async function getTodayIndividualData(alphaCode, setter) {
     .catch((err) => err);
 }
 
-// retrieves the whole JSON object 
+// retrieves the whole JSON object
 export async function getDateSpecificGlobalData(date, setter) {
   return fetch(`${url}/request?date=${date}`)
     .then((response) => response.json())
@@ -35,51 +36,50 @@ export async function getDateSpecificIndividualData(alphaCode, date) {
 export async function getDateSpecificIndividualIdx(alphaCode, date, setter) {
   try {
     return fetch(`${url}/idx?code=${alphaCode}&date=${date}`)
-    .then((response) => response.json())
-    .then((data) => setter(Object.values(data)[0]))
-    .catch((err) => err)
-  }
-  catch {
-    return 'No Data for Today'
+      .then((response) => response.json())
+      .then((data) => setter(Object.values(data)[0]))
+      .catch((err) => err);
+  } catch {
+    return 'No Data for Today';
   }
 }
 
 // get the previous day and deals with month and years too.
-function getPreviousDay(date){
-  const day = date.slice(0,2)
-  const month = date.slice(3,5)
-  const year = date.slice(6)
-  const isoDate = `20${year}-${month}-${day}`;
-  const yesterDate = DateTime.fromISO(isoDate).minus({days: 1});
-  return(`${yesterDate.day}-${yesterDate.month}-${yesterDate.year}`);
+function getPreviousDay(date) {
+  const oneDay = 24 * 60 * 60 * 1000;
+  const yesterDate = new Date(date.getTime() - oneDay);
+  return parseDate(yesterDate);
 }
 
-export async function helperGetDateSpecificGlobalIdx(date, setter, data = null) {
+export async function helperGetDateSpecificGlobalIdx(
+  date,
+  setter,
+  data = null
+) {
   // call getDateSpecificGlobalIdx with the passed date. ( NO SETTER )
   let set = false;
-  for (let i=0; i<31; i++) {
-    let response = await getDateSpecificGlobalIdx(date)
+  for (let i = 0; i < 10; i++) {
+    let response = await getDateSpecificGlobalIdx(date);
     if (response) {
       set = true;
-      setter(Object.values(response)[0])
+      setter(Object.values(response)[0]);
       break;
-    } 
+    }
     date = getPreviousDay(date);
   }
-  return set ? '' : 'error' 
+  return set ? true : false;
 }
-
 
 export async function getDateSpecificGlobalIdx(date) {
   return fetch(`${url}/idx?date=${date}`)
     .then((response) => {
-      if(response.status.toString()[0] != 2) {
-        return null
+      if (response.status.toString()[0] != 2) {
+        return null;
       }
-      return response.json()
+      return response.json();
     })
     .then((data) => {
-      if(data) return data;
+      if (data) return data;
       else return null;
     })
     .catch((err) => err);
@@ -112,26 +112,31 @@ export async function getWorldPop() {
 export async function getUserCountry(setter) {
   return fetch('https://ipapi.co/json/')
     .then((response) => response.json())
-    .then((data) => setter({country_name : data.country_name, country_code : data.country_code}));
+    .then((data) =>
+      setter({
+        country_name: data.country_name,
+        country_code: data.country_code,
+      })
+    );
 }
 
 export async function getCountrySpecificPastData(country, days, setter) {
   return fetch(`${url}/past?code=${country}&days=${days}`)
     .then((response) => response.json())
-    .then(data => {
-      data = data.reverse()
+    .then((data) => {
+      data = data.reverse();
       const chartData = {
         labels: data.map((item) => item.date.slice(0, 5)),
         datasets: [
           {
-            label: "Happiness Index",
+            label: 'Happiness Index',
             data: data.map((item) => item.data.global * 10),
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
+            backgroundColor: 'rgba(75,192,192,0.4)',
+            borderColor: 'rgba(75,192,192,1)',
           },
         ],
-      }
+      };
       setter(chartData);
     })
-    .catch(()=> setter(undefined))
+    .catch(() => setter(undefined));
 }

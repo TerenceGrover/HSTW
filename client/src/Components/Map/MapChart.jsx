@@ -21,6 +21,7 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
     // here check will be true if everything went well, and false if something went horribly wrong.
     const check = helperGetDateSpecificGlobalIdx(parseDate(today), setIdx);
 
+
       // load data
     fetch(geoUrl).then(res => res.json())
       .then(countries=> {
