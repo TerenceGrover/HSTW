@@ -19,7 +19,7 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
     const today = new Date()
 
     // here check will be true if everything went well, and false if something went horribly wrong.
-    const check = helperGetDateSpecificGlobalIdx(parseDate(today), setIdx);
+    const check = helperGetDateSpecificGlobalIdx(today, setIdx);
 
 
       // load data
