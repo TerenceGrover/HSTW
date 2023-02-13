@@ -54,6 +54,7 @@ export async function helperGetDateSpecificGlobalIdx(
   for (let i = 0; i < 10; i++) {
     let response = await getDateSpecificGlobalIdx(parseDate(date));
     console.log('response', response)
+    console.log('date after call', date)
     if (response) {
       set = true;
       setter(Object.values(response)[0]);
@@ -67,7 +68,7 @@ export async function helperGetDateSpecificGlobalIdx(
 export async function getDateSpecificGlobalIdx(date) {
   return fetch(`${url}/idx?date=${date}`)
     .then((response) => {
-      if (response.status.toString()[0] !== 2) {
+      if (!response.ok) {
         return null;
       }
       return response.json();
