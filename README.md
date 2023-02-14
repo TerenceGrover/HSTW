@@ -11,8 +11,8 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Responsive design, can be accessed on any mobile device
 
 ## Technologies
-- Backend: Python Flask, pandas, nltk, boto3 feedparser
-- Frontend: React, react-router-dom, react-globe.gl, CSS
+- Backend: Python Flask, pandas, nltk, boto3, feedparser
+- Frontend: React, react-router-dom, react-globe.gl, CSS, Chart.js
 
 ## Installation
 - Clone the repository
@@ -35,6 +35,8 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - [ ] Reinforcement of the backend
 - [ ] Updating the news sources
 - [ ] Better impartiality in news source and fine-tuning of the scraping algorithm
+- [ ] Development of the UI
+- [ ] Addition of Chart.js visualisation
 - [ ] Implementation of custom iPhone shortcuts for the visualization to be even faster and easier
 - [ ] Instagram story generator for particular news that need extra-sharing
 
