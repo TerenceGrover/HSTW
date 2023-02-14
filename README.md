@@ -31,7 +31,7 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Access the frontend at [hstw.io](https://hstw.io)
 - Access the raw data at [hstwdrop.co](https://hstwdrop.co)
 
-## Future updates
+## Contributors Guide
 - [ ] Reinforcement of the backend
 - [ ] Updating the news sources
 - [ ] Better impartiality in news source and fine-tuning of the scraping algorithm
