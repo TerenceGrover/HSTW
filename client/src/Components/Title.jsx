@@ -7,7 +7,7 @@ export default function Title({ index, mobile }) {
 
   useEffect(() => {
     if (index.world) setworldObj(assignWord(index.world.global));
-    checkTodayData().then(() => {
+    checkTodayData(setTodayFlag).then(() => {
     console.log(todayFlag)
     });
 
