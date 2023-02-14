@@ -87,13 +87,13 @@ export async function getWorldToday(setter) {
     .catch((err) => err);
 }
 
-export async function checkTodayData(flag) {
+export async function checkTodayData(setter) {
   return fetch(`${url}/today?code=world`)
     .then((response) => response.json())
     .then((data) => {
       console.log('called')
-      if (data) flag = true;
-      else flag = false;
+      if (data) setter(true);
+      else setter(false);
     })
     .catch((err) => err);
 }
