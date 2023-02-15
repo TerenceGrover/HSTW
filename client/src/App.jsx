@@ -25,6 +25,7 @@ export default function App() {
   }
 
   useEffect(() => {
+   	  
     window.innerWidth <= 500 ? setMobile(true) : setMobile(false);
     window.addEventListener('resize', handleWindowSizeChange);
 

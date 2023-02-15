@@ -1,4 +1,8 @@
+import {useEffect} from 'react';
 export default function Transparency() {
+  useEffect(()=>{
+	  document.querySelector("body").scrollTo(0,0);
+  },[])
   return (
   <div class="paragraph-container">
     <p class="paragraph">
