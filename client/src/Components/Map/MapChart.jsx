@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Map.css';
 import Globe from 'react-globe.gl'
 import { helperGetDateSpecificGlobalIdx } from '../../Util/requests';
-import { generateColor, parseDate } from '../../Util/Utility';
+import { generateColor } from '../../Util/Utility';
 
 const geoUrl = process.env.PUBLIC_URL + '/assets/Topology.json';
 
