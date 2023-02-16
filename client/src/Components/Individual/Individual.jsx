@@ -109,7 +109,6 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
             <div id="indiv-right-bottom" className="floaty-container">
               {countryData ? (
                 <>
-                  <div id="indiv-main-topics-container">
                     {mobile ? (
                       <span className="header-bottom">
                         Most used word there :
@@ -119,15 +118,15 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                         Most used word in this country :
                       </span>
                     )}
+                  <div id="indiv-main-topics-container">
                     <div id="indiv-main-topics" className="indiv-list">
                       {topics.length ? (
-                        <span>{topics.join(' - ')}</span>
+                        <span id='topics'>{topics.join(' - ')}</span>
                       ) : (
                         <span>No Data</span>
                       )}
                     </div>
                   </div>
-                  <div id="indiv-headlines-container" className="indiv-list">
                     {mobile ? (
                       <span className="header-bottom">
                         What the news look like :
@@ -137,6 +136,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                         What the news look like over there :
                       </span>
                     )}
+                  <div id="indiv-headlines-container" className="indiv-list">
                     <ul id="indiv-headlines">
                       {headlines ? (
                         headlines
