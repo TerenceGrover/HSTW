@@ -25,7 +25,7 @@ export default function Transparency() {
         separate formula to enhance the visual impact of the index.
       </p>
       <div class="formula-transparency">
-        Happiness Index Formula
+      <span className="index-txt">Happiness Index Formula</span>
         <br />
         <br />
         <div class="formula-container">
@@ -55,7 +55,32 @@ export default function Transparency() {
           x 10
         </div>
       </div>
-      <div class="formula-transparency">Color Formula</div>
+      <div class="formula-transparency">
+        <span className="index-txt">Color Formula</span>
+        <div class="formula-container">
+        <span className="index-txt">RGB color = </span> <br />
+          <br />
+          If index is in the <span id="p" className="index-txt">happy</span> range, then the color is : <br />
+          <br />
+          RED  =  1 / | GlobalIndex |
+          <br />
+          GREEN  =  | GlobalIndex | * 50 + 25 + PositiveIndex <br />
+          BLUE  =  | MixedIndex * 255 - NeutralIndex * 255 | / 10,
+          <br />
+          <br />
+          If index is in the <span id="nu" className="index-txt">meh</span> range, then the color is : <br /> <br />
+          RED  =  200 <br />
+          GREEN  =  200 <br />
+          BLUE  =  0 <br />
+          <br />
+          If index is in the <span id="n" className="index-txt">sad</span> range, then the color is : <br /> <br />
+          RED  =  | GlobalIndex | * 50 + 25 + NegativeIndex
+          <br />
+          GREEN  =  1 / | GlobalIndex |
+          <br />
+          BLUE  =  | MixedIndex * 255 - NeutralIndex * 255 | / 10,
+        </div>
+      </div>
       <p class="paragraph">
         It is important to note that the sentiment analysis performed is based
         on the headlines of news articles and may not accurately reflect the
