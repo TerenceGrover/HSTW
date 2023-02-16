@@ -114,19 +114,3 @@ div#global-container {
   justify-content : center;
   align-items : center;
 }
-
-.paragraph{
-  text-align: justify;
-  line-height: 1.5;
-  font-size: 18px;
-}
-
-.paragraph-container{
-  min-height: 80vh;
-  width: 80vw;
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
-  gap: 20px;
-}
