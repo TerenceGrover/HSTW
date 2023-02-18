@@ -1,33 +1,49 @@
 import "./About.css";
-import { AiFillApi, AiFillLinkedin, AiFillGithub } from "react-icons/ai";
+import { AiFillApi, AiFillLinkedin} from "react-icons/ai";
 import { BsDiscord, BsGithub } from "react-icons/bs";
 export default function About() {
   return (
     <div className="paragraph-container">
       <nav className="mobile-nav">
         <div>
+        <a href="#">
           <AiFillApi size={"30px"} />
+        </a>
+        <a href="https://www.linkedin.com/in/terence-grover-monaco/">
           <AiFillLinkedin size={"30px"}/>
+        </a>
+        <a href="#">
           <BsDiscord size={"30px"}/>
+        </a>
+        <a href="https://github.com/TerenceGrover/HSTW">
           <BsGithub size={"30px"}/>
+        </a>
         </div>
       </nav>
       <div className="left">
         <div>
+      <a href="#">
           API
           <AiFillApi size={"30px"} />
+        </a>
         </div>
         <div>
+        <a href="https://www.linkedin.com/in/terence-grover-monaco/">
           Linkedin
           <AiFillLinkedin size={"30px"} />
+        </a>
         </div>
         <div>
+        <a href="#">
           Discord
           <BsDiscord size={"30px"} />
+          </a>
         </div>
         <div>
+        <a href="https://github.com/TerenceGrover/HSTW">
           Github
           <BsGithub size={"30px"} />
+          </a>
         </div>
       </div>
       <div className="right">

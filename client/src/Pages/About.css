@@ -15,10 +15,17 @@
 }
 .left div{
     padding-left: 10px;
-    display: flex;
     cursor: pointer;
     width: 100%;
     height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.left a{
+    text-decoration: none;
+    color: white;
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -58,5 +65,9 @@
     .mobile-nav div{
         display: flex;
         justify-content: space-between;
+    }
+    .mobile-nav a{
+        text-decoration: none;
+        color:#fff;
     }
 }
