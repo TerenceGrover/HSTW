@@ -72,3 +72,5 @@ def cleaner():
     for date in DBData['date']:
         if date != last and date != secondToLast:
             ssh.exec_command(f'cd /home/flaskApp/data/TODAY && rm {date}')
+
+sendMissingFilesToDB()
