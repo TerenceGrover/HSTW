@@ -96,7 +96,6 @@ def scrapeSources(startCountry = None, timeout = 20):
 
             for link in links.values():
                 print(link)
-                start_time = time.time()
                 try:
                     feed = feedparser.parse(link)
                 except:
@@ -108,17 +107,11 @@ def scrapeSources(startCountry = None, timeout = 20):
                 titles = []
                 try:
                     for entry in feed.entries:
-                        if 5 <= len(entry.title) <= 60 and len(titles) <= 4 and len(headlines) <= 10:
+                        if 10 <= len(entry.title) <= 60 and len(titles) <= 4 and len(headlines) <= 10:
                             titles.append(entry.title)
                             char_counter += len(entry.title)
                 except:
-                    continue
-
-                # Check if the time of the link request has exceeded the timeout. While the scraping can take a while, it should not take more than 20 seconds
-                end_time = time.time()
-                elapsed_time = end_time - start_time
-                if elapsed_time > timeout:
-                    continue
+                    break
 
                 headlines.extend(titles)
                 hl_counter += len(titles)
@@ -137,7 +130,7 @@ def scrapeSources(startCountry = None, timeout = 20):
         createWorldObject(readable)
 
     sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!',
-              f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+              f"HSTW finished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
 
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
