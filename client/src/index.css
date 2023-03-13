@@ -19,6 +19,7 @@ body::-webkit-scrollbar {
 }
 body {
   -ms-overflow-style: none;
+  scroll-snap-type: y mandatory;
 }
 
 .master {
@@ -61,6 +62,7 @@ div#global-container {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  scroll-snap-align: start;
 }
 
 #loader-placeholder{
