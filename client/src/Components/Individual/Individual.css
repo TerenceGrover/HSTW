@@ -7,7 +7,7 @@
   width : clamp(500px, 90vw, 1200px);
   scroll-snap-align: start;
   scroll-snap-stop: always;
-
+  padding-top: 20px;
 }
 
 #indiv-flag {

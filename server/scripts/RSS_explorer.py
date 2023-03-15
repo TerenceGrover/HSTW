@@ -203,7 +203,7 @@ def processor(headlines, country):
     for entry in trans:
         titles.append(entry['title'])
 
-    if len(trans) > 0:
+    if len(titles) > 0:
         country_obj = {
             'idx': sentimentHL(titles, country),
             'topics': most_common_words(titles, country),
