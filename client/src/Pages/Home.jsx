@@ -15,7 +15,6 @@ export default function Home({mobile, innerWidth, idx, clicked, setClicked}) {
   // screen.orientation.lock('portrait')
 
   useEffect(() => {
-    document.querySelector("body").scrollTo(0,0)	  
     setTimeout(() => {
       setLoader(false);
     }, 1250);
