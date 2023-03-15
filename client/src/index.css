@@ -17,9 +17,16 @@ html {
 body::-webkit-scrollbar {
   display: none;
 }
+
 body {
   -ms-overflow-style: none;
-  scroll-snap-type: y mandatory;
+}
+
+/* Make the scroll snap happen only on desktop */
+@media only screen and (min-width: 800px) {
+  body {
+    scroll-snap-type: y mandatory;
+  }
 }
 
 .master {
