@@ -128,9 +128,12 @@
   height: 55%;
 }
 
-li {
+a.link {
   list-style: outside;
   line-height: 28px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
 }
 
 .header-bottom{
