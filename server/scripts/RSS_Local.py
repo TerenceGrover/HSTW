@@ -44,12 +44,12 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
 def scrapeSources():
 
-    if os.path.exists(f"../data/TODAY/{today}.json") or collection.find_one({'date': today}):
-        try:
-            raise Exception('Today Data Has Already Been Scraped')
-        except NameError as e:
-            sendEmailUponException(e)
-            raise
+    # if os.path.exists(f"../data/TODAY/{today}.json") or collection.find_one({'date': today}):
+    #     try:
+    #         raise Exception('Today Data Has Already Been Scraped')
+    #     except NameError as e:
+    #         sendEmailUponException(e)
+    #         raise
 
     # Read the JSON file into a dataframe
     df = pd.read_json('../data/sourceLinks.json', typ='series')
@@ -77,7 +77,10 @@ def scrapeSources():
             try:
                 for entry in feed.entries:
                     if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
-                        titles.append(entry.title)
+                        titles.append(
+                            {'title' : entry.title,
+                             'link' : entry.link}
+                            )
                         char_counter += len(entry.title)
                         title_counter += len(titles)
             except:
@@ -136,6 +139,7 @@ def removeStopWords(sentence):
 
 def processor(headlines, country):
 
+    # Make an array of the headlines titles
     if country not in sources and len(headlines) > 0:
         trans = translateHL(headlines, country)
     else:
@@ -155,11 +159,16 @@ def processor(headlines, country):
     except json.decoder.JSONDecodeError:
         print(f"Error: The file '{today}.json' is not in json format.")
         writable = {}
+    
+    # extract only the titles from the headlines array and turn it into an array
+    titles = [d['title'] for d in trans]
+
+    print(titles)
 
     if len(trans) > 0:
         country_obj = {
-            'idx': sentimentHL(trans, country),
-            'topics': most_common_words(trans, country),
+            'idx': sentimentHL(titles, country),
+            'topics': most_common_words(titles, country),
             'HL': trans
         }
 
@@ -170,8 +179,8 @@ def processor(headlines, country):
 
     writable[country] = country_obj
 
-    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
-        json.dump(writable, file, ensure_ascii=False)
+    # with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as file:
+    #     json.dump(writable, file, ensure_ascii=False)
 
 
 def translater(inp):
@@ -200,13 +209,19 @@ def translateHL(headlines, country):
 
     if country not in sources:
         translated_texts = []
-        for sentence in headlines:
-            if not is_english(sentence):
+        for entry in headlines:
+            print('THIS IS THE TRANSPLACE',entry)
+            if not is_english(entry['title']):
 
-                translated_texts.append(translater(sentence))
+                translated_texts.append({
+                    'title' : translater(entry['title']),
+                    'link' : entry['link']})
 
             else:
-                translated_texts.append(sentence)
+                translated_texts.append(
+                    {'title' : entry['title'],
+                        'link' : entry['link']}
+                )
 
         return translated_texts
 
@@ -332,15 +347,14 @@ def createWorldObject(file):
 
     file['world'] = world_obj
 
-    with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
-        json.dump(file, writable, ensure_ascii=False)
+    # with open(f"../data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
+    #     json.dump(file, writable, ensure_ascii=False)
 
     sendToDB(file)
 
 
 def sendToDB(file):
-    collection.insert_one({'date': today, 'data': file})
-    cleaner()
+    print('Sending to DB')
 
 
 def cleaner():
