@@ -142,7 +142,7 @@ def scrapeSources(startCountry=None, timeout=20):
         createWorldObject(readable)
 
     sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!',
-              f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+              f"HSTW finished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
 
@@ -198,7 +198,10 @@ def processor(headlines, country):
         print(f"Error: The file '{today}.json' is not in json format.")
         writable = {}
 
-    titles = [d['title'] for d in trans]
+    # Loop over the trans dict, and add the actual titles to the titles list
+    titles = []
+    for entry in trans:
+        titles.append(entry['title'])
 
     if len(trans) > 0:
         country_obj = {
