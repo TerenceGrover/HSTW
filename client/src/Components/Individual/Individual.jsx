@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
+import {IoIosBrowsers} from 'react-icons/io'
 
 export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [country, setCountry] = useState();
@@ -141,7 +142,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                       {headlines ? (
                         headlines
                           .slice(0, 5)
-                          .map((Headline) => <a target="_blank" className='link' href={Headline.link} key={Headline}>{Headline.title}</a>)
+                          .map((Headline) => <a target="_blank" className='link' href={Headline.link} key={Headline}>{Headline.title} <IoIosBrowsers /></a>)
                       ) : (
                         <span>No Data</span>
                       )}
