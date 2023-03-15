@@ -1,7 +1,8 @@
 #graph-container{
   margin: 0 10px 0 10px;
-  padding-bottom: 30px;
+  padding-bottom: 40px;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 #graph-header{

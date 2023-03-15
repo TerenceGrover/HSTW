@@ -4,8 +4,10 @@
   flex-direction: row;
   gap: 50px;
   justify-content: space-around;
-  max-width: 1600px;
+  width : clamp(500px, 90vw, 1200px);
   scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: 20px;
 }
 
 #indiv-flag {
@@ -107,7 +109,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 0 10vw;
 }
 
 #indiv-main-topics-container{
@@ -127,9 +128,12 @@
   height: 55%;
 }
 
-li {
+a.link {
   list-style: outside;
   line-height: 28px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
 }
 
 .header-bottom{
@@ -165,7 +169,6 @@ ul{
     box-shadow: none;
   }
   #indiv-container {
-    width: 90vw;
     flex-direction : column;
     justify-content : center;
     align-items : center;

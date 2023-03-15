@@ -11,6 +11,26 @@ export default function Graph({ clicked, mobile }) {
     getCountrySpecificPastData(clicked['Alpha-2'], 20, setData);
   }, [clicked]);
 
+  useEffect(() => {
+    const options = {
+      root: null,
+
+      rootMargin: '0px',
+      threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('graph-animation');
+        }
+      });
+    }, options);
+
+    const target = document.getElementById('graph-container');
+    observer.observe(target);
+  }, []);
+
   return (
     <div id="graph-container">
       <h3 id="graph-header">Data Analysis of the previous week</h3>

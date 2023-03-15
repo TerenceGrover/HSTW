@@ -107,8 +107,11 @@ def scrapeSources(startCountry = None, timeout = 20):
                 titles = []
                 try:
                     for entry in feed.entries:
-                        if 10 <= len(entry.title) <= 60 and len(titles) <= 4 and len(headlines) <= 10:
-                            titles.append(entry.title)
+                        if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
+                            titles.append(
+                                {'title' : entry.title,
+                                'link' : entry.link}
+                                )
                             char_counter += len(entry.title)
                 except:
                     break
@@ -185,12 +188,21 @@ def processor(headlines, country):
         print(f"Error: The file '{today}.json' is not in json format.")
         writable = {}
 
+    # Loop over the trans dict, and add the actual titles to the titles list
+    titles = []
     if len(trans) > 0:
-        country_obj = {
-            'idx': sentimentHL(trans, country),
-            'topics': most_common_words(trans, country),
-            'HL': trans
-        }
+        for entry in trans:
+            titles.append(entry['title'])
+
+        if titles[0] and len(titles[0]) > 0:
+            country_obj = {
+                'idx': sentimentHL(titles, country),
+                'topics': most_common_words(titles, country),
+                'HL': trans
+            }
+        
+        else:
+            country_obj = 'VOID'
 
     else:
         country_obj = 'VOID'
@@ -229,18 +241,20 @@ def translateHL(headlines, country):
 
     if country not in sources:
         translated_texts = []
-        for sentence in headlines:
-            if not is_english(sentence):
+        for entry in headlines:
+            if not is_english(entry['title']):
 
-                translated_texts.append(translater(sentence))
+                translated_texts.append({
+                    'title' : translater(entry['title']),
+                    'link' : entry['link']})
 
             else:
-                translated_texts.append(sentence)
+                translated_texts.append(
+                    {'title' : entry['title'],
+                        'link' : entry['link']}
+                )
 
-        if '' in translated_texts:
-            return []
-        else:
-            return translated_texts
+        return translated_texts
 
 def calculateGlobal(idx):
     return (idx['P']*10) - (idx['N']*10) + (idx['Nu']* 2) + (((idx['P']+idx['N'])*5) * idx['M'] * 10)
