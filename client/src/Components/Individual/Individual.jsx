@@ -141,7 +141,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                       {headlines ? (
                         headlines
                           .slice(0, 5)
-                          .map((Headline) => <li key={Headline}>{Headline}</li>)
+                          .map((Headline) => <a href={Headline.link} key={Headline}>{Headline.title}</a>)
                       ) : (
                         <span>No Data</span>
                       )}
