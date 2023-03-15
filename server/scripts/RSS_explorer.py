@@ -200,15 +200,19 @@ def processor(headlines, country):
 
     # Loop over the trans dict, and add the actual titles to the titles list
     titles = []
-    for entry in trans:
-        titles.append(entry['title'])
+    if len(trans) > 0:
+        for entry in trans:
+            titles.append(entry['title'])
 
-    if len(titles) > 0:
-        country_obj = {
-            'idx': sentimentHL(titles, country),
-            'topics': most_common_words(titles, country),
-            'HL': trans
-        }
+        if titles[0] and len(titles[0]) > 0:
+            country_obj = {
+                'idx': sentimentHL(titles, country),
+                'topics': most_common_words(titles, country),
+                'HL': trans
+            }
+        
+        else:
+            country_obj = 'VOID'
 
     else:
         country_obj = 'VOID'
