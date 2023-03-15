@@ -63,6 +63,7 @@ div#global-container {
   justify-content: center;
   align-items: center;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 #loader-placeholder{

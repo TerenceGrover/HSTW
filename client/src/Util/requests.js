@@ -44,25 +44,21 @@ function getPreviousDay(date) {
   return yesterDate;
 }
 
-export async function helperGetDateSpecificGlobalIdx(
-  date,
-  setter,
-  data = null
-) {
+export async function helperGetDateSpecificGlobalIdx(date, setter) {
   // call getDateSpecificGlobalIdx with the passed date. ( NO SETTER )
   let set = false;
   for (let i = 0; i < 10; i++) {
     let response = await getDateSpecificGlobalIdx(parseDate(date));
-    console.log('response', response)
-    console.log('date after call', date)
+    console.log('response', response);
+    console.log('date after call', date);
     if (response) {
       set = true;
       setter(Object.values(response)[0]);
-      break;
+      return set;
     }
     date = getPreviousDay(date);
   }
-  return set ? true : false;
+  return false;
 }
 
 export async function getDateSpecificGlobalIdx(date) {
@@ -91,7 +87,7 @@ export async function checkTodayData(setter) {
   return fetch(`${url}/today?code=world`)
     .then((response) => response.json())
     .then((data) => {
-      console.log('called')
+      console.log('called');
       if (data) setter(true);
       else setter(false);
     })

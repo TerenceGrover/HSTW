@@ -16,12 +16,6 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
   // This function will check the position of the cursor on hover
 
   useEffect(() => {
-    const today = new Date()
-
-    // here check will be true if everything went well, and false if something went horribly wrong.
-    const check = helperGetDateSpecificGlobalIdx(today, setIdx);
-
-
       // load data
     fetch(geoUrl).then(res => res.json())
       .then(countries=> {
