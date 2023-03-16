@@ -5,7 +5,15 @@ import { generateColor } from '../../Util/Utility';
 import {IoIosBrowsers} from 'react-icons/io'
 
 export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState({
+    flag: '🇺🇳',
+    name: { official: 'The World' },
+    currencies: [{ name: 'Various' }],
+    languages: ['Various'],
+    region: 'None',
+    demonyms: { eng: { m: 'Beings' } },
+    capital: 'Unknown',
+  });
   const [topics, setTopics] = useState([]);
   const [headlines, setHeadlines] = useState([]);
   const [countryData, setCountryData] = useState();
