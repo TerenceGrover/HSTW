@@ -96,49 +96,62 @@ export async function checkTodayData(setter) {
 
 export async function getCountryDetails(alphaCode) {
   return fetch(
-    `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
-  )
-    .then((response) => response.json())
-    .catch((err) => err);
+      `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
+    )
+      .then((response) => response.json())
+      .catch((err) =>
+      {
+        console.log('error', err)
+        return {
+          flag: '🇺🇳',
+          name: { official: undefined},
+          currencies: [{ name: 'N/A' }],
+          languages: ['N/A'],
+          region: 'None',
+          demonyms: { eng: { m: 'N/A' } },
+          capital: 'N/A',
+        }
+      }
+      );
 }
 
-export async function getWorldPop() {
-  return fetch(
-    'http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json'
-  )
-    .then((response) => response.json())
-    .then((data) => JSON.parse(data))
-    .catch((err) => err);
-}
+  export async function getWorldPop() {
+    return fetch(
+      'http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json'
+    )
+      .then((response) => response.json())
+      .then((data) => JSON.parse(data))
+      .catch((err) => err);
+  }
 
-export async function getUserCountry(setter) {
-  return fetch('https://ipapi.co/json/')
-    .then((response) => response.json())
-    .then((data) =>
-      setter({
-        country_name: data.country_name,
-        country_code: data.country_code,
+  export async function getUserCountry(setter) {
+    return fetch('https://ipapi.co/json/')
+      .then((response) => response.json())
+      .then((data) =>
+        setter({
+          country_name: data.country_name,
+          country_code: data.country_code,
+        })
+      );
+  }
+
+  export async function getCountrySpecificPastData(country, days, setter) {
+    return fetch(`${url}/past?code=${country}&days=${days}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data = data.reverse();
+        const chartData = {
+          labels: data.map((item) => item.date.slice(0, 5)),
+          datasets: [
+            {
+              label: 'Happiness Index',
+              data: data.map((item) => item.data.global * 10),
+              backgroundColor: 'rgba(75,192,192,0.4)',
+              borderColor: 'rgba(75,192,192,1)',
+            },
+          ],
+        };
+        setter(chartData);
       })
-    );
-}
-
-export async function getCountrySpecificPastData(country, days, setter) {
-  return fetch(`${url}/past?code=${country}&days=${days}`)
-    .then((response) => response.json())
-    .then((data) => {
-      data = data.reverse();
-      const chartData = {
-        labels: data.map((item) => item.date.slice(0, 5)),
-        datasets: [
-          {
-            label: 'Happiness Index',
-            data: data.map((item) => item.data.global * 10),
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-          },
-        ],
-      };
-      setter(chartData);
-    })
-    .catch(() => setter(undefined));
-}
+      .catch(() => setter(undefined));
+  }

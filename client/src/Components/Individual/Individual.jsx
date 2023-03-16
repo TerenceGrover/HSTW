@@ -37,6 +37,8 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
 
   async function fetchCountry() {
     if (clicked['Alpha-2'] !== 'world') {
+        const response = await getCountryDetails(clicked['Alpha-2']);
+        setCountry(response);
       getCountryDetails(clicked['Alpha-2']).then((response) => {
         setCountry(response);
       });
@@ -60,22 +62,22 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
           <div id="indiv-left-container" className="floaty-container">
             <div id="flag-name-container">
               <span id="indiv-flag">{country.flag}</span>
-              <span id="indiv-name">{country.name.official}</span>
+              <span id="indiv-name">{country.name.official || countryData.name}</span>
             </div>
             <div id="country-properties">
               <span>
-                <span id="prop-name">Currency</span> :{' '}
+                <span id="prop-name">Currency</span> :
                 {Object.values(country.currencies)[0]['name']}
               </span>
               <span>
-                <span id="prop-name">Languages</span> :{' '}
+                <span id="prop-name">Languages</span> :
                 {Object.values(country.languages).join(', ')}
               </span>
               <span>
                 <span id="prop-name">Continent</span> : {country.region}
               </span>
               <span>
-                <span id="prop-name">Demonym</span> :{' '}
+                <span id="prop-name">Demonym</span> :
                 {country.demonyms['eng']['m']}
               </span>
               <span>
