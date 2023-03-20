@@ -1,8 +1,13 @@
 html {
   overflow: hidden;
   height: 100%;
-  /* background-color: #000011; */
-  background-image: linear-gradient(to right bottom, #1d0030, #17022e, #12022b, #0c0328, #060324, #030a26, #011027, #001428, #001c2d, #00232a, #00281e, #002c0c);
+  /* background-image: linear-gradient(to right bottom, #1d0030, #17022e, #12022b, #0c0328, #060324, #030a26, #011027, #001428, #001c2d, #00232a, #00281e, #002c0c); */
+  background-color: rgb(0, 2, 26);
+  background-image:
+    radial-gradient(at 100% 6%, hsla(308, 100%, 15%, 0.63) 0px, transparent 40%),
+    radial-gradient(at 47% 87%, hsla(189, 100%, 15%, 0.59) 0px, transparent 40%),
+    radial-gradient(at 21% 68%, hsla(212, 100%, 15%, 0.77) 0px, transparent 40%),
+    radial-gradient(at 96% 96%, hsla(116, 100%, 10%, 0.79) 0px, transparent 40%);
   color: white;
 }
 
@@ -15,6 +20,7 @@ body,
 html {
   font-family: 'Chillax', sans-serif;
 }
+
 body::-webkit-scrollbar {
   display: none;
 }
@@ -40,14 +46,14 @@ body {
   border: none;
 }
 
-#title-wrapper{
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
+#title-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.sub-master{
+.sub-master {
   text-align: center;
   color: orange;
 }
@@ -74,13 +80,13 @@ div#global-container {
   scroll-snap-stop: always;
 }
 
-#loader-placeholder{
+#loader-placeholder {
   position: relative;
   height: 75vh;
 
 }
 
-#loader-container{
+#loader-container {
   position: fixed;
   top: 65%;
   left: 50%;
@@ -88,40 +94,40 @@ div#global-container {
   transform: translate(-50%, -50%);
 }
 
-.dna-wrapper{
+.dna-wrapper {
   height: 200px;
 }
 
-#keyword-title{
-  padding : 5px 2vw 5px 2vw;
-  border-radius : 10px;
-  color : white;
+#keyword-title {
+  padding: 5px 2vw 5px 2vw;
+  border-radius: 10px;
+  color: white;
 }
 
-#sub-container{
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
+#sub-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-#mobile-title{
+#mobile-title {
   font-size: 40px;
   margin-left: 10px;
   margin-right: 10px;
 }
 
-.mobile-padding{
+.mobile-padding {
   margin-top: 60px;
 }
 
-#desktop-title{
+#desktop-title {
   margin-top: 22px;
 }
 
-#home-wrapper{
-  display : flex;
-  flex-direction : column;
-  justify-content : center;
-  align-items : center;
+#home-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
