@@ -2,9 +2,18 @@ import { useEffect, useState } from 'react';
 import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
+import {IoIosBrowsers} from 'react-icons/io'
 
 export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
-  const [country, setCountry] = useState();
+  const [country, setCountry] = useState({
+    flag: '🇺🇳',
+    name: { official: 'The World' },
+    currencies: [{ name: 'Various' }],
+    languages: ['Various'],
+    region: 'None',
+    demonyms: { eng: { m: 'Beings' } },
+    capital: 'Unknown',
+  });
   const [topics, setTopics] = useState([]);
   const [headlines, setHeadlines] = useState([]);
   const [countryData, setCountryData] = useState();
@@ -36,6 +45,8 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
 
   async function fetchCountry() {
     if (clicked['Alpha-2'] !== 'world') {
+        const response = await getCountryDetails(clicked['Alpha-2']);
+        setCountry(response);
       getCountryDetails(clicked['Alpha-2']).then((response) => {
         setCountry(response);
       });
@@ -59,22 +70,22 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
           <div id="indiv-left-container" className="floaty-container">
             <div id="flag-name-container">
               <span id="indiv-flag">{country.flag}</span>
-              <span id="indiv-name">{country.name.official}</span>
+              <span id="indiv-name">{country.name.official || countryData.name}</span>
             </div>
             <div id="country-properties">
               <span>
-                <span id="prop-name">Currency</span> :{' '}
+                <span id="prop-name">Currency</span> :
                 {Object.values(country.currencies)[0]['name']}
               </span>
               <span>
-                <span id="prop-name">Languages</span> :{' '}
+                <span id="prop-name">Languages</span> :
                 {Object.values(country.languages).join(', ')}
               </span>
               <span>
                 <span id="prop-name">Continent</span> : {country.region}
               </span>
               <span>
-                <span id="prop-name">Demonym</span> :{' '}
+                <span id="prop-name">Demonym</span> :
                 {country.demonyms['eng']['m']}
               </span>
               <span>
@@ -141,7 +152,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                       {headlines ? (
                         headlines
                           .slice(0, 5)
-                          .map((Headline) => <a target="_blank" className='link' href={Headline.link} key={Headline}>{Headline.title}</a>)
+                          .map((Headline) => <a target="_blank" className='link' href={Headline.link} key={Headline}>{Headline.title} <IoIosBrowsers /></a>)
                       ) : (
                         <span>No Data</span>
                       )}

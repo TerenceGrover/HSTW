@@ -81,7 +81,7 @@ export default function Title({ index, mobile }) {
       )}
       {!todayFlag && (
       <span className="sub-master">
-        Scraper came back empthy handed today. This data may be from yesterday
+        Scraper came back empty handed today. This data may be from yesterday
       </span>
     )}
     </div>

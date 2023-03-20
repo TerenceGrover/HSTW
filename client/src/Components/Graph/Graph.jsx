@@ -11,32 +11,31 @@ export default function Graph({ clicked, mobile }) {
     getCountrySpecificPastData(clicked['Alpha-2'], 20, setData);
   }, [clicked]);
 
-  useEffect(() => {
-    const options = {
-      root: null,
-
-      rootMargin: '0px',
-      threshold: 0.1,
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('graph-animation');
+  // Make the curve smooth
+  const options = {
+    responsive: true,
+    redraw : true,
+    elements: {
+      line: {
+        tension: 0.15, // set the line tension to smooth out the curve
+      }
+    },
+    scales: {
+      y: {
+        grid: {
+          color : 'rgba(255, 255, 255, 0.2)'
         }
-      });
-    }, options);
-
-    const target = document.getElementById('graph-container');
-    observer.observe(target);
-  }, []);
+      }
+    },
+  };
 
   return (
     <div id="graph-container">
-      <h3 id="graph-header">Data Analysis of the previous week</h3>
+      <h3 id="graph-header">Previous Data</h3>
       {data ? (
         <Line
           data={data}
+          options={options}
           width={mobile ? 250 : 1000}
           height={mobile ? 200 : 500}
         />

@@ -107,7 +107,7 @@ def scrapeSources(startCountry = None, timeout = 20):
                 titles = []
                 try:
                     for entry in feed.entries:
-                        if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
+                        if 5 <= len(entry.title) <= 60 and len(headlines) <= 10:
                             titles.append(
                                 {'title' : entry.title,
                                 'link' : entry.link}
@@ -200,7 +200,7 @@ def processor(headlines, country):
                 'topics': most_common_words(titles, country),
                 'HL': trans
             }
-        
+
         else:
             country_obj = 'VOID'
 
