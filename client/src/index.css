@@ -1,7 +1,8 @@
 html {
   overflow: hidden;
   height: 100%;
-  background-color: #000011;
+  /* background-color: #000011; */
+  background-image: linear-gradient(to right bottom, #1d0030, #17022e, #12022b, #0c0328, #060324, #030a26, #011027, #001428, #001c2d, #00232a, #00281e, #002c0c);
   color: white;
 }
 
