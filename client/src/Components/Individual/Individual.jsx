@@ -24,7 +24,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
     if (countryData && countryData.topics) {
       countryData.topics.forEach((topic) => {
         if (/[a-zA-Z0-9]/.test(topic[0])) {
-          arrOfTopics.push(`${topic[0]} [${topic[1]}]`);
+          arrOfTopics.push({ topic: topic[0], weight: topic[1] });
         }
         arrOfHL = countryData.HL;
       });
@@ -123,48 +123,39 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
               {countryData ? (
                 <>
                   {mobile ? (
-                    <span className="header-bottom">
-                      Most used word there :
-                    </span>
+                    <span className="header-bottom">Headlines :</span>
                   ) : (
-                    <span className="header-bottom">
-                      Most used word in this country :
-                    </span>
-                  )}
-                  <div id="indiv-main-topics-container">
-                    <div id="indiv-main-topics" className="indiv-list">
-                      {topics.length ? (
-                        <span id="topics">{topics.join(' - ')}</span>
-                      ) : (
-                        <span>No Data</span>
-                      )}
-                    </div>
-                  </div>
-                  {mobile ? (
-                    <span className="header-bottom">
-                      What the news look like :
-                    </span>
-                  ) : (
-                    <span className="header-bottom">
-                      What the news look like over there :
-                    </span>
+                    <span className="header-bottom">Headlines :</span>
                   )}
                   <div id="indiv-headlines-container" className="indiv-list">
                     <ul id="indiv-headlines">
                       {headlines ? (
                         headlines.slice(0, 5).map((Headline) => (
-                          <a
-                            target="_blank"
-                            className="link"
-                            href={Headline.link}
-                            key={Headline}
-                          >
-                            {Headline.title} <IoIosBrowsers />
-                          </a>
+                            <a
+                              target="_blank"
+                              className="link"
+                              href={Headline.link}
+                              key={Headline}
+                            >
+                              <img style={{marginRight : '5px'}} width={16} src={ "https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
+                            </a>
                         ))
                       ) : (
                         <span>No Data</span>
                       )}
+                      <div id="indiv-main-topics-container">
+                        <div id="indiv-main-topics" className="indiv-list">
+                          {topics.length ? (
+                            topics.map((topic) => (
+                              <span className="topics" key={topic.topic}>
+                                {topic.topic}
+                              </span>
+                            ))
+                          ) : (
+                            <span>No Data</span>
+                          )}
+                        </div>
+                      </div>
                     </ul>
                   </div>
                 </>

@@ -53,5 +53,3 @@ export function generateColor(col, tansparency = 1 , currentState = undefined) {
   
   return colorReturn
 }
-
-//TOBEUSED
