@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import './Individual.css';
 import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
-import {IoIosBrowsers} from 'react-icons/io'
+import { IoIosBrowsers } from 'react-icons/io';
 
 export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
   const [country, setCountry] = useState({
@@ -24,7 +24,7 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
     if (countryData && countryData.topics) {
       countryData.topics.forEach((topic) => {
         if (/[a-zA-Z0-9]/.test(topic[0])) {
-          arrOfTopics.push(`${topic[0]} [${topic[1]}]`);
+          arrOfTopics.push({ topic: topic[0], weight: topic[1] });
         }
         arrOfHL = countryData.HL;
       });
@@ -45,15 +45,15 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
 
   async function fetchCountry() {
     if (clicked['Alpha-2'] !== 'world') {
-        const response = await getCountryDetails(clicked['Alpha-2']);
-        setCountry(response);
+      const response = await getCountryDetails(clicked['Alpha-2']);
+      setCountry(response);
       getCountryDetails(clicked['Alpha-2']).then((response) => {
         setCountry(response);
       });
     } else {
       setCountry({
         flag: '🇺🇳',
-        name: { official: 'The World' },
+        name: { official: 'The World', common: 'The World' },
         currencies: [{ name: 'Various' }],
         languages: ['Various'],
         region: 'None',
@@ -70,7 +70,9 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
           <div id="indiv-left-container" className="floaty-container">
             <div id="flag-name-container">
               <span id="indiv-flag">{country.flag}</span>
-              <span id="indiv-name">{country.name.official || countryData.name}</span>
+              <span id="indiv-name">
+                {country.name.official || countryData.name}
+              </span>
             </div>
             <div id="country-properties">
               <span>
@@ -102,14 +104,14 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
               <div id="index-display">
                 {mobile ? (
                   <span id="index-title-mobile">
-                    {country.name.official}'s happiness :
+                    {country.name.common}'s happiness :
                     {countryData.idx
                       ? parseInt(countryData.idx.global * 10)
                       : 'Unknown'}
                   </span>
                 ) : (
                   <span id="index-title">
-                    Today, {country.name.official} has a happiness score of :
+                    Today, {country.name.common} has a happiness score of :
                     {countryData.idx
                       ? parseInt(countryData.idx.global * 10)
                       : 'Unknown'}
@@ -120,42 +122,40 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
             <div id="indiv-right-bottom" className="floaty-container">
               {countryData ? (
                 <>
-                    {mobile ? (
-                      <span className="header-bottom">
-                        Most used word there :
-                      </span>
-                    ) : (
-                      <span className="header-bottom">
-                        Most used word in this country :
-                      </span>
-                    )}
-                  <div id="indiv-main-topics-container">
-                    <div id="indiv-main-topics" className="indiv-list">
-                      {topics.length ? (
-                        <span id='topics'>{topics.join(' - ')}</span>
-                      ) : (
-                        <span>No Data</span>
-                      )}
-                    </div>
-                  </div>
-                    {mobile ? (
-                      <span className="header-bottom">
-                        What the news look like :
-                      </span>
-                    ) : (
-                      <span className="header-bottom">
-                        What the news look like over there :
-                      </span>
-                    )}
+                  {mobile ? (
+                    <span className="header-bottom">Headlines :</span>
+                  ) : (
+                    <span className="header-bottom">Headlines :</span>
+                  )}
                   <div id="indiv-headlines-container" className="indiv-list">
                     <ul id="indiv-headlines">
                       {headlines ? (
-                        headlines
-                          .slice(0, 5)
-                          .map((Headline) => <a target="_blank" className='link' href={Headline.link} key={Headline}>{Headline.title} <IoIosBrowsers /></a>)
+                        headlines.slice(0, 5).map((Headline) => (
+                            <a
+                              target="_blank"
+                              className="link"
+                              href={Headline.link}
+                              key={Headline}
+                            >
+                              <img style={{marginRight : '5px'}} width={16} src={ "https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
+                            </a>
+                        ))
                       ) : (
                         <span>No Data</span>
                       )}
+                      <div id="indiv-main-topics-container">
+                        <div id="indiv-main-topics" className="indiv-list">
+                          {topics.length ? (
+                            topics.map((topic) => (
+                              <span className="topics" key={topic.topic}>
+                                {topic.topic}
+                              </span>
+                            ))
+                          ) : (
+                            <span>No Data</span>
+                          )}
+                        </div>
+                      </div>
                     </ul>
                   </div>
                 </>
