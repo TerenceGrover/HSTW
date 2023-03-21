@@ -143,8 +143,8 @@ export async function getCountryDetails(alphaCode) {
             {
               label: 'Happiness Index',
               data: data.map((item) => item.data.global * 10),
-              backgroundColor: 'rgba(75,192,192,0.4)',
-              borderColor: 'rgba(75,192,192,1)',
+              backgroundColor: 'rgba(255,255,255,0.4)',
+              borderColor: 'rgba(95,212,212,1)',
             },
           ],
         };

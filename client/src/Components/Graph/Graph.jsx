@@ -14,19 +14,43 @@ export default function Graph({ clicked, mobile }) {
   // Make the curve smooth
   const options = {
     responsive: true,
-    redraw : true,
+    redraw: true,
     elements: {
       line: {
         tension: 0.15, // set the line tension to smooth out the curve
       }
     },
-    scales: {
-      y: {
-        grid: {
-          color : 'rgba(255, 255, 255, 0.2)'
+    plugins: {
+      legend: {
+        labels: {
+          color: "white",
+          font: {
+            size: 12
+          }
         }
       }
     },
+    scales: {
+      y: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.3)',
+        },
+        ticks: {
+          color: "#ffffffaa",
+          font: {
+            size: 14,
+          },
+        }
+      },
+      x: {
+        ticks: {
+          color: "#ffffffaa",
+          font: {
+            size: 14,
+          }
+        }
+      }
+    }
   };
 
   return (
