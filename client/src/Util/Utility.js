@@ -7,7 +7,7 @@ export function parseDate(date) {
 }
 
 export function generateColor(col, tansparency = 1 , currentState = undefined) {
-  
+
   let colorReturn;
 
   if (col) {
@@ -30,15 +30,15 @@ export function generateColor(col, tansparency = 1 , currentState = undefined) {
       colObj.b = 0
       colorReturn = `rgba(200,200,0, ${tansparency})`
     }
-    
+
     if (currentState === 'hover') {
       Object.keys(colObj).forEach(rgb => colObj[rgb] += 50)
       colorReturn = `rgba(${colObj.r},${colObj.g + 50},${colObj.b + 50}, ${tansparency})`;
-    
+
     } else if (currentState === 'click') {
       Object.keys(colObj).forEach(rgb => colObj[rgb] += 100)
     }
-    
+
     colorReturn = `rgba(${colObj.r},${colObj.g},${colObj.b}, ${tansparency})`;
 
   } else {
@@ -50,6 +50,6 @@ export function generateColor(col, tansparency = 1 , currentState = undefined) {
         colorReturn = `rgba(120,120,120, ${tansparency})`;
       }
   }
-  
+
   return colorReturn
 }

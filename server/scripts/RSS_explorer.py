@@ -37,6 +37,7 @@ today = now.strftime('%d-%m-%y')
 current_date = now.strftime('%d')
 current_month = now.strftime('%m')
 current_year = now.strftime('%Y')
+current_day = now.strftime('%A')
 
 sources_EN = {'en': ['AS', 'AG', 'AU', 'BS', 'BB', 'BZ', 'BM', 'DM', 'FO', 'FJ', 'GM', 'GH', 'GI', 'GD', 'GY', 'IN', 'IE', 'IM', 'JM',
                      'JE', 'LS', 'LR', 'MW', 'MT', 'MH', 'MU', 'NZ', 'SH', 'WS', 'SC', 'SB', 'ZA', 'KN', 'LC', 'VC', 'TC', 'GB', 'AE', 'US', 'VI', 'ZM']}
@@ -49,6 +50,7 @@ sources = sources_EN['en'] + sources_FR['fr'] + sources_ES['es']
 
 def emergencyRecall(startCountry):
     scrapeSources(startCountry)
+
 
 def recalculateGlobal():
     with open(f"./data/TODAY/{today}.json", 'r') as file:
@@ -64,7 +66,8 @@ def recalculateGlobal():
 
     sendToDB(readable)
 
-def scrapeSources(startCountry = None, timeout = 20):
+
+def scrapeSources(startCountry=None, timeout=20):
 
     # Set the flag to reflect whether or not this is an emergency call
     flag = False if startCountry else True
@@ -82,7 +85,6 @@ def scrapeSources(startCountry = None, timeout = 20):
     df = pd.read_json('./data/sourceLinks.json', typ='series')
     char_counter = 0
     hl_counter = 0
-
 
     for country, links in df.items():
         print(country)
@@ -102,16 +104,15 @@ def scrapeSources(startCountry = None, timeout = 20):
                     # Go to the next link in line if feedparser fails
                     continue
 
-
                 # Use list comprehension to select the entries that meet the conditions & limit entries to a certain number
                 titles = []
                 try:
                     for entry in feed.entries:
                         if 5 <= len(entry.title) <= 60 and len(headlines) <= 10:
                             titles.append(
-                                {'title' : entry.title,
-                                'link' : entry.link}
-                                )
+                                {'title': entry.title,
+                                 'link': entry.link}
+                            )
                             char_counter += len(entry.title)
                 except:
                     break
@@ -133,28 +134,35 @@ def scrapeSources(startCountry = None, timeout = 20):
         createWorldObject(readable)
 
     sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!',
-              f"HSTW finished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+                                         f"HSTW finished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
 
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
 
 english_stopwords = set(stopwords.words("english"))
 
-
 # This limits translation errors
+
+
 def is_ascii(word):
     return all(ord(c) < 128 for c in word)
 
 # This limits tranlsation costs and errors
+
+
 def is_english(sentence):
-    if not is_ascii(sentence):
-        return False
-    words = word_tokenize(sentence)
+    try:
+        words = word_tokenize(sentence)
+    except LookupError:
+        nltk.download('punkt')
+        words = word_tokenize(sentence)
     words = [word.lower() for word in words if word.isalpha()]
     words = [word for word in words if word not in english_stopwords]
     return len(words) >= 2
 
 # This limits trtanslation costs greatly without modifying the meaning of the sentence
+
+
 def removeStopWords(sentence):
     words = word_tokenize(sentence)
     # Remove stopwords from the list of words
@@ -165,6 +173,8 @@ def removeStopWords(sentence):
 #####################################################
 
 # This is where the magic happens
+
+
 def processor(headlines, country):
 
     # Check if the country is in the list of countries that need to be translated -- Once again this is to limit AWS costs
@@ -245,19 +255,21 @@ def translateHL(headlines, country):
             if not is_english(entry['title']):
 
                 translated_texts.append({
-                    'title' : translater(entry['title']),
-                    'link' : entry['link']})
+                    'title': translater(entry['title']),
+                    'link': entry['link']})
 
             else:
                 translated_texts.append(
-                    {'title' : entry['title'],
-                        'link' : entry['link']}
+                    {'title': entry['title'],
+                        'link': entry['link']}
                 )
 
         return translated_texts
 
+
 def calculateGlobal(idx):
-    return (idx['P']*10) - (idx['N']*10) + (idx['Nu']* 2) + (((idx['P']+idx['N'])*5) * idx['M'] * 10)
+    return (idx['P']*10) - (idx['N']*10) + (idx['Nu'] * 2) + (((idx['P']+idx['N'])*5) * idx['M'] * 10)
+
 
 def sentimentHL(translatedHL, country):
 
@@ -315,16 +327,26 @@ def sentimentHL(translatedHL, country):
 
 def most_common_words(headlines, country):
 
+    # remove punctuation
     no_punct_hl = [headline.translate(str.maketrans(
         '', '', string.punctuation)) for headline in headlines]
+    # join all headlines into one string
     joined = " ".join(no_punct_hl)
+    # remove stopwords
     noStopword = removeStopWords(joined)
+    # tokenize
     tokens = word_tokenize(noStopword)
+    # make frequency distribution
     fdist = nltk.FreqDist(tokens)
+
+    excluded_words = [current_date, current_month, current_year,
+                      current_day, current_day.capitalize(), current_month.capitalize(), 'news', 'News', 'the', 'The']
+    for word in excluded_words:
+        fdist.pop(word, None)
 
     most_common_words = [word.lower()
                          for word, freq in fdist.items() if freq >= 2]
-    most_common_words = fdist.most_common(6)
+    most_common_words = fdist.most_common(10)
 
     if country in sources:
         parsed = [[translater(word), freq] for word,
@@ -354,12 +376,10 @@ def createWorldObject(file):
 
         try:
             for word, freq in values['topics']:
-                # Exclude today's date, month, year
-                if word != current_date and word != current_month and word != current_year:
-                    try:
-                        word_count[word] += 1
-                    except KeyError:
-                        word_count[word] = 1
+                try:
+                    word_count[word] += 1
+                except KeyError:
+                    word_count[word] = 1
         except:
             continue
 
@@ -371,7 +391,7 @@ def createWorldObject(file):
                 'N': N/counter,
                 'Nu': Nu/counter,
                 'M': M/counter},
-        'topics': sorted_word_count[:10]
+        'topics': sorted_word_count[:12]
     }
     world_obj['idx']['global'] = calculateGlobal(world_obj['idx'])
 
