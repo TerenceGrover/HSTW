@@ -2,9 +2,12 @@
   margin: 50px 0px 50px 0px;
   display: flex;
   flex-direction: row;
-  gap: 50px;
+  gap: clamp(10px, 5vw, 20px);
   justify-content: space-around;
-  max-width: 1600px;
+  width: clamp(500px, 90vw, 1200px);
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  padding-top: 20px;
 }
 
 #indiv-flag {
@@ -14,7 +17,6 @@
 }
 
 #indiv-left-container {
-  display: flex;
   align-self: flex-start;
   flex-direction: column;
   justify-content: space-evenly;
@@ -23,12 +25,15 @@
   width: 30%;
   min-height: 400px;
   background-color: rgba(135, 135, 135, 0.25);
+  border-radius: 15px 5px 5px 15px;
 }
 
 .floaty-container {
   background-color: #0000001a;
   box-shadow: 2px 2px 10px 3px #00000011;
-  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #flag-name-container {
@@ -72,130 +77,153 @@
   gap: 10px;
 }
 
-#index-display{
+#index-display {
   color: white;
   text-align: center;
   margin-left: 25px;
   margin-right: 25px;
 }
 
-#index-title{
+#index-title {
   font-size: 25px;
   font-weight: 600;
 }
 
-#index-title-mobile{
+#index-title-mobile {
   font-size: 20px;
   font-weight: 500;
 }
 
 #indiv-right-top {
   width: 100%;
-  height: 20%;
+  height: 25%;
   fill: rgb(14, 12, 10);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 5px 15px 5px 5px;
 }
 
 #indiv-right-bottom {
   width: 100%;
   height: 80%;
   background-color: rgba(135, 135, 135, 0.377);
-  display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  border-radius: 5px 5px 15px 5px;
 }
 
-#indiv-main-topics-container{
+#indiv-headlines-container {
   align-self: center;
-  padding-bottom: 20px;
+  width: 85%;
 }
 
-
-#indiv-headlines-container{
-  align-self: center;
+a.link {
+  list-style: outside;
+  line-height: 28px;
+  cursor: pointer;
+  color: #fff;
+  font-weight: 500;
 }
 
-.header-bottom{
+.header-bottom {
   font-weight: 500;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+#indiv-main-topics-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+#indiv-main-topics {
+  display: inline-block;
+  margin-top: clamp(20px, 4vh, 40px);
+}
+
+#indiv-main-topics > span {
+  display: inline-block;
+}
+
+.topics {
+  text-align: center;
+  font-size: 2.8vh;
+  font-weight: 600;
+  margin: 3px;
+  padding: 3px 7px;
+  border-radius: 3px;
+  background-color: rgba(135, 135, 135, 0.377);
+}
+
+#indiv-headlines {
+  text-align: center;
+  padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 @media screen and (max-width: 600px) {
+
   .floaty-container {
     box-shadow: none;
   }
+
   #indiv-container {
-    width: 90vw;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding: 0;
-    margin: 20px 0 20px 0 ;
+    margin: 20px 0 20px 0;
   }
-  
+
   #indiv-left-container {
     padding: 30px 0px 30px 0px;
-    width: 100%;
+    width: 95vw;
     min-height: 10vh;
     gap: 15px;
+    border-radius: 15px 15px 0 0;
+    align-self: center;
   }
 
   #indiv-right-container {
-    width: 90vw;
+    width: 95vw;
     padding: 20px 0px 0 0px;
   }
 
   #indiv-right-top {
-    width: 90vw;
     padding: 30px 0px 30px 0px;
-  }
-  #indiv-right-bottom {
-    width: 90vw;
-    margin-top: 20px;
-    padding: 30px 0px 30px 0px;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
-  }
-  #indiv-main-topics-container{
-    padding-left: 0;
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
+    border-radius: 0px;
   }
 
-  #indiv-headlines-container{
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
+  #indiv-right-bottom {
+    margin-top: 20px;
+    padding: 30px 0px 30px 0px;
+    border-radius: 0 0 15px 15px;
+  }
+  #indiv-main-topics-container {
+    padding-left: 0;
+    display: inline-block;
+  }
+
+  #indiv-headlines-container {
     padding-left: 0;
     padding-top: 0;
   }
-  
-  .header-bottom{
+
+  .header-bottom {
     font-weight: 500;
     font-size: 18px;
-    text-align: center;
   }
-  
+
   .indiv-list {
-    display : flex;
-    flex-direction : column;
-    justify-content : center;
-    align-items : center;
     margin: 5px 20px 5px 20px;
   }
 }
 
 @media screen and (max-width: 850px) {
-  #indiv-container{
+  #indiv-container {
     gap: 0px;
   }
   #indiv-right-container {

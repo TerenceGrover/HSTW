@@ -1,5 +1,8 @@
+import {useEffect} from 'react';
 export default function About() {
-
+  useEffect(()=>{
+	  document.querySelector("body").scrollTo(0,0);
+  },[])
   return (
     <div className="paragraph-container">
       <p className="paragraph">

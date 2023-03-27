@@ -1,8 +1,11 @@
 # <img alt="GitHub Language Count" src="https://img.shields.io/github/languages/count/TerenceGrover/HSTW" /> <img alt="" src="https://img.shields.io/github/repo-size/TerenceGrover/HSTW" />
 
-# How'sThe World
+# <center> 🌍 How's The World 🌍 </center>
 
 A sentiment analysis tool that aggregates news sources from around the world to generate a happiness index. This project aims at facilitating news consumption and to have a concentrate of all important news within a single glance. The project is built using a combination of Python Flask for the backend and React for the frontend. 
+
+![Screenshot 2023-01-16 at 20 31 03](https://user-images.githubusercontent.com/109336882/212753573-1db2d1b8-4a6e-41a3-b766-e0aa1e4eb7c2.png)
+
 
 ## Features
 - Generates a happiness index based on the sentiment analysis of news headlines
@@ -11,8 +14,8 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Responsive design, can be accessed on any mobile device
 
 ## Technologies
-- Backend: Python Flask, pandas, nltk, boto3 feedparser
-- Frontend: React, react-router-dom, react-globe.gl, CSS
+- Backend: Python Flask, pandas, nltk, boto3, feedparser
+- Frontend: React, react-router-dom, react-globe.gl, CSS, Chart.js
 
 ## Installation
 - Clone the repository
@@ -31,10 +34,12 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 - Access the frontend at [hstw.io](https://hstw.io)
 - Access the raw data at [hstwdrop.co](https://hstwdrop.co)
 
-## Future updates
+## Contributors Guide
 - [ ] Reinforcement of the backend
 - [ ] Updating the news sources
 - [ ] Better impartiality in news source and fine-tuning of the scraping algorithm
+- [ ] Development of the UI
+- [ ] Addition of Chart.js visualisation
 - [ ] Implementation of custom iPhone shortcuts for the visualization to be even faster and easier
 - [ ] Instagram story generator for particular news that need extra-sharing
 
@@ -47,8 +52,6 @@ A sentiment analysis tool that aggregates news sources from around the world to 
 
 ## Author
 - [Terence Grover](https://github.com/TerenceGrover)
-
-![Screenshot 2023-01-16 at 20 31 03](https://user-images.githubusercontent.com/109336882/212753573-1db2d1b8-4a6e-41a3-b766-e0aa1e4eb7c2.png)
 
 ❤️
 

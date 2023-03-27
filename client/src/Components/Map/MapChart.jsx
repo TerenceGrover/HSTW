@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import './Map.css';
 import Globe from 'react-globe.gl'
 import { helperGetDateSpecificGlobalIdx } from '../../Util/requests';
-import { generateColor, parseDate } from '../../Util/Utility';
+import { generateColor } from '../../Util/Utility';
 
 const geoUrl = process.env.PUBLIC_URL + '/assets/Topology.json';
 
@@ -55,6 +55,9 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       polygonAltitude={0.04}
       polygonsTransitionDuration={1000}
+      onGlobeReady={() => {
+        console.log('globe is ready')
+      }}
       />
       </div>
       :
@@ -75,6 +78,9 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       }}      polygonStrokeColor={() => '#111'}
       polygonAltitude={0.07}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
+      onGlobeReady={() => {
+        console.log('globe is ready')
+      }}
       />
       </div>
      }

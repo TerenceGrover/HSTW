@@ -4,7 +4,7 @@
   justify-content : center;
   align-items : center;
   padding-bottom: 10px;
-  background-color: rgb(20, 20, 30);
+  background-color: transparent;
   padding-top: 10px;
   width: 100vw;
   border-top: 1px white solid;
@@ -27,6 +27,11 @@
 .footer-link{
   font-size: 20px;
   font-weight: 600;
+  color: aqua;
+}
+
+.footer-link:visited{
+  color: rgb(213, 103, 121);
 }
 
 .footer-highlight{

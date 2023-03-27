@@ -58,14 +58,15 @@ def recalculateGlobal():
             value['idx']['global'] = calculateGlobal(value['idx'])
         except:
             continue
-    
+
     with open(f"./data/TODAY/{today}.json", 'w', encoding='utf8') as writable:
         json.dump(readable, writable, ensure_ascii=False)
-    
+
     sendToDB(readable)
 
-def scrapeSources(startCountry=None, timeout=20):
+def scrapeSources(startCountry = None, timeout = 20):
 
+    # Set the flag to reflect whether or not this is an emergency call
     flag = False if startCountry else True
     if os.path.exists(f"./data/TODAY/{today}.json"):
         print('WARNING : OVERWRITTING JSON FILE')
@@ -77,17 +78,15 @@ def scrapeSources(startCountry=None, timeout=20):
             sendEmailUponException(e)
             raise
 
-    # Read the JSON file into a dataframe
+    # Read the JSON file into a dataframe && set the counters to limit AWS costs
     df = pd.read_json('./data/sourceLinks.json', typ='series')
-
-    # Initialize an empty dictionary to store the results
     char_counter = 0
-
-    # Iterate over the rows of the dataframe
     hl_counter = 0
+
+
     for country, links in df.items():
         print(country)
-        # Handle the cases where an emergency recall was needed
+        # Handle the cases where an emergency recall was needed -- Compares the set country in the emergency recall to the current country
         if startCountry and startCountry == country:
             flag = True
 
@@ -95,41 +94,36 @@ def scrapeSources(startCountry=None, timeout=20):
         if flag:
             headlines = []
 
-            # Iterate over the links for each country
             for link in links.values():
                 print(link)
-                start_time = time.time()
                 try:
                     feed = feedparser.parse(link)
                 except:
+                    # Go to the next link in line if feedparser fails
                     continue
 
-                title_counter = 0
-                titles = []
 
-                # Use list comprehension to select the entries that meet the conditions
+                # Use list comprehension to select the entries that meet the conditions & limit entries to a certain number
+                titles = []
                 try:
                     for entry in feed.entries:
-                        if 5 <= len(entry.title) <= 60 and title_counter <= 4 and len(headlines) <= 10:
-                            titles.append(entry.title)
+                        if 5 <= len(entry.title) <= 60 and len(headlines) <= 10:
+                            titles.append(
+                                {'title' : entry.title,
+                                'link' : entry.link}
+                                )
                             char_counter += len(entry.title)
-                            title_counter += len(titles)
                 except:
-                    continue
-
-                end_time = time.time()
-                elapsed_time = end_time - start_time
-                if elapsed_time > timeout:
                     break
 
-                # Use list extend to add the titles to the headlines list
                 headlines.extend(titles)
                 hl_counter += len(titles)
 
-            # Call the processor with headlines and country as args
-            processor(headlines, country)
+            # This action is to be done for each country individually with an ultimate check to see if we have a country and headlines
+            if headlines and len(country) >= 2:
+                processor(headlines, country)
 
-    # Print the time and character count
+    # Print the time and character count for the scraping -- This was for debugging purposes
     newNow = datetime.now()
     print(f'Characters {char_counter}')
     print(f'HeadLines {hl_counter}')
@@ -139,21 +133,20 @@ def scrapeSources(startCountry=None, timeout=20):
         createWorldObject(readable)
 
     sendEmail('Subject: {}\n\n{}'.format('/! FINISHED SCRAPING HSTW /!',
-              f"HSTW finoished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+              f"HSTW finished scraping for {today}.\n It started at {time1} and finished at {newNow.strftime('Time 2 : %H:%M')}. \n With a total of {hl_counter} Headlines and {char_counter} characters."))
+
 
 ####### HELPER FUNCTIONS TO CHECK SENTENCES ##########
-
 
 english_stopwords = set(stopwords.words("english"))
 
 
+# This limits translation errors
 def is_ascii(word):
-
     return all(ord(c) < 128 for c in word)
 
-
+# This limits tranlsation costs and errors
 def is_english(sentence):
-
     if not is_ascii(sentence):
         return False
     words = word_tokenize(sentence)
@@ -161,9 +154,8 @@ def is_english(sentence):
     words = [word for word in words if word not in english_stopwords]
     return len(words) >= 2
 
-
+# This limits trtanslation costs greatly without modifying the meaning of the sentence
 def removeStopWords(sentence):
-
     words = word_tokenize(sentence)
     # Remove stopwords from the list of words
     words = [word for word in words if word.lower() not in english_stopwords]
@@ -172,9 +164,10 @@ def removeStopWords(sentence):
 
 #####################################################
 
-
+# This is where the magic happens
 def processor(headlines, country):
 
+    # Check if the country is in the list of countries that need to be translated -- Once again this is to limit AWS costs
     if country not in sources and len(headlines) > 0:
         trans = translateHL(headlines, country)
     else:
@@ -195,12 +188,21 @@ def processor(headlines, country):
         print(f"Error: The file '{today}.json' is not in json format.")
         writable = {}
 
+    # Loop over the trans dict, and add the actual titles to the titles list
+    titles = []
     if len(trans) > 0:
-        country_obj = {
-            'idx': sentimentHL(trans, country),
-            'topics': most_common_words(trans, country),
-            'HL': trans
-        }
+        for entry in trans:
+            titles.append(entry['title'])
+
+        if titles[0] and len(titles[0]) > 0:
+            country_obj = {
+                'idx': sentimentHL(titles, country),
+                'topics': most_common_words(titles, country),
+                'HL': trans
+            }
+
+        else:
+            country_obj = 'VOID'
 
     else:
         country_obj = 'VOID'
@@ -239,18 +241,20 @@ def translateHL(headlines, country):
 
     if country not in sources:
         translated_texts = []
-        for sentence in headlines:
-            if not is_english(sentence):
+        for entry in headlines:
+            if not is_english(entry['title']):
 
-                translated_texts.append(translater(sentence))
+                translated_texts.append({
+                    'title' : translater(entry['title']),
+                    'link' : entry['link']})
 
             else:
-                translated_texts.append(sentence)
+                translated_texts.append(
+                    {'title' : entry['title'],
+                        'link' : entry['link']}
+                )
 
-        if '' in translated_texts:
-            return []
-        else:
-            return translated_texts
+        return translated_texts
 
 def calculateGlobal(idx):
     return (idx['P']*10) - (idx['N']*10) + (idx['Nu']* 2) + (((idx['P']+idx['N'])*5) * idx['M'] * 10)

@@ -9,7 +9,7 @@ export default function Home({mobile, innerWidth, idx, clicked, setClicked}) {
 
   const scrollToRef = useRef();
   const [loader, setLoader] = useState(true);
-
+  
 
   // eslint-disable-next-line no-restricted-globals
   // screen.orientation.lock('portrait')

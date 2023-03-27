@@ -1,15 +1,8 @@
-import { DateTime } from 'luxon';
 import { parseDate } from './Utility';
 const url = 'https://hstwdrop.co';
 
 // IMPORITNG THE SETTER FUNCTION AS AN ARGUMENT ALLOWS US
 // TO SKIP AN AWAIT ALL TOGETHER
-
-// export async function getIdx (setter) {
-//   fetch(url)
-//   .then(response => response.text())
-//   .then(data => setter(data))
-// }
 
 export async function getTodayIndividualData(alphaCode, setter) {
   return fetch(`${url}/today?code=${alphaCode}`)
@@ -48,32 +41,28 @@ export async function getDateSpecificIndividualIdx(alphaCode, date, setter) {
 function getPreviousDay(date) {
   const oneDay = 24 * 60 * 60 * 1000;
   const yesterDate = new Date(date.getTime() - oneDay);
-  return parseDate(yesterDate);
+  return yesterDate;
 }
 
-export async function helperGetDateSpecificGlobalIdx(
-  date,
-  setter,
-  data = null
-) {
+export async function helperGetDateSpecificGlobalIdx(date, setter) {
   // call getDateSpecificGlobalIdx with the passed date. ( NO SETTER )
   let set = false;
   for (let i = 0; i < 10; i++) {
-    let response = await getDateSpecificGlobalIdx(date);
+    let response = await getDateSpecificGlobalIdx(parseDate(date));
     if (response) {
       set = true;
       setter(Object.values(response)[0]);
-      break;
+      return set;
     }
     date = getPreviousDay(date);
   }
-  return set ? true : false;
+  return false;
 }
 
 export async function getDateSpecificGlobalIdx(date) {
   return fetch(`${url}/idx?date=${date}`)
     .then((response) => {
-      if (response.status.toString()[0] != 2) {
+      if (!response.ok) {
         return null;
       }
       return response.json();
@@ -92,51 +81,74 @@ export async function getWorldToday(setter) {
     .catch((err) => err);
 }
 
-export async function getCountryDetails(alphaCode) {
-  return fetch(
-    `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
-  )
-    .then((response) => response.json())
-    .catch((err) => err);
-}
-
-export async function getWorldPop() {
-  return fetch(
-    'http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json'
-  )
-    .then((response) => response.json())
-    .then((data) => JSON.parse(data))
-    .catch((err) => err);
-}
-
-export async function getUserCountry(setter) {
-  return fetch('https://ipapi.co/json/')
-    .then((response) => response.json())
-    .then((data) =>
-      setter({
-        country_name: data.country_name,
-        country_code: data.country_code,
-      })
-    );
-}
-
-export async function getCountrySpecificPastData(country, days, setter) {
-  return fetch(`${url}/past?code=${country}&days=${days}`)
+export async function checkTodayData(setter) {
+  return fetch(`${url}/today?code=world`)
     .then((response) => response.json())
     .then((data) => {
-      data = data.reverse();
-      const chartData = {
-        labels: data.map((item) => item.date.slice(0, 5)),
-        datasets: [
-          {
-            label: 'Happiness Index',
-            data: data.map((item) => item.data.global * 10),
-            backgroundColor: 'rgba(75,192,192,0.4)',
-            borderColor: 'rgba(75,192,192,1)',
-          },
-        ],
-      };
-      setter(chartData);
+      if (data) setter(true);
+      else setter(false);
     })
-    .catch(() => setter(undefined));
+    .catch((err) => err);
 }
+
+export async function getCountryDetails(alphaCode) {
+  return fetch(
+      `https://restcountries.com/v3.1/alpha/${alphaCode}?fields=name,flag,capital,currencies,languages,region,capital,demonyms`
+    )
+      .then((response) => response.json())
+      .catch((err) =>
+      {
+        console.log('error', err)
+        return {
+          flag: '🇺🇳',
+          name: { official: undefined},
+          currencies: [{ name: 'N/A' }],
+          languages: ['N/A'],
+          region: 'None',
+          demonyms: { eng: { m: 'N/A' } },
+          capital: 'N/A',
+        }
+      }
+      );
+}
+
+  export async function getWorldPop() {
+    return fetch(
+      'http://api.worldbank.org/v2/population/SP.POP.TOTL/WLD?format=json'
+    )
+      .then((response) => response.json())
+      .then((data) => JSON.parse(data))
+      .catch((err) => err);
+  }
+
+  export async function getUserCountry(setter) {
+    return fetch('https://ipapi.co/json/')
+      .then((response) => response.json())
+      .then((data) =>
+        setter({
+          country_name: data.country_name,
+          country_code: data.country_code,
+        })
+      );
+  }
+
+  export async function getCountrySpecificPastData(country, days, setter) {
+    return fetch(`${url}/past?code=${country}&days=${days}`)
+      .then((response) => response.json())
+      .then((data) => {
+        data = data.reverse();
+        const chartData = {
+          labels: data.map((item) => item.date.slice(0, 5)),
+          datasets: [
+            {
+              label: 'Happiness Index',
+              data: data.map((item) => item.data.global * 10),
+              backgroundColor: 'rgba(75,192,192,0.4)',
+              borderColor: 'rgba(75,192,192,1)',
+            },
+          ],
+        };
+        setter(chartData);
+      })
+      .catch(() => setter(undefined));
+  }

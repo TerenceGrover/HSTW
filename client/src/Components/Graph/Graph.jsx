@@ -11,12 +11,31 @@ export default function Graph({ clicked, mobile }) {
     getCountrySpecificPastData(clicked['Alpha-2'], 20, setData);
   }, [clicked]);
 
+  // Make the curve smooth
+  const options = {
+    responsive: true,
+    redraw : true,
+    elements: {
+      line: {
+        tension: 0.15, // set the line tension to smooth out the curve
+      }
+    },
+    scales: {
+      y: {
+        grid: {
+          color : 'rgba(255, 255, 255, 0.2)'
+        }
+      }
+    },
+  };
+
   return (
     <div id="graph-container">
-      <h3 id="graph-header">Data Analysis of the previous week</h3>
+      <h3 id="graph-header">Previous Data</h3>
       {data ? (
         <Line
           data={data}
+          options={options}
           width={mobile ? 250 : 1000}
           height={mobile ? 200 : 500}
         />
