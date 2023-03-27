@@ -263,6 +263,10 @@ def sentimentHL(translatedHL, country):
         sendEmailUponException(e)
         pass
 
+    # Check if the string is longer than 5000 characters and if so, cut it at the last space before 5000
+    if len(str) > 5000:
+        str = str[:str.rfind(' ', 0, 5000)]
+
     client = boto3.client(
         'comprehend',
         region_name='eu-west-1',
