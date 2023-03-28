@@ -36,8 +36,8 @@ export default function Graph({ clicked, mobile }) {
         <Line
           data={data}
           options={options}
-          width={mobile ? 250 : 1000}
-          height={mobile ? 200 : 500}
+          width={mobile ? 325 : 1000}
+          height={mobile ? 250 : 500}
         />
       ) : (
         <h3 id="graph-header" style={{ padding: '150px 0 150px 0' }}>

@@ -1,12 +1,31 @@
 #graph-container{
-  margin: 0 10px 0 10px;
-  padding-bottom: 40px;
+  margin: 0 10px 40px 10px;
+  padding: 20px 60px 20px 60px;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+  background-color: #aaaaaa1a;
+  border-radius: 15px;
 }
 
 #graph-header{
   text-align: center;
   font-size: 24px;
   margin-bottom: 10px;
+}
+
+@media screen and (max-width: 600px) {
+  #graph-container{
+    margin: 0 10px 20px 10px;
+    padding: 10px 20px 10px 20px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    background-color: #aaaaaa1a;
+    border-radius: 15px;
+  }
+
+  #graph-header{
+    text-align: center;
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
 }
