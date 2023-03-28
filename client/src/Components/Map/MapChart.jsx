@@ -13,14 +13,19 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
   const [countries, setCountries] = useState({ features: []});
   const [hoverD, setHoverD] = useState()
   const [clickD, setClickD] = useState()
-  // This function will check the position of the cursor on hover
 
   useEffect(() => {
-    const today = new Date()
 
+    let altitude = 2;
+
+    //Check if mobile
+    if (window.innerWidth < 500) {
+      altitude = 3;
+    }
+
+    const today = new Date()
     // here check will be true if everything went well, and false if something went horribly wrong.
     const check = helperGetDateSpecificGlobalIdx(today, setIdx);
-
 
       // load data
     fetch(geoUrl).then(res => res.json())
@@ -29,19 +34,19 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       });
     globeEl.current.controls().autoRotate = true;
     globeEl.current.controls().autoRotateSpeed = 0.3;
-    globeEl.current.pointOfView({ altitude: 2 }, 3000);
+    globeEl.current.pointOfView({ altitude }, 3000);
   }, []);
 
 
   return (
     <>
-    {mobile 
+    {mobile
       ?
       <div id="mobile-container">
-      <Globe 
+      <Globe
       ref = {globeEl}
       height={500}
-      width={innerWidth - 24}
+      width={innerWidth - 10}
       globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
       backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
       polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
@@ -62,7 +67,7 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       </div>
       :
       <div id="map-container">
-      <Globe 
+      <Globe
       ref = {globeEl}
       height={window.innerHeight / 1.5}
       width={window.innerWidth - 40}
