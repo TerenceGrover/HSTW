@@ -135,9 +135,9 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
                               target="_blank"
                               className="link"
                               href={Headline.link}
-                              key={Headline}
+                              key={Headline.title}
                             >
-                              <img style={{marginRight : '5px'}} width={16} src={ "https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
+                              <img key={Headline.title+'img'} style={{marginRight : '5px'}} width={16} src={ "https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
                             </a>
                         ))
                       ) : (
