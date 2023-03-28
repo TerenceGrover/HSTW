@@ -17,8 +17,6 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
   useEffect(() => {
 
     let altitude = 2;
-
-    //Check if mobile
     if (window.innerWidth < 500) {
       altitude = 3;
     }
@@ -80,7 +78,8 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       onPolygonClick={d => {
         clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})
         setClickD(d)
-      }}      polygonStrokeColor={() => '#111'}
+      }}
+      polygonStrokeColor={() => '#111'}
       polygonAltitude={0.07}
       polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
       onGlobeReady={() => {
