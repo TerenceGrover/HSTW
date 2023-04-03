@@ -31,7 +31,7 @@ export default function Graph({ clicked, mobile }) {
 
   return (
     <div id="graph-container">
-      <h3 id="graph-header">Previous Data</h3>
+      <h3 id="graph-header">Happiness over the Past</h3>
       {data ? (
         <Line
           data={data}
