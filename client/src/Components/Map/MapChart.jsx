@@ -35,6 +35,16 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
     globeEl.current.pointOfView({ altitude }, 3000);
   }, []);
 
+  useEffect(() => {
+    if (clickD) {
+      globeEl.current.controls().autoRotate = false;
+      const arrOfLat = clickD.geometry.coordinates[0]
+      const midLat = arrOfLat[Math.floor(arrOfLat.length / 2)][1]
+      const midLng = arrOfLat[Math.floor(arrOfLat.length / 2)][0]
+      globeEl.current.pointOfView({ lat: midLat, lng: midLng }, 3000);
+    }
+  }, [clickD]);
+
 
   return (
     <>
