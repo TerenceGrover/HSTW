@@ -42,7 +42,7 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
       const midLat = arrOfLat[Math.floor(arrOfLat.length / 2)][1]
       const midLng = arrOfLat[Math.floor(arrOfLat.length / 2)][0]
 
-      if (midLat && midLng){
+      if (midLat > 0 && midLng > 0){
         globeEl.current.pointOfView({ lat: midLat, lng: midLng }, 1000);
       }
     }
