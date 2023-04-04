@@ -10,12 +10,11 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
 
   const globeEl = useRef();
   const [idx, setIdx] = useState(false);
-  const [countries, setCountries] = useState({ features: []});
+  const [countries, setCountries] = useState({features: []});
   const [hoverD, setHoverD] = useState()
   const [clickD, setClickD] = useState()
 
   useEffect(() => {
-
     let altitude = 2;
     if (window.innerWidth < 500) {
       altitude = 3;
@@ -48,59 +47,76 @@ export default function MapChart({ clickSet, mobile, innerWidth }) {
     }
   }, [clickD]);
 
+  function GlobeProps(mobile) {
+
+    const idxSelector = (d) => {
+      return idx[
+        d.properties.ISO_A2 !== "-99"
+          ? d.properties.ISO_A2
+          : d.properties.FIPS_10_
+      ];
+    }
+
+    const commonProps = {
+      globeImageUrl: "//unpkg.com/three-globe/example/img/earth-dark.jpg",
+      backgroundImageUrl: "//unpkg.com/three-globe/example/img/night-sky.png",
+      polygonsData: countries.features.filter((d) => d.properties.ISO_A2 !== "AQ"),
+      polygonSideColor: (d) =>
+        d === hoverD
+          ? "steelblue"
+          : generateColor(
+              idxSelector(d),
+              0.15
+            ),
+      polygonStrokeColor: () => "#111",
+      polygonLabel: ({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`,
+      waitForGlobeReady: false,
+      onPolygonClick: (d) => {
+        clickSet({ name: d.properties.NAME, "Alpha-2": d.properties.ISO_A2 });
+        setClickD(d);
+      },
+    };
+
+    const mobileProps = {
+      height: 500,
+      width: innerWidth - 10,
+      polygonCapColor: (d) =>
+        generateColor(
+          idxSelector(d),
+          1,
+          d === clickD ? "click" : undefined
+        ),
+      polygonAltitude: 0.04,
+      polygonsTransitionDuration: 1000
+    };
+
+    const nonMobileProps = {
+      height: window.innerHeight / 1.5,
+      width: window.innerWidth - 40,
+      polygonCapColor: (d) =>
+        generateColor(
+          idxSelector(d),
+          1,
+          d === hoverD ? "hover" : d === clickD ? "click" : undefined
+        ),
+      onPolygonHover: setHoverD,
+      polygonAltitude: 0.07
+    };
+
+    return { ...commonProps, ...(mobile ? mobileProps : nonMobileProps) };
+  }
 
   return (
     <>
-    {mobile
-      ?
-      <div id="mobile-container">
-      <Globe
-      ref = {globeEl}
-      height={500}
-      width={innerWidth - 10}
-      globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
-      backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-      polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-      polygonSideColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 0.15)}
-      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 1, d === clickD ? 'click' : undefined)}
-      onPolygonClick={d => {
-        clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})
-        setClickD(d)
-      }}
-      polygonStrokeColor={() => '#111'}
-      polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
-      polygonAltitude={0.04}
-      polygonsTransitionDuration={1000}
-      onGlobeReady={() => {
-        console.log('globe is ready')
-      }}
-      />
-      </div>
-      :
-      <div id="map-container">
-      <Globe
-      ref = {globeEl}
-      height={window.innerHeight / 1.5}
-      width={window.innerWidth - 40}
-      globeImageUrl="//unpkg.com/three-globe/example/img/earth-dark.jpg"
-      backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
-      polygonsData={countries.features.filter(d => d.properties.ISO_A2 !== 'AQ')}
-      polygonSideColor={d => d === hoverD ? 'steelblue' : generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 0.15)}
-      polygonCapColor={d => generateColor(idx[d.properties.ISO_A2 !== '-99' ? d.properties.ISO_A2 : d.properties.FIPS_10_], 1, d === hoverD ? 'hover' : d === clickD ? 'click' : undefined)}
-      onPolygonHover={setHoverD}
-      onPolygonClick={d => {
-        clickSet({name : d.properties.NAME, 'Alpha-2' : d.properties.ISO_A2})
-        setClickD(d)
-      }}
-      polygonStrokeColor={() => '#111'}
-      polygonAltitude={0.07}
-      polygonLabel={({ properties: d }) => `${d.ADMIN} | ${d.ISO_A2}`}
-      onGlobeReady={() => {
-        console.log('globe is ready')
-      }}
-      />
-      </div>
-     }
-     </>
+      {mobile ? (
+        <div id="mobile-container">
+          <Globe ref={globeEl} {...GlobeProps(true)} />
+        </div>
+      ) : (
+        <div id="map-container">
+          <Globe ref={globeEl} {...GlobeProps(false)} />
+        </div>
+      )}
+    </>
   );
 }
