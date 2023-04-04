@@ -375,7 +375,7 @@ def createWorldObject(file):
                 'N': N/counter,
                 'Nu': Nu/counter,
                 'M': M/counter},
-        'topics': sorted_word_count[:10]
+        'topics': sorted_word_count[:20]
     }
     world_obj['idx']['global'] = calculateGlobal(world_obj['idx'])
 
