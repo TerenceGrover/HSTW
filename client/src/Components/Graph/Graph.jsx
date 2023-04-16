@@ -31,13 +31,13 @@ export default function Graph({ clicked, mobile }) {
 
   return (
     <div id="graph-container">
-      <h3 id="graph-header">Previous Data</h3>
+      <h3 id="graph-header">Happiness over the Past</h3>
       {data ? (
         <Line
           data={data}
           options={options}
-          width={mobile ? 250 : 1000}
-          height={mobile ? 200 : 500}
+          width={mobile ? 325 : 1000}
+          height={mobile ? 250 : 500}
         />
       ) : (
         <h3 id="graph-header" style={{ padding: '150px 0 150px 0' }}>

@@ -4,7 +4,7 @@ import { getCountryDetails, getTodayIndividualData } from '../../Util/requests';
 import { generateColor } from '../../Util/Utility';
 import { IoIosBrowsers } from 'react-icons/io';
 
-export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
+export default function Individual({ clicked, scrollFunc = () => { }, mobile }) {
   const [country, setCountry] = useState({
     flag: '🇺🇳',
     name: { official: 'The World' },
@@ -122,26 +122,30 @@ export default function Individual({ clicked, scrollFunc = () => {}, mobile }) {
             <div id="indiv-right-bottom" className="floaty-container">
               {countryData ? (
                 <>
-                  {mobile ? (
-                    <span className="header-bottom">Headlines :</span>
-                  ) : (
-                    <span className="header-bottom">Headlines :</span>
-                  )}
+                  {country.name.official !== 'The World' ? (
+                    mobile ? (
+                      <span className="header-bottom">Headlines :</span>
+                    ) : (
+                      <span className="header-bottom">Headlines :</span>
+                    )
+                  ) : null}
                   <div id="indiv-headlines-container" className="indiv-list">
                     <ul id="indiv-headlines">
                       {headlines ? (
                         headlines.slice(0, 5).map((Headline) => (
-                            <a
-                              target="_blank"
-                              className="link"
-                              href={Headline.link}
-                              key={Headline}
-                            >
-                              <img style={{marginRight : '5px'}} width={16} src={ "https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
-                            </a>
+                          <a
+                            target="_blank"
+                            className="link"
+                            href={Headline.link}
+                            key={Headline.title}
+                          >
+                            <img key={Headline.title + 'img'} style={{ marginRight: '5px' }} width={16} src={"https://s2.googleusercontent.com/s2/favicons?domain_url=" + Headline.link + "&size=64"} alt="Website Icon" /> {Headline.title} <IoIosBrowsers />
+                          </a>
                         ))
                       ) : (
-                        <span>No Data</span>
+                        country.name.official !== 'The World' ? (
+                          <span>No Data</span>)
+                          : <span>Topics of the Day: </span>
                       )}
                       <div id="indiv-main-topics-container">
                         <div id="indiv-main-topics" className="indiv-list">
